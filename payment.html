@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate-key="title_payment">إتمام الدفع | منصة سنا الأكاديمية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* يمكن إضافة أنماط خاصة بصفحة الدفع هنا إذا لزم الأمر */
+        .payment-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+        }
+        .loading-spinner-button {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff; /* Or a contrasting color if the button background is light */
+            width: 1em; height: 1em;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 0.5rem; /* LTR */
+            vertical-align: middle;
+            display: inline-block; /* Ensure it's displayed correctly */
+        }
+        html[dir="rtl"] .loading-spinner-button {
+            margin-left: 0;
+            margin-right: 0.5rem; /* RTL */
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .button-loading {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .button-loading .button-text {
+            display: none; /* Hide text when spinner is shown */
+        }
+        .button-loading .loading-spinner-button {
+            display: inline-block; /* Show spinner */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-700 antialiased flex flex-col min-h-screen">
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto logo-large" src="logo.png" alt="شعار أكاديمية سنا">
+                </a>
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div id="desktopNavLinks" class="flex space-x-1 lg:space-x-2">
+                        </div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <div id="desktopAuthArea" class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+                        </div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                         <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                 <div id="mobileAuthArea" class="pt-2 pb-1 border-t border-white/20">
+                     </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow py-12 px-4">
+        <div class="container mx-auto max-w-2xl">
+            <div class="payment-card p-6 md:p-8">
+                <h1 class="text-2xl lg:text-3xl font-bold text-gray-800 mb-8 text-center" data-translate-key="payment_page_title">إتمام عملية الشراء</h1>
+
+                <div id="selectedPlanDetails" class="mb-8 p-6 border rounded-lg bg-emerald-50 border-emerald-200">
+                    <h2 class="text-xl font-semibold text-emerald-800 mb-3" data-translate-key="payment_selected_plan">الخطة المختارة:</h2>
+                    <div class="space-y-2 text-gray-700">
+                        <p><strong data-translate-key="payment_plan_name" class="font-medium">اسم الخطة:</strong> <span id="displayPlanName" class="text-gray-900"></span></p>
+                        <p><strong data-translate-key="payment_plan_price" class="font-medium">السعر:</strong> <span id="displayPlanPrice" class="text-gray-900"></span> <span id="displayPlanCurrency" class="text-gray-900"></span></p>
+                        <p><strong data-translate-key="payment_course_id" class="font-medium">معرف الكورس:</strong> <span id="displayCourseId" class="text-gray-900"></span></p>
+                        </div>
+                </div>
+
+                <div id="paymentMethods">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-6" data-translate-key="payment_select_method">اختر طريقة الدفع:</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <button id="stripePaymentButton" class="w-full cta-button cta-button-primary py-3 text-base flex items-center justify-center">
+                                <span class="button-text" data-translate-key="payment_pay_stripe">الدفع بواسطة Stripe (مثال)</span>
+                                <span class="loading-spinner-button hidden"></span>
+                            </button>
+                        </div>
+                        <div>
+                            <button id="paypalPaymentButton" class="w-full cta-button bg-blue-600 hover:bg-blue-700 text-white py-3 text-base flex items-center justify-center">
+                                <span class="button-text" data-translate-key="payment_pay_paypal">الدفع بواسطة PayPal (مثال)</span>
+                                <span class="loading-spinner-button hidden"></span>
+                            </button>
+                        </div>
+                         <div class="border-t pt-6 mt-6">
+                            <h3 class="text-lg font-medium text-gray-700 mb-4">أو الدفع بالبطاقة مباشرة (مثال):</h3>
+                            <form id="creditCardForm" class="space-y-4">
+                                <div>
+                                    <label for="cardholderName" class="form-label text-sm">اسم صاحب البطاقة</label>
+                                    <input type="text" id="cardholderName" class="form-input w-full mt-1" placeholder="الاسم كما هو على البطاقة">
+                                </div>
+                                <div>
+                                    <label for="cardNumber" class="form-label text-sm">رقم البطاقة</label>
+                                    <input type="text" id="cardNumber" class="form-input w-full mt-1" placeholder="xxxx xxxx xxxx xxxx" maxlength="19">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="expiryDate" class="form-label text-sm">تاريخ الانتهاء (MM/YY)</label>
+                                        <input type="text" id="expiryDate" class="form-input w-full mt-1" placeholder="MM/YY" maxlength="5">
+                                    </div>
+                                    <div>
+                                        <label for="cvc" class="form-label text-sm">CVC</label>
+                                        <input type="text" id="cvc" class="form-input w-full mt-1" placeholder="123" maxlength="4">
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit" id="cardPaymentButton" class="w-full cta-button bg-gray-700 hover:bg-gray-800 text-white py-3 text-base flex items-center justify-center">
+                                        <span class="button-text">إتمام الدفع بالبطاقة</span>
+                                        <span class="loading-spinner-button hidden"></span>
+                                    </button>
+                                </div>
+                            </form>
+                         </div>
+                    </div>
+                </div>
+
+                <div id="paymentStatusMessage" class="mt-8 text-center text-sm font-medium h-5">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-gray-400 py-10 mt-auto bg-gray-100">
+        <div class="container mx-auto px-6 text-center">
+             <img class="h-10 w-auto mx-auto mb-4 opacity-90 logo-large" src="logo.png" alt="شعار أكاديمية سنا - التذييل">
+             <p class="text-sm">&copy; <span id="currentYear">2024</span> <span data-translate-key="footer_rights">منصة سنا الأكاديمية. جميع الحقوق محفوظة.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">سياسة الخصوصية</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">شروط الاستخدام</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">تواصل معنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+                // إضافة ترجمات لصفحة الدفع قبل تهيئة الصفحة
+                if (!sanaApp.translations.ar.title_payment) { // تحقق بسيط
+                    sanaApp.translations.ar.title_payment = "إتمام الدفع | منصة سنا الأكاديمية";
+                    sanaApp.translations.ar.payment_page_title = "إتمام عملية الشراء";
+                    sanaApp.translations.ar.payment_selected_plan = "الخطة المختارة:";
+                    sanaApp.translations.ar.payment_plan_name = "اسم الخطة:";
+                    sanaApp.translations.ar.payment_plan_price = "السعر:";
+                    sanaApp.translations.ar.payment_course_id = "معرف الكورس:";
+                    sanaApp.translations.ar.payment_course_name = "اسم الكورس:";
+                    sanaApp.translations.ar.payment_select_method = "اختر طريقة الدفع:";
+                    sanaApp.translations.ar.payment_pay_stripe = "الدفع بواسطة Stripe (مثال)";
+                    sanaApp.translations.ar.payment_pay_paypal = "الدفع بواسطة PayPal (مثال)";
+                    sanaApp.translations.ar.payment_processing = "جاري معالجة الدفع...";
+                    sanaApp.translations.ar.payment_success = "تم الدفع بنجاح! سيتم توجيهك الآن.";
+                    sanaApp.translations.ar.payment_failed = "فشل الدفع. يرجى المحاولة مرة أخرى أو اختيار طريقة أخرى.";
+                    sanaApp.translations.ar.no_plan_selected = "لم يتم اختيار أي خطة. يرجى العودة واختيار خطة أولاً.";
+
+
+                    sanaApp.translations.en.title_payment = "Complete Payment | Sanaa Academy Platform";
+                    sanaApp.translations.en.payment_page_title = "Complete Your Purchase";
+                    sanaApp.translations.en.payment_selected_plan = "Selected Plan:";
+                    sanaApp.translations.en.payment_plan_name = "Plan Name:";
+                    sanaApp.translations.en.payment_plan_price = "Price:";
+                    sanaApp.translations.en.payment_course_id = "Course ID:";
+                    sanaApp.translations.en.payment_course_name = "Course Name:";
+                    sanaApp.translations.en.payment_select_method = "Select Payment Method:";
+                    sanaApp.translations.en.payment_pay_stripe = "Pay with Stripe (Example)";
+                    sanaApp.translations.en.payment_pay_paypal = "Pay with PayPal (Example)";
+                    sanaApp.translations.en.payment_processing = "Processing payment...";
+                    sanaApp.translations.en.payment_success = "Payment successful! Redirecting...";
+                    sanaApp.translations.en.payment_failed = "Payment failed. Please try again or choose another method.";
+                    sanaApp.translations.en.no_plan_selected = "No plan selected. Please go back and choose a plan first.";
+                }
+                sanaApp.initPage('payment.html'); // تهيئة الصفحة
+            } else {
+                console.error("sanaApp or initPage function not found.");
+            }
+
+            const selectedPlanString = localStorage.getItem('selectedPlan');
+            const selectedPlanDetailsDiv = document.getElementById('selectedPlanDetails');
+            const paymentMethodsDiv = document.getElementById('paymentMethods');
+            const paymentStatusMessage = document.getElementById('paymentStatusMessage');
+            const API_BASE_URL = 'http://localhost:5000/api'; //  تأكد من أن هذا مطابق للخادم الخلفي
+
+            if (selectedPlanString) {
+                try {
+                    const selectedPlan = JSON.parse(selectedPlanString);
+                    document.getElementById('displayPlanName').textContent = selectedPlan.planName || 'غير محدد';
+                    document.getElementById('displayPlanPrice').textContent = selectedPlan.price || 'N/A';
+                    document.getElementById('displayPlanCurrency').textContent = selectedPlan.currency || '';
+                    document.getElementById('displayCourseId').textContent = selectedPlan.courseId || 'غير محدد';
+                } catch (e) {
+                    console.error("Error parsing selected plan from localStorage:", e);
+                    selectedPlanDetailsDiv.innerHTML = `<p class="text-red-500">${sanaApp.translations[sanaApp.getCurrentLanguage()].no_plan_selected || 'Error loading plan details.'}</p>`;
+                    if(paymentMethodsDiv) paymentMethodsDiv.style.display = 'none';
+                }
+            } else {
+                selectedPlanDetailsDiv.innerHTML = `<p class="text-red-500">${sanaApp.translations[sanaApp.getCurrentLanguage()].no_plan_selected || 'No plan selected. Please go back and choose a plan first.'}</p>`;
+                if(paymentMethodsDiv) paymentMethodsDiv.style.display = 'none';
+            }
+
+            function showButtonLoadingState(button) {
+                const buttonText = button.querySelector('.button-text');
+                const spinner = button.querySelector('.loading-spinner-button');
+                button.disabled = true;
+                button.classList.add('button-loading');
+                if(buttonText) buttonText.style.display = 'none'; // إخفاء النص
+                if(spinner) spinner.classList.remove('hidden'); // إظهار الدوار
+            }
+
+            function resetButtonState(button, originalTextKey) {
+                const buttonText = button.querySelector('.button-text');
+                const spinner = button.querySelector('.loading-spinner-button');
+                button.disabled = false;
+                button.classList.remove('button-loading');
+                if(buttonText) {
+                    buttonText.style.display = 'inline'; // إظهار النص
+                    // استرجاع النص الأصلي من الترجمة
+                    buttonText.textContent = (window.sanaApp && sanaApp.translations[sanaApp.getCurrentLanguage()][originalTextKey]) || originalTextKey;
+                }
+                if(spinner) spinner.classList.add('hidden'); // إخفاء الدوار
+            }
+
+            async function handlePayment(paymentType, paymentData = {}) {
+                const selectedPlan = JSON.parse(localStorage.getItem('selectedPlan'));
+                if (!selectedPlan) {
+                    paymentStatusMessage.textContent = sanaApp.translations[sanaApp.getCurrentLanguage()].no_plan_selected;
+                    paymentStatusMessage.className = 'mt-8 text-center text-sm font-medium text-red-600';
+                    return;
+                }
+
+                paymentStatusMessage.textContent = sanaApp.translations[sanaApp.getCurrentLanguage()].payment_processing;
+                paymentStatusMessage.className = 'mt-8 text-center text-sm font-medium text-blue-600';
+
+                const token = localStorage.getItem('authToken');
+                if (!token) {
+                    paymentStatusMessage.textContent = "يرجى تسجيل الدخول أولاً."; //  أضف مفتاح ترجمة
+                    paymentStatusMessage.className = 'mt-8 text-center text-sm font-medium text-red-600';
+                    //  يمكن توجيه المستخدم لصفحة تسجيل الدخول
+                    // setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+                    return;
+                }
+
+                try {
+                    //  استدعاء نقطة نهاية initiatePayment في الواجهة الخلفية
+                    const response = await fetch(`${API_BASE_URL}/payments/initiate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            planId: selectedPlan.planId,
+                            courseId: selectedPlan.courseId, //  إرسال courseId
+                            paymentMethodType: paymentType, //  'stripe', 'paypal', 'card'
+                            //  ... أي تفاصيل دفع أخرى مطلوبة (مثل paymentMethodId من Stripe Elements)
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        console.log('Payment initiation successful:', data);
+                        //  هنا، إذا كانت بوابة الدفع تتطلب إجراء من جانب العميل (مثل Stripe clientSecret)
+                        //  ستستخدم data.clientSecret لإكمال الدفع في الواجهة الأمامية
+                        //  كمثال، محاكاة نجاح الدفع بعد خطوة الواجهة الخلفية
+                        paymentStatusMessage.textContent = sanaApp.translations[sanaApp.getCurrentLanguage()].payment_success;
+                        paymentStatusMessage.className = 'mt-8 text-center text-sm font-medium text-green-600';
+                        localStorage.removeItem('selectedPlan');
+                        //  الواجهة الخلفية يجب أن تتعامل مع تسجيل الطالب في الكورس عبر webhook
+                        setTimeout(() => {
+                             window.location.href = 'profile.html'; //  أو صفحة تأكيد الطلب
+                        }, 3000);
+                    } else {
+                        paymentStatusMessage.textContent = data.message || sanaApp.translations[sanaApp.getCurrentLanguage()].payment_failed;
+                        paymentStatusMessage.className = 'mt-8 text-center text-sm font-medium text-red-600';
+                    }
+                } catch (error) {
+                    console.error(`Error during ${paymentType} payment:`, error);
+                    paymentStatusMessage.textContent = sanaApp.translations[sanaApp.getCurrentLanguage()].payment_failed;
+                    paymentStatusMessage.className = 'mt-8 text-center text-sm font-medium text-red-600';
+                }
+            }
+
+
+            const stripeButton = document.getElementById('stripePaymentButton');
+            if (stripeButton) {
+                stripeButton.addEventListener('click', async function() {
+                    showButtonLoadingState(this);
+                    await handlePayment('stripe'); //  النوع 'stripe'
+                    //  لا تستدعي resetButtonState هنا إذا كان handlePayment سيوجه المستخدم
+                    //  إلا إذا كنت تريد إبقاء المستخدم في الصفحة في حالة الفشل
+                    if (paymentStatusMessage.classList.contains('text-red-600')) {
+                         resetButtonState(this, 'payment_pay_stripe');
+                    }
+                });
+            }
+
+            const paypalButton = document.getElementById('paypalPaymentButton');
+            if (paypalButton) {
+                paypalButton.addEventListener('click', async function() {
+                    showButtonLoadingState(this);
+                    await handlePayment('paypal'); //  النوع 'paypal'
+                    if (paymentStatusMessage.classList.contains('text-red-600')) {
+                        resetButtonState(this, 'payment_pay_paypal');
+                    }
+                });
+            }
+
+            const cardPaymentForm = document.getElementById('creditCardForm');
+            const cardPaymentButton = document.getElementById('cardPaymentButton');
+            if (cardPaymentForm && cardPaymentButton) {
+                cardPaymentForm.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    showButtonLoadingState(cardPaymentButton);
+                    //  في تطبيق حقيقي، ستقوم بجمع تفاصيل البطاقة وإرسالها بشكل آمن
+                    //  أو استخدام Stripe Elements لإنشاء paymentMethodId
+                    await handlePayment('card', {
+                        // cardDetails: { ... } //  لا ترسل تفاصيل البطاقة الخام هكذا
+                    });
+                    if (paymentStatusMessage.classList.contains('text-red-600')) {
+                         resetButtonState(cardPaymentButton, 'إتمام الدفع بالبطاقة');
+                    }
+                    cardPaymentForm.reset();
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>

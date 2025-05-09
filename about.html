@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" data-translate-key="meta_description_base" content="Sanaa Academy Platform: Your gateway to learning Islamic Studies, Arabic, and the Holy Quran online.">
+    <title data-translate-key="title_about">About Sana | Sanaa Academy Platform</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Styles for auth buttons are now primarily in style.css and handled by script.js */
+        /* Ensure .auth-button, .auth-button-login, .auth-button-signup, .auth-button-logout are defined in style.css if specific overrides are needed beyond Tailwind */
+    </style>
+
+</head>
+<body class="bg-gray-50 text-gray-700 antialiased flex flex-col min-h-screen">
+
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto logo-large" src="logo2.jpeg" alt="Sanaa Academy Logo">
+                </a>
+
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div id="desktopNavLinks" class="flex space-x-1 lg:space-x-2">
+                        </div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <div id="desktopAuthArea" class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+                        </div>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                         <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                <div id="mobileAuthArea" class="pt-2 pb-1 border-t border-white/20">
+                     </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        <section class="page-header text-center reveal">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 data-translate-key="about_page_title" class="text-4xl md:text-5xl font-bold">Learn About Sana Platform</h1>
+                <p data-translate-key="about_page_subtitle" class="text-lg mt-4 max-w-2xl mx-auto">Our mission, vision, and values that guide our work towards authentic and accessible Islamic education.</p>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+                    <div class="info-card p-8 rounded-lg text-center reveal border-t-4 border-blue-500">
+                        <svg class="w-16 h-16 text-blue-500 mx-auto mb-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h5l2 3h9a2 2 0 012 2v5z"></path></svg>
+                        <h2 data-translate-key="about_mission_title" class="text-2xl font-semibold mb-3 text-gray-800">Our Mission</h2>
+                        <p data-translate-key="about_mission_text" class="text-gray-600 leading-relaxed">
+                            To provide reliable and easy-to-understand Islamic educational content for non-Arabic speakers, using modern and interactive teaching methods, to promote the correct understanding of Islam and its tolerant values.
+                        </p>
+                    </div>
+                    <div class="info-card p-8 rounded-lg text-center reveal border-t-4 border-emerald-500 delay-100">
+                        <svg class="w-16 h-16 text-emerald-500 mx-auto mb-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        <h2 data-translate-key="about_vision_title" class="text-2xl font-semibold mb-3 text-gray-800">Our Vision</h2>
+                        <p data-translate-key="about_vision_text" class="text-gray-600 leading-relaxed">
+                            To be the leading global platform for teaching Islamic religious sciences to foreigners, building bridges of communication and cultural understanding between different cultures.
+                        </p>
+                    </div>
+                    <div class="info-card p-8 rounded-lg text-center reveal border-t-4 border-yellow-500 delay-200">
+                        <svg class="w-16 h-16 text-yellow-500 mx-auto mb-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        <h2 data-translate-key="about_values_title" class="text-2xl font-semibold mb-3 text-gray-800">Our Values</h2>
+                        <ul class="text-gray-600 list-none text-left rtl:text-right space-y-2" data-translate-key="about_values_list">
+                             </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-20 section-bg-gray">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 reveal">
+                <h2 data-translate-key="about_instructors_title" class="text-3xl md:text-4xl font-bold text-gray-800 mb-12 text-center">Our Instructors</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                    <div class="instructor-card p-6 rounded-lg text-center reveal delay-100">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150&q=80" alt="Instructor One" class="w-32 h-32 rounded-full mx-auto mb-5 border-4 shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/150x150/dbeafe/1e40af?text=I1';">
+                        <h3 data-translate-key="instructor1_name" class="text-xl font-semibold mb-1 text-gray-900">Instructor Name One</h3>
+                        <p data-translate-key="instructor1_spec" class="text-emerald-600 mb-3 font-medium">Specialization (e.g., Fiqh & Aqidah)</p>
+                        <p data-translate-key="instructor1_bio" class="text-gray-500 text-sm leading-relaxed">A brief overview of the instructor's experience and academic qualifications, focusing on their expertise in teaching foreigners.</p>
+                    </div>
+                    <div class="instructor-card p-6 rounded-lg text-center reveal delay-200">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150&q=80" alt="Instructor Two" class="w-32 h-32 rounded-full mx-auto mb-5 border-4 shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/150x150/d1fae5/059669?text=I2';">
+                        <h3 data-translate-key="instructor2_name" class="text-xl font-semibold mb-1 text-gray-900">Instructor Name Two</h3>
+                        <p data-translate-key="instructor2_spec" class="text-emerald-600 mb-3 font-medium">Specialization (e.g., Seerah & Tafsir)</p>
+                        <p data-translate-key="instructor2_bio" class="text-gray-500 text-sm leading-relaxed">A brief overview of the instructor's experience and academic qualifications, focusing on their expertise in teaching foreigners.</p>
+                    </div>
+                    <div class="instructor-card p-6 rounded-lg text-center reveal delay-300">
+                        <img src="https://images.unsplash.com/photo-1557862921-37829c790f19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&h=150&q=80" alt="Instructor Three" class="w-32 h-32 rounded-full mx-auto mb-5 border-4 shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/150x150/fef3c7/d97706?text=I3';">
+                        <h3 data-translate-key="instructor3_name" class="text-xl font-semibold mb-1 text-gray-900">Instructor Name Three</h3>
+                        <p data-translate-key="instructor3_spec" class="text-emerald-600 mb-3 font-medium">Specialization (e.g., Arabic Language & Quranic Sciences)</p>
+                        <p data-translate-key="instructor3_bio" class="text-gray-500 text-sm leading-relaxed">A brief overview of the instructor's experience and academic qualifications, focusing on their expertise in teaching foreigners.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-gray-400 py-10 mt-auto">
+        <div class="container mx-auto px-6 text-center">
+             <img class="h-10 w-auto mx-auto mb-4 opacity-90 logo-large" src="logo2.jpeg" alt="Sanaa Academy Logo - Footer">
+             <p class="text-sm">&copy; <span id="currentYear"></span> <span data-translate-key="footer_rights">Sanaa Academy Platform. All rights reserved.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-white transition duration-150 ease-in-out text-xs">Privacy Policy</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-white transition duration-150 ease-in-out text-xs">Terms of Use</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-white transition duration-150 ease-in-out text-xs">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+                 // Initialize the app for the "About Sana" page
+                 window.sanaApp.initPage('about.html');
+            } else {
+                console.error("Sana App or initPage function not found. Ensure script.js is loaded correctly before this inline script.");
+                // Fallback for animations if JS fails partially
+                document.querySelectorAll('.reveal').forEach(el => {
+                    if (el) el.style.visibility = 'visible';
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

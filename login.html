@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login to your Sanaa Academy Platform account.">
+    <title>Login | Sanaa Academy Platform</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .auth-button {
+             padding: 0.4rem 0.9rem; border-radius: 0.375rem; font-weight: 500;
+             transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+             font-size: 0.875rem; text-align: center; border: 1px solid transparent;
+        }
+        .auth-button-login {
+            background-color: rgba(255, 255, 255, 0.15); color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+         .auth-button-login:hover { background-color: rgba(255, 255, 255, 0.25); }
+         .auth-button-signup {
+             background-color: #ffffff; color: #065f46;
+             box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+         }
+         .auth-button-signup:hover { background-color: #f0fdf4; box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.07); }
+         #mobile-menu .auth-button {
+             display: block; width: calc(100% - 2rem); margin: 0.5rem auto 0 auto;
+         }
+         #mobile-menu .auth-button-login { background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+         #mobile-menu .auth-button-login:hover { background-color: rgba(255, 255, 255, 0.2); }
+         #mobile-menu .auth-button-signup { background-color: #a7f3d0; color: #065f46; }
+         #mobile-menu .auth-button-signup:hover { background-color: #6ee7b7; }
+
+         .login-container { max-width: 420px; margin-top: 4rem; margin-bottom: 4rem; }
+         /* Style for loading state on button */
+         .button-loading { cursor: not-allowed; opacity: 0.7; }
+         .button-loading .spinner {
+            display: inline-block;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            width: 1em; height: 1em;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 0.5rem; /* LTR */
+            vertical-align: middle;
+         }
+          html[dir="rtl"] .button-loading .spinner { margin-left: 0; margin-right: 0.5rem; /* RTL */ }
+         @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+
+</head>
+<body class="bg-gray-100 text-gray-700 antialiased flex flex-col min-h-screen">
+
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto" src="logo2.jpeg" alt="Sanaa Academy Logo">
+                </a>
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div class="flex space-x-1 lg:space-x-2">
+                        <a href="index.html" data-translate-key="nav_home" class="nav-link px-3 py-2 font-medium">Home</a>
+                        <a href="about.html" data-translate-key="nav_about" class="nav-link px-3 py-2 font-medium">About Sana</a>
+                        <a href="lectures.html" data-translate-key="nav_lectures" class="nav-link px-3 py-2 font-medium">Lectures</a>
+                        <a href="schedule.html" data-translate-key="nav_schedule" class="nav-link px-3 py-2 font-medium">Schedule</a>
+                        <a href="contact.html" data-translate-key="nav_contact" class="nav-link px-3 py-2 font-medium">Contact</a>
+                        </div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium" aria-label="Switch to Arabic">ع</button>
+                    </div>
+                    <div class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+                        <a href="login.html" data-translate-key="nav_login" class="auth-button auth-button-login">Login</a>
+                        <a href="signup.html" data-translate-key="nav_signup" class="auth-button auth-button-signup">Sign Up</a>
+                    </div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                         <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium" aria-label="Switch to Arabic">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                <a href="index.html" data-translate-key="nav_home" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="about.html" data-translate-key="nav_about" class="nav-link block px-3 py-2 rounded-md text-base font-medium">About Sana</a>
+                <a href="lectures.html" data-translate-key="nav_lectures" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Lectures</a>
+                <a href="schedule.html" data-translate-key="nav_schedule" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Schedule</a>
+                <a href="contact.html" data-translate-key="nav_contact" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                 <div class="pt-2 pb-1 border-t border-white/20">
+                     <a href="login.html" data-translate-key="nav_login" class="auth-button auth-button-login">Login</a>
+                     <a href="signup.html" data-translate-key="nav_signup" class="auth-button auth-button-signup">Sign Up</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4">
+        <div class="login-container w-full bg-white p-8 rounded-lg shadow-xl border border-gray-200 reveal">
+            <div class="text-center mb-8">
+                <img class="h-16 w-auto mx-auto mb-4" src="logo2.jpeg" alt="Sanaa Academy Logo">
+                <h1 class="text-2xl font-bold text-gray-800" data-translate-key="login_title">تسجيل الدخول إلى حسابك</h1>
+                <p class="text-sm text-gray-500 mt-1" data-translate-key="login_subtitle">أو <a href="signup.html" class="font-medium text-emerald-600 hover:text-emerald-500" data-translate-key="login_create_account_link">قم بإنشاء حساب جديد</a></p>
+            </div>
+
+            <form id="loginForm" class="space-y-6"> <div>
+                    <label for="email" class="form-label text-sm font-medium text-gray-700" data-translate-key="login_email_label">البريد الإلكتروني</label>
+                    <div class="mt-1">
+                        <input id="email" name="email" type="email" autocomplete="email" required
+                               class="form-input w-full"
+                               placeholder="you@example.com">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between">
+                        <label for="password" class="form-label text-sm font-medium text-gray-700" data-translate-key="login_password_label">كلمة المرور</label>
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-emerald-600 hover:text-emerald-500" data-translate-key="login_forgot_password_link">
+                                نسيت كلمة المرور؟
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <input id="password" name="password" type="password" autocomplete="current-password" required
+                               class="form-input w-full"
+                               placeholder="********">
+                    </div>
+                </div>
+
+                 <div id="loginErrorMessage" class="text-sm text-red-600 text-center h-4"></div> <div>
+                    <button type="submit" id="loginButton"
+                            class="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 cta-button">
+                        <span class="button-text" data-translate-key="login_button">تسجيل الدخول</span>
+                        <span class="spinner hidden"></span> </button>
+                </div>
+            </form>
+
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-300"></div></div>
+                    <div class="relative flex justify-center text-sm"><span class="px-2 bg-white text-gray-500" data-translate-key="login_or_continue_with"> أو المتابعة بواسطة </span></div>
+                </div>
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <div><a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"><span class="sr-only">Sign in with Google</span><svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 0C4.477 0 0 4.477 0 10c0 4.433 2.664 8.198 6.346 9.49.12.71.31 1.4.56 2.06.07.19.16.38.26.56.11.21.23.41.36.61.13.19.28.38.43.56.15.18.31.35.48.51.16.16.34.31.52.45.18.14.37.27.56.39.19.12.39.23.59.33.2.1.41.19.62.27.21.08.43.15.65.21.22.06.44.1.67.14.23.04.46.07.69.09.23.02.47.03.7.03.24 0 .47-.01.7-.03.23-.02.46-.05.69-.09.23-.04.45-.08.67-.14.22-.06.44-.13.65-.21.21-.08.42-.17.62-.27.2-.1.39-.21.59-.33.19-.12.38-.25.56-.39.18-.14.36-.29.52-.45.17-.16.33-.33.48-.51.15-.18.3-.37.43-.56.13-.2.25-.4.36-.61.1-.18.19-.37.26-.56.25-.66.44-1.35.56-2.06C17.336 18.198 20 14.433 20 10c0-5.523-4.477-10-10-10zm4.6 10.87c0 .61-.05 1.21-.15 1.79h-4.45v-3.38h2.53c-.11.91-.59 1.68-1.27 2.23v2.17h2.79c1.63-1.5 2.56-3.7 2.56-6.21 0-.75-.08-1.48-.22-2.18H10V7.23h4.6c.1.4.15.81.15 1.24 0 .87-.17 1.71-.45 2.4z" clip-rule="evenodd"/></svg></a></div>
+                    <div><a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"><span class="sr-only">Sign in with Facebook</span><svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clip-rule="evenodd"/></svg></a></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-gray-400 py-10 mt-auto bg-gray-100">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm">&copy; <span id="currentYear"></span> <span data-translate-key="footer_rights">Sanaa Academy Platform. All rights reserved.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">Privacy Policy</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">Terms of Use</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize common elements
+            if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+                 window.sanaApp.initPage('login.html');
+
+                 // --- Login Form Handling ---
+                 const loginForm = document.getElementById('loginForm');
+                 const loginErrorMessage = document.getElementById('loginErrorMessage');
+                 const loginButton = document.getElementById('loginButton');
+                 const loginButtonText = loginButton.querySelector('.button-text');
+                 const loginSpinner = loginButton.querySelector('.spinner');
+                 // Define Backend API URL (Replace with your actual backend URL)
+                 const API_BASE_URL = 'http://localhost:5000/api'; // Example for local development
+
+                 if(loginForm && loginErrorMessage && loginButton && loginButtonText && loginSpinner) {
+                    loginForm.addEventListener('submit', async function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                        loginErrorMessage.textContent = ''; // Clear previous errors
+                        loginButton.disabled = true; // Disable button during request
+                        loginButton.classList.add('button-loading');
+                        loginButtonText.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()].loading || 'Loading...';
+                        loginSpinner.classList.remove('hidden');
+
+                        const email = document.getElementById('email').value;
+                        const password = document.getElementById('password').value;
+
+                        try {
+                            const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ email, password }),
+                            });
+
+                            const data = await response.json(); // Attempt to parse JSON response
+
+                            if (response.ok) { // Status code 200-299
+                                console.log('Login successful:', data);
+
+                                // 1. Store JWT Token
+                                if (data.token) {
+                                    localStorage.setItem('authToken', data.token); // Store token in localStorage
+                                }
+
+                                // 2. Store User Info (Optional but useful)
+                                if (data.user) {
+                                    localStorage.setItem('userInfo', JSON.stringify(data.user));
+                                }
+
+                                // 3. Redirect based on role
+                                const userRole = data.user?.role;
+                                if (userRole === 'admin') {
+                                    window.location.href = 'admin-dashboard.html'; // Redirect admin
+                                } else if (userRole === 'teacher') {
+                                    window.location.href = 'teacher-dashboard.html'; // Redirect teacher
+                                } else {
+                                    window.location.href = 'profile.html'; // Redirect student (or default)
+                                }
+
+                            } else {
+                                // Handle errors (e.g., 400, 401, 409, 500)
+                                console.error('Login failed:', data);
+                                loginErrorMessage.textContent = data.message || 'An error occurred during login.'; // Display error message from backend
+                            }
+
+                        } catch (error) {
+                            // Handle network errors or issues parsing JSON
+                            console.error('Network or parsing error during login:', error);
+                            loginErrorMessage.textContent = 'Unable to connect to the server. Please try again later.';
+                        } finally {
+                            // Re-enable button and restore text regardless of success or failure
+                            loginButton.disabled = false;
+                            loginButton.classList.remove('button-loading');
+                            loginButtonText.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()].login_button || 'Login';
+                            loginSpinner.classList.add('hidden');
+                        }
+                    });
+                 }
+
+            } else {
+                console.error("Sana App or initPage function not found.");
+            }
+        });
+    </script>
+
+</body>
+</html>

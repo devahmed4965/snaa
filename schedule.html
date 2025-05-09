@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" data-translate-key="meta_description_base" content="Sanaa Academy Platform: Your gateway to learning Islamic Studies, Arabic, and the Holy Quran online.">
+    <title data-translate-key="title_schedule">Schedule | Sanaa Academy Platform</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body class="bg-gray-50 text-gray-700 antialiased flex flex-col min-h-screen">
+
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto" src="logo2.jpeg" alt="Sanaa Academy Logo"> </a>
+
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div class="flex space-x-1 lg:space-x-2">
+                        <a href="index.html" data-translate-key="nav_home" class="nav-link px-3 py-2 font-medium">Home</a>
+                        <a href="about.html" data-translate-key="nav_about" class="nav-link px-3 py-2 font-medium">About Sana</a>
+                        <a href="lectures.html" data-translate-key="nav_lectures" class="nav-link px-3 py-2 font-medium">Lectures</a>
+                        <a href="index.html#testimonials" data-translate-key="nav_testimonials" class="nav-link px-3 py-2 font-medium">Testimonials</a>
+                        <a href="index.html#gallery" data-translate-key="nav_gallery" class="nav-link px-3 py-2 font-medium">Gallery</a>
+                        <a href="schedule.html" data-translate-key="nav_schedule" class="nav-link px-3 py-2 font-medium">Schedule</a>
+                        <a href="contact.html" data-translate-key="nav_contact" class="nav-link px-3 py-2 font-medium">Contact</a>
+                    </div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium" aria-label="Switch to Arabic">ع</button>
+                    </div>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                         <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium" aria-label="Switch to Arabic">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                <a href="index.html" data-translate-key="nav_home" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="about.html" data-translate-key="nav_about" class="nav-link block px-3 py-2 rounded-md text-base font-medium">About Sana</a>
+                <a href="lectures.html" data-translate-key="nav_lectures" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Lectures</a>
+                <a href="index.html#testimonials" data-translate-key="nav_testimonials" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Testimonials</a>
+                <a href="index.html#gallery" data-translate-key="nav_gallery" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Gallery</a>
+                <a href="schedule.html" data-translate-key="nav_schedule" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Schedule</a>
+                <a href="contact.html" data-translate-key="nav_contact" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        <section class="page-header text-center reveal">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 data-translate-key="schedule_page_title" class="text-4xl md:text-5xl font-bold">Lecture Schedule</h1>
+                <p data-translate-key="schedule_page_subtitle" class="text-lg mt-4">Join us for our live lectures via Zoom</p>
+                <p data-translate-key="schedule_timezone_note" class="text-sm mt-2">(All times are in Greenwich Mean Time - GMT)</p>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-lg shadow-lg overflow-x-auto reveal">
+                    <table class="w-full schedule-table min-w-[640px]"> <thead>
+                            <tr>
+                                <th data-translate-key="schedule_th_day" class="w-1/5">Day</th>
+                                <th data-translate-key="schedule_th_time" class="w-1/5">Time (GMT)</th>
+                                <th data-translate-key="schedule_th_lecture" class="w-2/5">Lecture</th>
+                                <th data-translate-key="schedule_th_join" class="w-1/5">Register / Join</th>
+                            </tr>
+                        </thead>
+                         <tbody class="divide-y divide-emerald-50"> <tr>
+                                <td data-translate-key="schedule_day_monday" class="px-4 py-4 whitespace-nowrap font-medium">Monday</td>
+                                <td class="px-4 py-4 whitespace-nowrap">18:00 - 19:00</td>
+                                <td class="px-4 py-4 font-medium"><a href="lectures.html#aqidah" data-translate-key="schedule_lecture_aqidah1" class="text-emerald-700 hover:text-emerald-900 hover:underline">Introduction to Islamic Creed (Part 1)</a></td>
+                                <td class="px-4 py-4 whitespace-nowrap text-center"><a href="https://zoom.us/j/111222333" target="_blank" rel="noopener noreferrer" data-translate-key="zoom_link" class="zoom-link text-sm">Zoom Link</a></td>
+                            </tr>
+                            <tr>
+                                <td data-translate-key="schedule_day_tuesday" class="px-4 py-4 whitespace-nowrap font-medium">Tuesday</td>
+                                <td class="px-4 py-4 whitespace-nowrap">19:00 - 20:00</td>
+                                <td class="px-4 py-4 font-medium"><a href="lectures.html#fiqh" data-translate-key="schedule_lecture_fiqh" class="text-emerald-700 hover:text-emerald-900 hover:underline">Fundamentals of Fiqh: Purification & Prayer</a></td>
+                                <td class="px-4 py-4 whitespace-nowrap text-center"><a href="https://zoom.us/j/444555666" target="_blank" rel="noopener noreferrer" data-translate-key="zoom_link" class="zoom-link text-sm">Zoom Link</a></td>
+                            </tr>
+                            <tr>
+                                <td data-translate-key="schedule_day_wednesday" class="px-4 py-4 whitespace-nowrap font-medium">Wednesday</td>
+                                <td class="px-4 py-4 whitespace-nowrap">18:00 - 19:00</td>
+                                <td class="px-4 py-4 font-medium"><a href="lectures.html#aqidah" data-translate-key="schedule_lecture_aqidah2" class="text-emerald-700 hover:text-emerald-900 hover:underline">Introduction to Islamic Creed (Part 2)</a></td>
+                                <td class="px-4 py-4 whitespace-nowrap text-center"><a href="https://zoom.us/j/777888999" target="_blank" rel="noopener noreferrer" data-translate-key="zoom_link" class="zoom-link text-sm">Zoom Link</a></td>
+                            </tr>
+                            <tr>
+                                <td data-translate-key="schedule_day_thursday" class="px-4 py-4 whitespace-nowrap font-medium">Thursday</td>
+                                <td class="px-4 py-4 whitespace-nowrap">20:00 - 21:00</td>
+                                <td class="px-4 py-4 font-medium"><a href="lectures.html#seerah" data-translate-key="schedule_lecture_seerah" class="text-emerald-700 hover:text-emerald-900 hover:underline">Lessons from the Prophet's Biography: Mecca</a></td>
+                                <td class="px-4 py-4 whitespace-nowrap text-center"><a href="https://zoom.us/j/123456789" target="_blank" rel="noopener noreferrer" data-translate-key="zoom_link" class="zoom-link text-sm">Zoom Link</a></td>
+                            </tr>
+                            <tr>
+                                <td data-translate-key="schedule_day_friday" class="px-4 py-4 whitespace-nowrap font-medium text-gray-500">Friday</td>
+                                <td class="px-4 py-4 whitespace-nowrap text-gray-500">-</td>
+                                <td data-translate-key="schedule_no_lecture" class="px-4 py-4 text-gray-500 italic">No scheduled lecture</td>
+                                <td class="px-4 py-4 whitespace-nowrap text-center text-gray-500">-</td>
+                            </tr>
+                            <tr>
+                                <td data-translate-key="schedule_day_saturday" class="px-4 py-4 whitespace-nowrap font-medium">Saturday</td>
+                                <td class="px-4 py-4 whitespace-nowrap">10:00 - 11:00</td>
+                                <td class="px-4 py-4 font-medium"><a href="lectures.html#tafsir" data-translate-key="schedule_lecture_tafsir" class="text-emerald-700 hover:text-emerald-900 hover:underline">Introduction to Quranic Sciences & Tafsir</a></td>
+                                <td class="px-4 py-4 whitespace-nowrap text-center"><a href="https://zoom.us/j/987654321" target="_blank" rel="noopener noreferrer" data-translate-key="zoom_link" class="zoom-link text-sm">Zoom Link</a></td>
+                            </tr>
+                            <tr>
+                                <td data-translate-key="schedule_day_sunday" class="px-4 py-4 whitespace-nowrap font-medium text-gray-500">Sunday</td>
+                                <td class="px-4 py-4 whitespace-nowrap text-gray-500">-</td>
+                                <td data-translate-key="schedule_no_lecture" class="px-4 py-4 text-gray-500 italic">No scheduled lecture</td>
+                                <td class="px-4 py-4 whitespace-nowrap text-center text-gray-500">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <section class="notes-section reveal delay-200">
+                    <h3 data-translate-key="schedule_notes_title" class="text-xl font-semibold mb-4 text-emerald-800">Important Notes:</h3>
+                    <ul class="list-none space-y-2 text-sm" data-translate-key="schedule_notes_list">
+                        </ul>
+                </section>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-gray-400 py-10 mt-auto">
+        <div class="container mx-auto px-6 text-center">
+             <img class="h-10 w-auto mx-auto mb-4 opacity-90" src="logo2.jpeg" alt="Sanaa Academy Logo - Footer">
+             <p class="text-sm">&copy; <span id="currentYear"></span> <span data-translate-key="footer_rights">Sanaa Academy Platform. All rights reserved.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-white transition duration-150 ease-in-out text-xs">Privacy Policy</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-white transition duration-150 ease-in-out text-xs">Terms of Use</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-white transition duration-150 ease-in-out text-xs">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+                 // Initialize the app for the schedule page
+                 window.sanaApp.initPage('schedule.html');
+            } else {
+                console.error("Sana App or initPage function not found. Ensure script.js is loaded correctly before this inline script.");
+                // Fallback for animations if JS fails partially
+                document.querySelectorAll('.reveal').forEach(el => {
+                    if (el) el.style.visibility = 'visible';
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

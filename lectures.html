@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" data-translate-key="meta_description_base" content="Sanaa Academy Platform: Your gateway to learning Islamic Studies, Arabic, and the Holy Quran online.">
+    <title data-translate-key="title_lectures">Lectures | Sanaa Academy Platform</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .auth-button {
+             padding: 0.4rem 0.9rem; /* Slightly smaller padding */
+             border-radius: 0.375rem; /* rounded-md */
+             font-weight: 500; /* Medium weight */
+             transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+             font-size: 0.875rem; /* text-sm */
+             text-align: center;
+             border: 1px solid transparent;
+        }
+        .auth-button-login {
+            background-color: rgba(255, 255, 255, 0.15); /* Subtle background */
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+         .auth-button-login:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+         }
+         .auth-button-signup {
+             background-color: #ffffff;
+             color: #065f46; /* emerald-800 */
+             box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+         }
+         .auth-button-signup:hover {
+             background-color: #f0fdf4; /* emerald-50 */
+             box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.07);
+         }
+         /* Mobile Auth buttons */
+         #mobile-menu .auth-button {
+             display: block;
+             width: calc(100% - 2rem); /* Adjust width to fit padding */
+             margin: 0.5rem auto 0 auto; /* Center and add margin */
+         }
+         #mobile-menu .auth-button-login {
+             background-color: rgba(255, 255, 255, 0.1);
+             border-color: rgba(255, 255, 255, 0.2);
+         }
+          #mobile-menu .auth-button-login:hover {
+             background-color: rgba(255, 255, 255, 0.2);
+         }
+         #mobile-menu .auth-button-signup {
+             background-color: #a7f3d0; /* Lighter emerald for contrast */
+             color: #065f46;
+         }
+          #mobile-menu .auth-button-signup:hover {
+              background-color: #6ee7b7;
+          }
+    </style>
+
+</head>
+<body class="bg-gray-50 text-gray-700 antialiased flex flex-col min-h-screen">
+
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto" src="logo2.jpeg" alt="Sanaa Academy Logo">
+                </a>
+
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div class="flex space-x-1 lg:space-x-2">
+                        <a href="index.html" data-translate-key="nav_home" class="nav-link px-3 py-2 font-medium">Home</a>
+                        <a href="about.html" data-translate-key="nav_about" class="nav-link px-3 py-2 font-medium">About Sana</a>
+                        <a href="lectures.html" data-translate-key="nav_lectures" class="nav-link px-3 py-2 font-medium">Lectures</a>
+                        <a href="index.html#testimonials" data-translate-key="nav_testimonials" class="nav-link px-3 py-2 font-medium">Testimonials</a>
+                        <a href="index.html#gallery" data-translate-key="nav_gallery" class="nav-link px-3 py-2 font-medium">Gallery</a>
+                        <a href="schedule.html" data-translate-key="nav_schedule" class="nav-link px-3 py-2 font-medium">Schedule</a>
+                        <a href="contact.html" data-translate-key="nav_contact" class="nav-link px-3 py-2 font-medium">Contact</a>
+                    </div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium" aria-label="Switch to Arabic">ع</button>
+                    </div>
+                    <div class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+                        <a href="login.html" data-translate-key="nav_login" class="auth-button auth-button-login">Login</a>
+                        <a href="signup.html" data-translate-key="nav_signup" class="auth-button auth-button-signup">Sign Up</a>
+                    </div>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                         <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium" aria-label="Switch to Arabic">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                <a href="index.html" data-translate-key="nav_home" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="about.html" data-translate-key="nav_about" class="nav-link block px-3 py-2 rounded-md text-base font-medium">About Sana</a>
+                <a href="lectures.html" data-translate-key="nav_lectures" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Lectures</a>
+                <a href="index.html#testimonials" data-translate-key="nav_testimonials" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Testimonials</a>
+                <a href="index.html#gallery" data-translate-key="nav_gallery" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Gallery</a>
+                <a href="schedule.html" data-translate-key="nav_schedule" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Schedule</a>
+                <a href="contact.html" data-translate-key="nav_contact" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                 <div class="pt-2 pb-1 border-t border-white/20">
+                     <a href="login.html" data-translate-key="nav_login" class="auth-button auth-button-login">Login</a>
+                     <a href="signup.html" data-translate-key="nav_signup" class="auth-button auth-button-signup">Sign Up</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        <section class="page-header text-center reveal">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 data-translate-key="lectures_page_title" class="text-4xl md:text-5xl font-bold">Our Lectures and Courses</h1>
+                <p data-translate-key="lectures_page_subtitle" class="text-lg mt-4 max-w-2xl mx-auto">Explore a variety of topics in Islamic religious sciences specifically designed for beginners.</p>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-20 bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+
+                    <div id="aqidah" class="lecture-card rounded-lg overflow-hidden reveal border-t-4 border-blue-500">
+                        <img src="https://images.unsplash.com/photo-1584740160079-5572f033fd9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Aqidah Lecture Image" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/3b82f6/ffffff?text=Aqidah';">
+                        <div class="p-6 card-content">
+                            <span data-translate-key="lecture_cat_aqidah" class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded mb-4">Creed</span>
+                            <h3 data-translate-key="lecture1_title" class="text-xl font-semibold mb-3 text-gray-900">Introduction to Islamic Creed (Aqidah)</h3>
+                            <p data-translate-key="lecture1_desc_long" class="text-gray-600 mb-5 text-sm leading-relaxed">
+                                A comprehensive overview of the pillars of faith (belief in Allah, His angels, His books, His messengers, the Last Day, and divine decree). A simplified explanation of the most important basic concepts in Islamic creed and their significance.
+                            </p>
+                            <div class="mb-4">
+                                <strong data-translate-key="lecture_target_audience_title" class="block text-gray-700 text-sm font-medium mb-1">Who is this course for?</strong>
+                                <p data-translate-key="lecture1_target_audience" class="text-gray-600 text-sm">For beginners and those wishing to understand the foundations of Islam correctly.</p>
+                            </div>
+                            <div class="mb-5">
+                                <strong data-translate-key="lecture_highlights_title" class="block text-gray-700 text-sm font-medium mb-1">Content Highlights:</strong>
+                                <ul class="list-disc list-inside text-gray-600 text-sm space-y-1 ltr:pl-4 rtl:pr-4" data-translate-key="lecture1_highlights">
+                                    </ul>
+                            </div>
+                            <div class="card-footer">
+                                <a href="schedule.html" data-translate-key="view_schedule" class="cta-button cta-button-primary block w-full text-center py-2.5 px-4 text-sm rounded-md">
+                                    View Schedule
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="fiqh" class="lecture-card rounded-lg overflow-hidden reveal border-t-4 border-emerald-500 delay-100">
+                        <img src="https://images.unsplash.com/photo-1604580864964-3c9e549079a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Fiqh Lecture Image" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/10b981/ffffff?text=Fiqh';">
+                        <div class="p-6 card-content">
+                            <span data-translate-key="lecture_cat_fiqh" class="inline-block bg-emerald-100 text-emerald-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded mb-4">Jurisprudence</span>
+                            <h3 data-translate-key="lecture2_title" class="text-xl font-semibold mb-3 text-gray-900">Fundamentals of Fiqh (Worship)</h3>
+                            <p data-translate-key="lecture2_desc_long" class="text-gray-600 mb-5 text-sm leading-relaxed">
+                                A practical and simplified explanation of the rulings on purification (Wudu, Ghusl, Tayammum), prayer (its pillars, obligations, sunnahs), Zakat (its conditions, recipients), and fasting (its rulings and invalidators).
+                            </p>
+                            <div class="mb-4">
+                                <strong data-translate-key="lecture_target_audience_title" class="block text-gray-700 text-sm font-medium mb-1">Who is this course for?</strong>
+                                <p data-translate-key="lecture2_target_audience" class="text-gray-600 text-sm">For every Muslim who wants to learn how to perform basic acts of worship correctly.</p>
+                            </div>
+                            <div class="mb-5">
+                                <strong data-translate-key="lecture_highlights_title" class="block text-gray-700 text-sm font-medium mb-1">Content Highlights:</strong>
+                                <ul class="list-disc list-inside text-gray-600 text-sm space-y-1 ltr:pl-4 rtl:pr-4" data-translate-key="lecture2_highlights">
+                                     </ul>
+                            </div>
+                             <div class="card-footer">
+                                <a href="schedule.html" data-translate-key="view_schedule" class="cta-button cta-button-primary block w-full text-center py-2.5 px-4 text-sm rounded-md">
+                                    View Schedule
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="seerah" class="lecture-card rounded-lg overflow-hidden reveal border-t-4 border-yellow-500 delay-200">
+                        <img src="https://images.unsplash.com/photo-1575986767340-5d179fe27751?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Seerah Lecture Image" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Seerah';">
+                        <div class="p-6 card-content">
+                            <span data-translate-key="lecture_cat_seerah" class="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded mb-4">Biography</span>
+                            <h3 data-translate-key="lecture3_title" class="text-xl font-semibold mb-3 text-gray-900">Lessons from the Prophet's Biography (Seerah)</h3>
+                            <p data-translate-key="lecture3_desc_long" class="text-gray-600 mb-5 text-sm leading-relaxed">
+                                A review of the most prominent milestones in the life of Prophet Muhammad ﷺ from his birth until his death, focusing on the educational, ethical, and moral lessons learned from his stances and life events.
+                            </p>
+                            <div class="mb-4">
+                                <strong data-translate-key="lecture_target_audience_title" class="block text-gray-700 text-sm font-medium mb-1">Who is this course for?</strong>
+                                <p data-translate-key="lecture3_target_audience" class="text-gray-600 text-sm">For those wishing to learn about the Prophet of Islam ﷺ and emulate his character and methodology.</p>
+                            </div>
+                            <div class="mb-5">
+                                <strong data-translate-key="lecture_highlights_title" class="block text-gray-700 text-sm font-medium mb-1">Content Highlights:</strong>
+                                <ul class="list-disc list-inside text-gray-600 text-sm space-y-1 ltr:pl-4 rtl:pr-4" data-translate-key="lecture3_highlights">
+                                     </ul>
+                            </div>
+                             <div class="card-footer">
+                                <a href="schedule.html" data-translate-key="view_schedule" class="cta-button cta-button-primary block w-full text-center py-2.5 px-4 text-sm rounded-md">
+                                    View Schedule
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tafsir" class="lecture-card rounded-lg overflow-hidden reveal border-t-4 border-red-500 delay-300">
+                        <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" alt="Tafsir Lecture Image" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/ef4444/ffffff?text=Tafsir';">
+                        <div class="p-6 card-content">
+                            <span data-translate-key="lecture_cat_tafsir" class="inline-block bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded mb-4">Exegesis</span>
+                            <h3 data-translate-key="lecture4_title" class="text-xl font-semibold mb-3 text-gray-900">Introduction to Quranic Sciences and Tafsir</h3>
+                            <p data-translate-key="lecture4_desc_long" class="text-gray-600 mb-5 text-sm leading-relaxed">
+                                An introduction to the sciences of the Holy Quran, how it was revealed and compiled, and the most important methodologies of commentators in understanding and reflecting on its verses. Practical application on the interpretation of some short Surahs.
+                            </p>
+                            <div class="mb-4">
+                                <strong data-translate-key="lecture_target_audience_title" class="block text-gray-700 text-sm font-medium mb-1">Who is this course for?</strong>
+                                <p data-translate-key="lecture4_target_audience" class="text-gray-600 text-sm">For those interested in understanding the Holy Quran and the principles of its interpretation.</p>
+                            </div>
+                            <div class="mb-5">
+                                <strong data-translate-key="lecture_highlights_title" class="block text-gray-700 text-sm font-medium mb-1">Content Highlights:</strong>
+                                <ul class="list-disc list-inside text-gray-600 text-sm space-y-1 ltr:pl-4 rtl:pr-4" data-translate-key="lecture4_highlights">
+                                     </ul>
+                            </div>
+                             <div class="card-footer">
+                                <a href="schedule.html" data-translate-key="view_schedule" class="cta-button cta-button-primary block w-full text-center py-2.5 px-4 text-sm rounded-md">
+                                    View Schedule
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-gray-400 py-10 mt-auto">
+        <div class="container mx-auto px-6 text-center">
+             <img class="h-10 w-auto mx-auto mb-4 opacity-90" src="logo2.jpeg" alt="Sanaa Academy Logo - Footer">
+             <p class="text-sm">&copy; <span id="currentYear"></span> <span data-translate-key="footer_rights">Sanaa Academy Platform. All rights reserved.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-white transition duration-150 ease-in-out text-xs">Privacy Policy</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-white transition duration-150 ease-in-out text-xs">Terms of Use</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-white transition duration-150 ease-in-out text-xs">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+                 // Initialize the app for the lectures page
+                 window.sanaApp.initPage('lectures.html');
+            } else {
+                console.error("Sana App or initPage function not found. Ensure script.js is loaded correctly before this inline script.");
+                // Fallback for animations if JS fails partially
+                document.querySelectorAll('.reveal').forEach(el => {
+                    if (el) el.style.visibility = 'visible';
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

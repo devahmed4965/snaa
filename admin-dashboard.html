@@ -1,0 +1,2439 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" data-translate-key="meta_description_admin_dashboard" content="Admin Dashboard for Sanaa Academy Platform. Manage users, courses, sections, content, and settings.">
+    <title data-translate-key="admin_dashboard_title">لوحة تحكم المدير | منصة سنا الأكاديمية</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Styles for authentication buttons (logout in this context) */
+        .auth-button {
+            padding: 0.4rem 0.9rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            font-size: 0.875rem;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+
+        .auth-button-logout {
+            /* Style for logout button */
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .auth-button-logout:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Logout button style in mobile menu */
+        #mobile-menu .auth-button-logout {
+            display: block;
+            width: calc(100% - 2rem);
+            margin: 0.5rem auto 0 auto;
+            background-color: rgba(255, 100, 100, 0.1);
+            border-color: rgba(255, 100, 100, 0.3);
+            color: #f87171;
+        }
+
+        #mobile-menu .auth-button-logout:hover {
+            background-color: rgba(255, 100, 100, 0.2);
+        }
+
+
+        /* Dashboard specific card styles */
+        .dashboard-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e5e7eb;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: #f9fafb; /* gray-50 */
+        }
+
+        .dashboard-card-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1f2937; /* gray-800 */
+        }
+
+        .dashboard-card-body {
+            padding: 1.5rem;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem 1rem;
+            text-align: right; /* RTL default */
+            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+            font-size: 0.875rem; /* text-sm */
+            vertical-align: middle; /* Align content vertically */
+        }
+
+        html[dir="ltr"] .data-table th,
+        html[dir="ltr"] .data-table td {
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f3f4f6; /* gray-100 */
+            color: #4b5563; /* gray-600 */
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f9fafb; /* gray-50 */
+        }
+
+        /* Action buttons in tables */
+        .action-button {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 0.375rem;
+            margin: 0 0.125rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border: none; /* Remove default border */
+            white-space: nowrap; /* Prevent buttons from wrapping */
+        }
+
+        .action-button-edit {
+            background-color: #dbeafe; color: #1e40af; /* blue */
+        }
+        .action-button-edit:hover { background-color: #bfdbfe; }
+
+        .action-button-delete {
+            background-color: #fee2e2; color: #991b1b; /* red */
+        }
+        .action-button-delete:hover { background-color: #fecaca; }
+
+        .action-button-assign {
+            background-color: #d1fae5; color: #065f46; /* emerald */
+        }
+        .action-button-assign:hover { background-color: #a7f3d0; }
+
+        /* Form Styles in Dashboard */
+        .dashboard-form label {
+            margin-bottom: 0.25rem;
+            display: block;
+            cursor: pointer; /* Make label clickable */
+        }
+
+        .dashboard-form select,
+        .dashboard-form input[type="text"],
+        .dashboard-form input[type="email"],
+        .dashboard-form input[type="password"],
+        .dashboard-form input[type="url"],
+        .dashboard-form input[type="number"],
+        .dashboard-form input[type="file"],
+        .dashboard-form textarea,
+        .dashboard-form input[type="date"], /* Added date */
+        .dashboard-form input[type="datetime-local"] { /* Added datetime-local */
+            margin-top: 0.25rem;
+        }
+
+        /* Style file inputs */
+        .dashboard-form input[type="file"].form-input {
+            padding: 0.5rem; /* Adjust padding for file input */
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            background-color: #ffffff;
+            font-size: 0.875rem; /* text-sm */
+        }
+
+        .dashboard-form input[type="file"].form-input:focus {
+            border-color: #10b981; /* emerald-500 */
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+            outline: none;
+        }
+
+        /* Hide default file input text */
+        .dashboard-form input[type="file"]::file-selector-button {
+            display: none; /* Or style it if preferred */
+        }
+
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            overflow-y: auto; padding: 2rem 0;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal-content {
+            background-color: white; padding: 2rem; border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            width: 90%; max-width: 600px; transform: scale(0.95);
+            transition: transform 0.3s ease; position: relative; margin: auto;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        .modal-close-button {
+            position: absolute; top: 0.75rem; right: 0.75rem; /* LTR */
+            background: none; border: none; color: #6b7280; /* gray-500 */
+            font-size: 1.5rem; cursor: pointer; padding: 0.25rem; line-height: 1;
+        }
+        html[dir="rtl"] .modal-close-button { right: auto; left: 0.75rem; /* RTL */ }
+        .modal-close-button:hover { color: #1f2937; /* gray-800 */ }
+
+        /* Custom select arrow */
+        select.form-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem;
+        }
+        html[dir="rtl"] select.form-input {
+            background-position: left 0.5rem center; padding-left: 2.5rem; padding-right: 0.75rem;
+        }
+
+        /* Loading spinner styles */
+        .loading-spinner {
+            border: 4px solid #f3f4f6; /* gray-100 */
+            border-top: 4px solid #10b981; /* emerald-500 */
+            border-radius: 50%; width: 40px; height: 40px;
+            animation: spin 1s linear infinite; margin: 2rem auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Button loading state styles */
+        .button-loading { cursor: not-allowed; opacity: 0.7; }
+        .button-loading .spinner {
+            display: inline-block; border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%; border-top-color: #fff; width: 1em; height: 1em;
+            animation: spin 1s ease-in-out infinite; margin-left: 0.5rem; vertical-align: middle;
+        }
+        html[dir="rtl"] .button-loading .spinner { margin-left: 0; margin-right: 0.5rem; }
+        .spinner-dark .spinner { border-top-color: #1f2937; } /* For secondary button */
+
+        /* Toggle Switch for is_active / is_approved */
+        .toggle-switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 20px; }
+        .toggle-slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .toggle-slider { background-color: #10b981; /* emerald-500 */ }
+        input:checked + .toggle-slider:before { transform: translateX(20px); }
+
+        /* Thumbnail preview styles */
+        .thumbnail-preview {
+            max-width: 100px; max-height: 100px; margin-top: 0.5rem;
+            border-radius: 0.375rem; border: 1px solid #e5e7eb; object-fit: cover;
+        }
+        .book-cover-preview-table { /* Style for cover in table */
+            width: 40px; height: 50px; object-fit: cover; border-radius: 0.25rem;
+        }
+        .thumbnail-preview-table { /* Style for podcast/story thumbnail in table */
+            width: 50px; height: 50px; object-fit: cover; border-radius: 0.25rem;
+        }
+        .testimonial-avatar-table { /* Style for testimonial avatar in table */
+            width: 40px; height: 40px; object-fit: cover; border-radius: 50%;
+        }
+        .certificate-image-table { /* Style for certificate image in table */
+            width: 80px; height: auto; max-height: 60px;
+            object-fit: contain; border-radius: 0.25rem;
+        }
+        .approval-toggle .toggle-switch { transform: scale(0.8); /* Make it slightly smaller in the table */ }
+
+    </style>
+
+</head>
+
+<body class="bg-gray-100 text-gray-700 antialiased flex flex-col min-h-screen">
+
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto logo-large" src="logo2.jpeg" alt="شعار أكاديمية سنا">
+                </a>
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div id="desktopNavLinks" class="flex space-x-1 lg:space-x-2">
+                        </div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <div id="desktopAuthArea" class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+                        </div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                        <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                 <div id="mobileAuthArea" class="pt-2 pb-1 border-t border-white/20">
+                    </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow py-12 px-4">
+        <div class="container mx-auto max-w-7xl">
+
+            <h1 class="text-3xl font-bold text-gray-800 mb-8" data-translate-key="admin_dashboard_title">لوحة تحكم المدير</h1>
+
+            <div id="dashboardLoadingError" class="text-center py-10 hidden">
+                <div id="loadingSpinner" class="loading-spinner"></div>
+                <p id="dashboardMessage" class="text-gray-500"></p>
+            </div>
+
+            <div id="dashboardContent" class="hidden">
+
+                <div id="manage-users" class="dashboard-card scroll-animate-item scroll-animate-from-bottom">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_users_title">إدارة المستخدمين</h2>
+                        <button id="addUserButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_user_button">إضافة مستخدم</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_table_header_name">الاسم</th>
+                                    <th data-translate-key="admin_table_header_email">البريد الإلكتروني</th>
+                                    <th data-translate-key="admin_table_header_role">الدور</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userList">
+                                </tbody>
+                        </table>
+                        <p id="noUsersMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_users_message">لا يوجد مستخدمون لعرضهم.</p>
+                    </div>
+                </div>
+
+                <div id="manage-courses" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-100">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_courses_title">إدارة الكورسات (المحاضرات)</h2>
+                        <button id="addCourseButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_course_button">إضافة كورس</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_table_header_course_name">اسم الكورس</th>
+                                    <th data-translate-key="admin_table_header_instructor">المدرس المسؤول</th>
+                                    <th data-translate-key="admin_table_header_students_enrolled">عدد الطلاب</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="courseList">
+                                </tbody>
+                        </table>
+                        <p id="noCoursesMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_courses_message">لا توجد كورسات لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="manage-sections" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-200">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_sections_title">إدارة أقسام المنصة</h2>
+                        <button id="addSectionButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_section_button">إضافة قسم</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_section_header_name">اسم القسم (المفتاح)</th>
+                                    <th data-translate-key="admin_section_header_icon">فئة الأيقونة</th>
+                                    <th data-translate-key="admin_section_header_path">المسار (Path)</th>
+                                    <th data-translate-key="admin_section_header_order">الترتيب</th>
+                                    <th data-translate-key="admin_section_header_active">نشط</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sectionList">
+                                </tbody>
+                        </table>
+                        <p id="noSectionsMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_sections_message">لا توجد أقسام لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="manage-price-plans" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-250">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_price_plans_title">إدارة خطط الأسعار</h2>
+                        <button id="addPricePlanButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_price_plan_button">إضافة خطة سعر</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_price_plan_header_name">اسم الخطة (المفتاح)</th>
+                                    <th data-translate-key="admin_price_plan_header_price">السعر</th>
+                                    <th data-translate-key="admin_price_plan_header_currency">العملة</th>
+                                    <th data-translate-key="admin_price_plan_header_billing">فترة الفوترة</th>
+                                    <th data-translate-key="admin_price_plan_header_active">نشطة</th>
+                                    <th data-translate-key="admin_price_plan_header_featured">مميزة</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pricePlanList">
+                                </tbody>
+                        </table>
+                        <p id="noPricePlansMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_price_plans_message">لا توجد خطط أسعار لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="manage-intro-video" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-250">
+                    <div class="dashboard-card-header">
+                        <h2 data-translate-key="admin_manage_intro_video_title">إدارة الفيديو التعريفي</h2>
+                    </div>
+                    <div class="dashboard-card-body">
+                        <form id="introVideoForm" class="space-y-4 dashboard-form" enctype="multipart/form-data">
+                            <div>
+                                <label for="introVideoFile" class="form-label text-sm" data-translate-key="admin_intro_video_label">رفع فيديو جديد (MP4, WebM, Ogg):</label>
+                                <input type="file" id="introVideoFile" name="introVideoFile" accept="video/mp4,video/webm,video/ogg" required class="form-input w-full text-sm mt-1">
+                                <p class="text-xs text-gray-500 mt-1" data-translate-key="admin_intro_video_note">سيحل الفيديو الجديد محل الفيديو الحالي.</p>
+                            </div>
+                            <div id="currentIntroVideoDisplay" class="text-sm">
+                                <span data-translate-key="admin_intro_video_current">الفيديو الحالي:</span>
+                                <a href="#" id="currentIntroVideoLink" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline ml-2"></a>
+                                <span id="noCurrentIntroVideo" class="text-gray-500 italic hidden" data-translate-key="admin_intro_video_none">لا يوجد فيديو حالي.</span>
+                            </div>
+                            <div id="introVideoFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                            <div>
+                                <button type="submit" id="saveIntroVideoButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                                    <span class="button-text" data-translate-key="admin_intro_video_upload_button">رفع وتحديث الفيديو</span>
+                                    <span class="spinner hidden"></span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="manage-podcasts" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-300">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_podcasts_title">إدارة البودكاست</h2>
+                        <button id="addPodcastButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_podcast_button">إضافة بودكاست</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_podcast_header_title">العنوان</th>
+                                    <th data-translate-key="admin_podcast_header_thumbnail">الصورة المصغرة</th>
+                                    <th data-translate-key="admin_podcast_header_duration">المدة</th>
+                                    <th data-translate-key="admin_podcast_header_published">تاريخ النشر</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="podcastList">
+                                </tbody>
+                        </table>
+                        <p id="noPodcastsMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_podcasts_message">لا توجد حلقات بودكاست لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="manage-books" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-400">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_books_title">إدارة الكتب</h2>
+                        <button id="addBookButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_book_button">إضافة كتاب</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_book_header_cover">الغلاف</th>
+                                    <th data-translate-key="admin_book_header_title">العنوان</th>
+                                    <th data-translate-key="admin_book_header_author">المؤلف</th>
+                                    <th data-translate-key="admin_book_header_category">التصنيف</th>
+                                    <th data-translate-key="admin_book_header_file">ملف</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookList">
+                                </tbody>
+                        </table>
+                        <p id="noBooksMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_books_message">لا توجد كتب لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="manage-audio" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-500">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_audio_title">إدارة الصوتيات</h2>
+                        <button id="addAudioButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_audio_button">إضافة ملف صوتي</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_audio_header_title">العنوان</th>
+                                    <th data-translate-key="admin_audio_header_speaker">المتحدث</th>
+                                    <th data-translate-key="admin_audio_header_category">التصنيف</th>
+                                    <th data-translate-key="admin_audio_header_duration">المدة</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="audioList">
+                                </tbody>
+                        </table>
+                        <p id="noAudioMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_audio_message">لا توجد ملفات صوتية لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="manage-stories" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-600">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_stories_title">إدارة القصص والسيرة</h2>
+                        <button id="addStoryButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_story_button">إضافة قصة/سيرة</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_story_header_title">العنوان</th>
+                                    <th data-translate-key="admin_story_header_category">التصنيف</th>
+                                    <th data-translate-key="admin_story_header_image">الصورة</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="storyList">
+                                </tbody>
+                        </table>
+                        <p id="noStoriesMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_stories_message">لا توجد قصص أو سيرة لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="manage-dictionary" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-700">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_dictionary_title">إدارة المعجم</h2>
+                        <button id="addDictionaryEntryButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_dictionary_entry_button">إضافة مصطلح</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_dictionary_header_term">المصطلح</th>
+                                    <th data-translate-key="admin_dictionary_header_definition">التعريف (مقتطف)</th>
+                                    <th data-translate-key="admin_dictionary_header_root">الجذر</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dictionaryList">
+                                </tbody>
+                        </table>
+                        <p id="noDictionaryEntriesMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_dictionary_entries_message">لا توجد مصطلحات في المعجم لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="manage-testimonials" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-800">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_testimonials_title">إدارة آراء الطلاب</h2>
+                        <button id="addTestimonialButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_testimonial_button">إضافة رأي</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_testimonial_header_avatar">الصورة</th>
+                                    <th data-translate-key="admin_testimonial_header_name">اسم الطالب</th>
+                                    <th data-translate-key="admin_testimonial_header_text">نص الرأي (مقتطف)</th>
+                                    <th data-translate-key="admin_testimonial_header_approved">موافق عليه</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="testimonialList">
+                                </tbody>
+                        </table>
+                        <p id="noTestimonialsMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_testimonials_message">لا توجد آراء طلاب لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="manage-certificates" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-900">
+                    <div class="dashboard-card-header flex justify-between items-center">
+                        <h2 data-translate-key="admin_manage_certificates_title">إدارة الشهادات</h2>
+                        <button id="addCertificateButton" class="cta-button cta-button-primary py-1.5 px-3 text-xs" data-translate-key="admin_add_certificate_button">إضافة شهادة</button>
+                    </div>
+                    <div class="dashboard-card-body overflow-x-auto">
+                        <table class="data-table min-w-full">
+                            <thead>
+                                <tr>
+                                    <th data-translate-key="admin_certificate_header_image">صورة الشهادة</th>
+                                    <th data-translate-key="admin_certificate_header_student">اسم الطالب</th>
+                                    <th data-translate-key="admin_certificate_header_course">الكورس</th>
+                                    <th data-translate-key="admin_certificate_header_date">تاريخ الإصدار</th>
+                                    <th data-translate-key="admin_table_header_actions">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="certificateList">
+                                </tbody>
+                        </table>
+                        <p id="noCertificatesMessage" class="text-center text-gray-500 italic text-sm py-4 hidden" data-translate-key="admin_no_certificates_message">لا توجد شهادات لعرضها.</p>
+                    </div>
+                </div>
+
+                <div id="assign-users" class="dashboard-card scroll-animate-item scroll-animate-from-bottom delay-1000">
+                    <div class="dashboard-card-header">
+                        <h2 data-translate-key="admin_assign_users_title">تعيين المستخدمين للكورسات</h2>
+                    </div>
+                    <div class="dashboard-card-body">
+                        <form id="assignUserForm" class="space-y-4 dashboard-form">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="assignCourseSelect" class="form-label text-sm" data-translate-key="admin_assign_select_course">اختر الكورس:</label>
+                                    <select id="assignCourseSelect" name="courseId" required class="form-input w-full" autocomplete="off">
+                                        </select>
+                                </div>
+                                 <div>
+                                    <label for="assignUserSelect" class="form-label text-sm" data-translate-key="admin_assign_select_user">اختر المستخدم:</label>
+                                    <select id="assignUserSelect" name="userId" required class="form-input w-full" autocomplete="off">
+                                        </select>
+                                 </div>
+                                 <div>
+                                     <label for="assignUserButton" class="form-label text-sm invisible">.</label> <button type="submit" id="assignUserButton" class="w-full cta-button cta-button-primary py-2.5 text-sm">
+                                         <span class="button-text" data-translate-key="admin_assign_button">تعيين</span>
+                                         <span class="spinner hidden"></span>
+                                    </button>
+                                 </div>
+                            </div>
+                             <div id="assignUserMessage" class="text-sm text-center font-medium mt-2 h-4"></div>
+                         </form>
+                         <p class="text-xs text-gray-500 mt-4" data-translate-key="admin_assign_note">ملاحظة: عند تعيين مدرس لكورس، سيتم تعيينه كمدرس مسؤول. عند تعيين طالب، سيتم إضافته لقائمة طلاب الكورس.</p>
+                    </div>
+                </div>
+
+            </div> </div> </main>
+
+    <footer class="text-gray-400 py-10 mt-auto bg-gray-100">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm">&copy; <span id="currentYear"></span> <span data-translate-key="footer_rights">منصة سنا الأكاديمية. جميع الحقوق محفوظة.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">سياسة الخصوصية</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">شروط الاستخدام</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">تواصل معنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="userModal" class="modal-overlay">
+        <div class="modal-content relative">
+            <button id="closeUserModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+            <h2 id="userModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل مستخدم</h2>
+            <form id="userForm" class="space-y-4 dashboard-form">
+                <input type="hidden" id="editUserId" name="userId">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="userFullName" class="form-label text-sm" data-translate-key="signup_fullname_label">الاسم الكامل:</label>
+                        <input type="text" id="userFullName" name="fullName" required class="form-input w-full mt-1">
+                    </div>
+                    <div>
+                        <label for="userEmail" class="form-label text-sm" data-translate-key="signup_email_label">البريد الإلكتروني:</label>
+                        <input type="email" id="userEmail" name="email" required class="form-input w-full mt-1">
+                    </div>
+                </div>
+                <div>
+                    <label for="userPassword" class="form-label text-sm" data-translate-key="signup_password_label">كلمة المرور:</label>
+                    <input type="password" id="userPassword" name="password" class="form-input w-full mt-1" placeholder="********">
+                    <p id="passwordNoteAdd" class="text-xs text-gray-500 mt-1 hidden" data-translate-key="admin_modal_password_note_add">مطلوبة للمستخدم الجديد.</p>
+                    <p id="passwordNoteEdit" class="text-xs text-gray-500 mt-1 hidden" data-translate-key="admin_modal_password_note_edit">أدخل كلمة مرور جديدة فقط إذا كنت تريد تغييرها.</p>
+                </div>
+                <div>
+                     <label for="userRole" class="form-label text-sm" data-translate-key="admin_table_header_role">الدور:</label>
+                     <select id="userRole" name="role" required class="form-input w-full mt-1">
+                         <option value="student" data-translate-key="role_student">طالب</option>
+                         <option value="teacher" data-translate-key="role_teacher">مدرس</option>
+                         <option value="admin" data-translate-key="role_admin">مدير</option>
+                     </select>
+                </div>
+                <div id="userFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelUserModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="saveUserButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="courseModal" class="modal-overlay">
+        <div class="modal-content relative">
+             <button id="closeCourseModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+             <h2 id="courseModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل كورس</h2>
+             <form id="courseForm" class="space-y-4 dashboard-form">
+                 <input type="hidden" id="editCourseId" name="courseId">
+                 <div>
+                     <label for="courseTitleKey" class="form-label text-sm" data-translate-key="admin_modal_course_title_key">مفتاح عنوان الكورس:</label>
+                     <input type="text" id="courseTitleKey" name="title_key" required class="form-input w-full mt-1" placeholder="e.g., lecture1_title">
+                     <p class="text-xs text-gray-500 mt-1" data-translate-key="admin_modal_translation_key_note">يُستخدم للترجمة في ملف script.js.</p>
+                 </div>
+                 <div>
+                     <label for="courseDescriptionKey" class="form-label text-sm" data-translate-key="admin_modal_course_desc_key">مفتاح وصف الكورس:</label>
+                     <input type="text" id="courseDescriptionKey" name="description_key" required class="form-input w-full mt-1" placeholder="e.g., lecture1_desc_long">
+                 </div>
+                 <div>
+                     <label for="courseCategoryKey" class="form-label text-sm" data-translate-key="admin_modal_course_cat_key">مفتاح تصنيف الكورس:</label>
+                     <input type="text" id="courseCategoryKey" name="category_key" required class="form-input w-full mt-1" placeholder="e.g., lecture_cat_aqidah">
+                 </div>
+                 <div>
+                     <label for="courseImageUrl" class="form-label text-sm" data-translate-key="admin_modal_course_image_url">رابط صورة الكورس (اختياري):</label>
+                     <input type="url" id="courseImageUrl" name="image_url" class="form-input w-full mt-1" placeholder="https://example.com/image.jpg">
+                 </div>
+                 <div>
+                     <label for="courseInstructor" class="form-label text-sm" data-translate-key="admin_modal_course_instructor">المدرس المسؤول (اختياري):</label>
+                     <select id="courseInstructor" name="instructor_id" class="form-input w-full mt-1">
+                         <option value="" data-translate-key="admin_modal_select_instructor">-- اختر مدرس --</option>
+                         </select>
+                 </div>
+                 <div id="courseFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                 <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelCourseModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="saveCourseButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                 </div>
+             </form>
+        </div>
+    </div>
+
+    <div id="sectionModal" class="modal-overlay">
+         <div class="modal-content relative">
+             <button id="closeSectionModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+             <h2 id="sectionModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل قسم</h2>
+             <form id="sectionForm" class="space-y-4 dashboard-form">
+                 <input type="hidden" id="editSectionId" name="sectionId">
+                 <div>
+                     <label for="sectionNameKey" class="form-label text-sm" data-translate-key="admin_section_header_name">اسم القسم (المفتاح):</label>
+                     <input type="text" id="sectionNameKey" name="name_key" required class="form-input w-full mt-1" placeholder="e.g., section_podcast">
+                     <p class="text-xs text-gray-500 mt-1" data-translate-key="admin_modal_translation_key_note">يُستخدم للترجمة في ملف script.js.</p>
+                 </div>
+                 <div>
+                     <label for="sectionIconClass" class="form-label text-sm" data-translate-key="admin_section_header_icon">فئة الأيقونة:</label>
+                     <input type="text" id="sectionIconClass" name="icon_class" required class="form-input w-full mt-1" placeholder="e.g., fas fa-podcast">
+                     <p class="text-xs text-gray-500 mt-1" data-translate-key="admin_section_icon_note">اسم الفئة CSS للأيقونة (مثل Font Awesome).</p>
+                 </div>
+                 <div>
+                     <label for="sectionPath" class="form-label text-sm" data-translate-key="admin_section_header_path">المسار (Path):</label>
+                     <input type="text" id="sectionPath" name="path" required pattern="[a-z0-9_-]+" class="form-input w-full mt-1" placeholder="e.g., podcasts">
+                     <p class="text-xs text-gray-500 mt-1" data-translate-key="admin_section_path_note">المسار في الرابط (أحرف صغيرة، بدون مسافات).</p>
+                 </div>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                     <div>
+                         <label for="sectionDisplayOrder" class="form-label text-sm" data-translate-key="admin_section_header_order">الترتيب:</label>
+                         <input type="number" id="sectionDisplayOrder" name="display_order" value="0" required class="form-input w-full mt-1">
+                     </div>
+                     <div>
+                         <label for="sectionIsActive" class="form-label text-sm" data-translate-key="admin_section_header_active">نشط:</label>
+                         <label class="toggle-switch mt-2">
+                            <input type="checkbox" id="sectionIsActive" name="is_active" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                     </div>
+                 </div>
+                 <div id="sectionFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                 <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelSectionModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="saveSectionButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                 </div>
+             </form>
+         </div>
+    </div>
+
+    <div id="pricePlanModal" class="modal-overlay">
+        <div class="modal-content relative">
+            <button id="closePricePlanModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+            <h2 id="pricePlanModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل خطة سعر</h2>
+            <form id="pricePlanForm" class="space-y-4 dashboard-form">
+                <input type="hidden" id="editPricePlanId" name="planId">
+                <div>
+                    <label for="pricePlanNameKey" class="form-label text-sm" data-translate-key="admin_price_plan_label_name_key">مفتاح اسم الخطة:</label>
+                    <input type="text" id="pricePlanNameKey" name="name_key" required class="form-input w-full mt-1" placeholder="e.g., plan_basic_name">
+                    <p class="text-xs text-gray-500 mt-1" data-translate-key="admin_modal_translation_key_note">يُستخدم للترجمة.</p>
+                </div>
+                <div>
+                    <label for="pricePlanDescriptionKey" class="form-label text-sm" data-translate-key="admin_price_plan_label_desc_key">مفتاح وصف الخطة (اختياري):</label>
+                    <input type="text" id="pricePlanDescriptionKey" name="description_key" class="form-input w-full mt-1" placeholder="e.g., plan_basic_desc">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="pricePlanPrice" class="form-label text-sm" data-translate-key="admin_price_plan_label_price">السعر:</label>
+                        <input type="number" id="pricePlanPrice" name="price" step="0.01" min="0" required class="form-input w-full mt-1" placeholder="10.00">
+                    </div>
+                    <div>
+                        <label for="pricePlanCurrency" class="form-label text-sm" data-translate-key="admin_price_plan_label_currency">العملة:</label>
+                        <input type="text" id="pricePlanCurrency" name="currency" required class="form-input w-full mt-1" value="USD" placeholder="USD">
+                    </div>
+                </div>
+                <div>
+                    <label for="pricePlanBillingPeriod" class="form-label text-sm" data-translate-key="admin_price_plan_label_billing">فترة الفوترة:</label>
+                    <select id="pricePlanBillingPeriod" name="billing_period" required class="form-input w-full mt-1">
+                        <option value="monthly" data-translate-key="billing_period_monthly">شهرياً</option>
+                        <option value="yearly" data-translate-key="billing_period_yearly">سنوياً</option>
+                        <option value="one_time" data-translate-key="billing_period_onetime">مرة واحدة</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="pricePlanFeaturesKeys" class="form-label text-sm" data-translate-key="admin_price_plan_label_features">مفاتيح الميزات (مفصولة بفاصلة):</label>
+                    <input type="text" id="pricePlanFeaturesKeys" name="features_keys" class="form-input w-full mt-1" placeholder="feature_one,feature_two">
+                    <p class="text-xs text-gray-500 mt-1" data-translate-key="admin_modal_translation_key_note">تُستخدم للترجمة.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                    <div>
+                        <label for="pricePlanCourseId" class="form-label text-sm" data-translate-key="admin_price_plan_label_course_id">معرف الكورس (اختياري):</label>
+                        <select id="pricePlanCourseId" name="course_id" class="form-input w-full mt-1">
+                            <option value="">-- لا يوجد كورس محدد --</option>
+                            </select>
+                    </div>
+                    <div>
+                        <label for="pricePlanDisplayOrder" class="form-label text-sm" data-translate-key="admin_price_plan_label_order">ترتيب العرض:</label>
+                        <input type="number" id="pricePlanDisplayOrder" name="display_order" value="0" class="form-input w-full mt-1">
+                    </div>
+                     <div class="flex items-center space-x-2 rtl:space-x-reverse mt-5">
+                        <label for="pricePlanIsActive" class="form-label text-sm mb-0" data-translate-key="admin_price_plan_label_active">نشطة:</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="pricePlanIsActive" name="is_active" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse mt-5">
+                        <label for="pricePlanIsFeatured" class="form-label text-sm mb-0" data-translate-key="admin_price_plan_label_featured">مميزة:</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="pricePlanIsFeatured" name="is_featured">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div id="pricePlanFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelPricePlanModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                        <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="savePricePlanButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="podcastModal" class="modal-overlay">
+        <div class="modal-content relative">
+            <button id="closePodcastModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+            <h2 id="podcastModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل بودكاست</h2>
+            <form id="podcastForm" class="space-y-4 dashboard-form" enctype="multipart/form-data">
+                <input type="hidden" id="editPodcastId" name="podcastId">
+                <div>
+                    <label for="podcastTitleInput" class="form-label text-sm" data-translate-key="admin_podcast_label_title">عنوان البودكاست:</label>
+                    <input type="text" id="podcastTitleInput" name="title" required class="form-input w-full mt-1">
+                </div>
+                <div>
+                    <label for="podcastDescriptionTextarea" class="form-label text-sm" data-translate-key="admin_podcast_label_desc">الوصف (اختياري):</label>
+                    <textarea id="podcastDescriptionTextarea" name="description" rows="3" class="form-input w-full mt-1"></textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="podcastDurationSecondsInput" class="form-label text-sm" data-translate-key="admin_podcast_label_duration">المدة (بالثواني، اختياري):</label>
+                        <input type="number" id="podcastDurationSecondsInput" name="duration_seconds" min="0" class="form-input w-full mt-1">
+                    </div>
+                    <div>
+                        <label for="podcastPublishedAtInput" class="form-label text-sm" data-translate-key="admin_podcast_label_published">تاريخ النشر (اختياري):</label>
+                        <input type="datetime-local" id="podcastPublishedAtInput" name="published_at" class="form-input w-full mt-1">
+                    </div>
+                </div>
+                <div>
+                    <label for="podcastAudioFileInput" class="form-label text-sm" data-translate-key="admin_podcast_label_audio">ملف الصوت (MP3, WAV, OGG):</label>
+                    <input type="file" id="podcastAudioFileInput" name="audioFile" accept="audio/mpeg,audio/wav,audio/ogg" class="form-input w-full text-sm">
+                    <p id="currentPodcastAudioFileP" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+                <div>
+                    <label for="podcastThumbnailFileInput" class="form-label text-sm" data-translate-key="admin_podcast_label_thumbnail">الصورة المصغرة (اختياري):</label>
+                    <input type="file" id="podcastThumbnailFileInput" name="thumbnailFile" accept="image/*" class="form-input w-full text-sm">
+                    <img id="podcastThumbnailPreview" src="#" alt="معاينة الصورة المصغرة" class="thumbnail-preview hidden"/>
+                    <p id="currentPodcastThumbnailFileP" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+                <div id="podcastFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelPodcastModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="savePodcastButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="bookModal" class="modal-overlay">
+         <div class="modal-content relative">
+            <button id="closeBookModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+            <h2 id="bookModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل كتاب</h2>
+            <form id="bookForm" class="space-y-4 dashboard-form" enctype="multipart/form-data">
+                <input type="hidden" id="editBookId" name="bookId">
+                <div>
+                    <label for="bookTitleInput" class="form-label text-sm" data-translate-key="admin_book_label_title">عنوان الكتاب:</label>
+                    <input type="text" id="bookTitleInput" name="title" required class="form-input w-full mt-1">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="bookAuthorInput" class="form-label text-sm" data-translate-key="admin_book_label_author">المؤلف (اختياري):</label>
+                        <input type="text" id="bookAuthorInput" name="author" class="form-input w-full mt-1">
+                    </div>
+                    <div>
+                        <label for="bookCategoryInput" class="form-label text-sm" data-translate-key="admin_book_label_category">التصنيف (اختياري):</label>
+                        <input type="text" id="bookCategoryInput" name="category" class="form-input w-full mt-1" placeholder="مثال: فقه، عقيدة">
+                    </div>
+                </div>
+                <div>
+                    <label for="bookDescriptionTextarea" class="form-label text-sm" data-translate-key="admin_book_label_desc">الوصف (اختياري):</label>
+                    <textarea id="bookDescriptionTextarea" name="description" rows="3" class="form-input w-full mt-1"></textarea>
+                </div>
+                <div>
+                    <label for="bookPublishedYearInput" class="form-label text-sm" data-translate-key="admin_book_label_year">سنة النشر (اختياري):</label>
+                    <input type="number" id="bookPublishedYearInput" name="published_year" min="1000" max="9999" class="form-input w-full mt-1" placeholder="YYYY">
+                </div>
+                <div>
+                    <label for="bookCoverFileInput" class="form-label text-sm" data-translate-key="admin_book_label_cover">صورة الغلاف (اختياري):</label>
+                    <input type="file" id="bookCoverFileInput" name="coverFile" accept="image/*" class="form-input w-full text-sm">
+                    <img id="bookCoverPreview" src="#" alt="معاينة الغلاف" class="thumbnail-preview hidden"/>
+                    <p id="currentBookCoverFileP" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+                <div>
+                    <label for="bookFileInput" class="form-label text-sm" data-translate-key="admin_book_label_file">ملف الكتاب (PDF, EPUB - اختياري):</label>
+                    <input type="file" id="bookFileInput" name="bookFile" accept=".pdf,.epub" class="form-input w-full text-sm">
+                    <p id="currentBookFileP" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+                <div id="bookFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelBookModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="saveBookButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="audioModal" class="modal-overlay">
+         <div class="modal-content relative">
+            <button id="closeAudioModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+            <h2 id="audioModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل ملف صوتي</h2>
+            <form id="audioForm" class="space-y-4 dashboard-form" enctype="multipart/form-data">
+                <input type="hidden" id="editAudioId" name="audioId">
+                <div>
+                    <label for="audioTitleInput" class="form-label text-sm" data-translate-key="admin_audio_label_title">عنوان الملف الصوتي:</label>
+                    <input type="text" id="audioTitleInput" name="title" required class="form-input w-full mt-1">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="audioSpeakerNameInput" class="form-label text-sm" data-translate-key="admin_audio_label_speaker">اسم المتحدث (اختياري):</label>
+                        <input type="text" id="audioSpeakerNameInput" name="speaker_name" class="form-input w-full mt-1">
+                    </div>
+                    <div>
+                        <label for="audioCategoryInput" class="form-label text-sm" data-translate-key="admin_audio_label_category">التصنيف (اختياري):</label>
+                        <input type="text" id="audioCategoryInput" name="category" class="form-input w-full mt-1" placeholder="مثال: دروس، تلاوات">
+                    </div>
+                </div>
+                <div>
+                    <label for="audioDescriptionTextarea" class="form-label text-sm" data-translate-key="admin_audio_label_desc">الوصف (اختياري):</label>
+                    <textarea id="audioDescriptionTextarea" name="description" rows="3" class="form-input w-full mt-1"></textarea>
+                </div>
+                <div>
+                    <label for="audioDurationSecondsInput" class="form-label text-sm" data-translate-key="admin_audio_label_duration">المدة (بالثواني، اختياري):</label>
+                    <input type="number" id="audioDurationSecondsInput" name="duration_seconds" min="0" class="form-input w-full mt-1">
+                </div>
+                <div>
+                    <label for="audioFileInput" class="form-label text-sm" data-translate-key="admin_audio_label_file">ملف الصوت (MP3, WAV, OGG):</label>
+                    <input type="file" id="audioFileInput" name="audioFile" accept="audio/mpeg,audio/wav,audio/ogg" class="form-input w-full text-sm">
+                     <p id="currentAudioFileP" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+                <div id="audioFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelAudioModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="saveAudioButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="storyModal" class="modal-overlay">
+         <div class="modal-content relative">
+            <button id="closeStoryModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+            <h2 id="storyModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل قصة أو سيرة</h2>
+            <form id="storyForm" class="space-y-4 dashboard-form" enctype="multipart/form-data">
+                <input type="hidden" id="editStoryId" name="storyId">
+                <div>
+                    <label for="storyTitleInput" class="form-label text-sm" data-translate-key="admin_story_label_title">العنوان:</label>
+                    <input type="text" id="storyTitleInput" name="title" required class="form-input w-full mt-1">
+                </div>
+                <div>
+                    <label for="storyCategorySelect" class="form-label text-sm" data-translate-key="admin_story_label_category">التصنيف:</label>
+                    <select id="storyCategorySelect" name="category" required class="form-input w-full mt-1">
+                        <option value="prophets" data-translate-key="admin_story_category_prophets">قصص الأنبياء</option>
+                        <option value="seerah" data-translate-key="admin_story_category_seerah">السيرة النبوية</option>
+                        <option value="other" data-translate-key="admin_story_category_other">أخرى</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="storyContentTextarea" class="form-label text-sm" data-translate-key="admin_story_label_content">المحتوى:</label>
+                    <textarea id="storyContentTextarea" name="content" rows="6" required class="form-input w-full mt-1"></textarea>
+                </div>
+                <div>
+                    <label for="storyImageFileInput" class="form-label text-sm" data-translate-key="admin_story_label_image">صورة (اختياري):</label>
+                    <input type="file" id="storyImageFileInput" name="imageFile" accept="image/*" class="form-input w-full text-sm">
+                    <img id="storyImagePreview" src="#" alt="معاينة الصورة" class="thumbnail-preview hidden"/>
+                    <p id="currentStoryImageFileP" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+                <div id="storyFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelStoryModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="saveStoryButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="dictionaryModal" class="modal-overlay">
+         <div class="modal-content relative">
+            <button id="closeDictionaryModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+            <h2 id="dictionaryModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل مصطلح</h2>
+            <form id="dictionaryForm" class="space-y-4 dashboard-form">
+                <input type="hidden" id="editDictionaryEntryId" name="entryId">
+                <div>
+                    <label for="dictionaryTermInput" class="form-label text-sm" data-translate-key="admin_dictionary_label_term">المصطلح:</label>
+                    <input type="text" id="dictionaryTermInput" name="term" required class="form-input w-full mt-1">
+                </div>
+                <div>
+                    <label for="dictionaryDefinitionTextarea" class="form-label text-sm" data-translate-key="admin_dictionary_label_definition">التعريف:</label>
+                    <textarea id="dictionaryDefinitionTextarea" name="definition" rows="4" required class="form-input w-full mt-1"></textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="dictionaryRootInput" class="form-label text-sm" data-translate-key="admin_dictionary_label_root">الجذر (اختياري):</label>
+                        <input type="text" id="dictionaryRootInput" name="root" class="form-input w-full mt-1">
+                    </div>
+                    <div>
+                        <label for="dictionaryExampleTextarea" class="form-label text-sm" data-translate-key="admin_dictionary_label_example">مثال (اختياري):</label>
+                        <textarea id="dictionaryExampleTextarea" name="example" rows="2" class="form-input w-full mt-1"></textarea>
+                    </div>
+                </div>
+                <div id="dictionaryFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelDictionaryModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="saveDictionaryButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="testimonialModal" class="modal-overlay">
+        <div class="modal-content relative">
+            <button id="closeTestimonialModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+            <h2 id="testimonialModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة/تعديل رأي طالب</h2>
+            <form id="testimonialForm" class="space-y-4 dashboard-form" enctype="multipart/form-data">
+                <input type="hidden" id="editTestimonialId" name="testimonialId">
+                <div>
+                    <label for="testimonialStudentName" class="form-label text-sm" data-translate-key="admin_testimonial_label_name">اسم الطالب:</label>
+                    <input type="text" id="testimonialStudentName" name="student_name" required class="form-input w-full mt-1" autocomplete="off">
+                </div>
+                <div>
+                    <label for="testimonialText" class="form-label text-sm" data-translate-key="admin_testimonial_label_text">نص الرأي:</label>
+                    <textarea id="testimonialText" name="testimonial_text" rows="5" required class="form-input w-full mt-1" autocomplete="off"></textarea>
+                </div>
+                 <div>
+                    <label for="testimonialStudentDetail" class="form-label text-sm" data-translate-key="admin_testimonial_label_detail">تفاصيل الطالب (اختياري):</label>
+                    <input type="text" id="testimonialStudentDetail" name="student_detail" class="form-input w-full mt-1" placeholder="مثل: طالب من كندا" autocomplete="off">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                    <div>
+                        <label for="testimonialAvatarFile" class="form-label text-sm" data-translate-key="admin_testimonial_label_avatar">صورة الطالب (اختياري):</label>
+                        <input type="file" id="testimonialAvatarFile" name="avatarFile" accept="image/*" class="form-input w-full text-sm">
+                        <img id="testimonialAvatarPreview" src="#" alt="معاينة الصورة" class="thumbnail-preview hidden w-16 h-16 rounded-full object-cover"/>
+                        <p id="currentTestimonialAvatarFile" class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+                     <div>
+                        <label for="testimonialIsApproved" class="form-label text-sm" data-translate-key="admin_testimonial_label_approved">موافق عليه للعرض العام:</label>
+                        <label class="toggle-switch mt-2">
+                            <input type="checkbox" id="testimonialIsApproved" name="is_approved">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div id="testimonialFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelTestimonialModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="saveTestimonialButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="certificateModal" class="modal-overlay">
+         <div class="modal-content relative">
+            <button id="closeCertificateModalButton" class="modal-close-button" aria-label="إغلاق">&times;</button>
+            <h2 id="certificateModalTitle" class="text-xl font-semibold text-gray-800 mb-6">إضافة شهادة جديدة</h2>
+            <form id="certificateForm" class="space-y-4 dashboard-form" enctype="multipart/form-data">
+                <input type="hidden" id="editCertificateId" name="certificateId"> <div>
+                    <label for="certificateStudentName" class="form-label text-sm" data-translate-key="admin_certificate_label_student">اسم الطالب:</label>
+                    <input type="text" id="certificateStudentName" name="student_name" required class="form-input w-full mt-1" autocomplete="off">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="certificateCourseName" class="form-label text-sm" data-translate-key="admin_certificate_label_course">اسم الكورس (اختياري):</label>
+                        <input type="text" id="certificateCourseName" name="course_name" class="form-input w-full mt-1" autocomplete="off">
+                    </div>
+                    <div>
+                        <label for="certificateIssueDate" class="form-label text-sm" data-translate-key="admin_certificate_label_date">تاريخ الإصدار (اختياري):</label>
+                        <input type="date" id="certificateIssueDate" name="issue_date" class="form-input w-full mt-1" autocomplete="off">
+                    </div>
+                </div>
+                <div>
+                    <label for="certificateImageFile" class="form-label text-sm" data-translate-key="admin_certificate_label_image">صورة الشهادة (مطلوبة):</label>
+                    <input type="file" id="certificateImageFile" name="certificateImage" accept="image/*" required class="form-input w-full text-sm">
+                    <img id="certificateImagePreview" src="#" alt="معاينة الشهادة" class="thumbnail-preview hidden w-32 h-auto object-contain"/>
+                </div>
+                <div id="certificateFormErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+                <div class="flex justify-end space-x-3 rtl:space-x-reverse pt-4">
+                    <button type="button" id="cancelCertificateModalButton" class="cta-button cta-button-secondary py-2 px-4 text-sm spinner-dark">
+                         <span class="button-text" data-translate-key="admin_modal_cancel_button">إلغاء</span>
+                         <span class="spinner hidden"></span>
+                    </button>
+                    <button type="submit" id="saveCertificateButton" class="cta-button cta-button-primary py-2 px-4 text-sm">
+                        <span class="button-text" data-translate-key="admin_modal_save_button">حفظ</span>
+                        <span class="spinner hidden"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+   
+
+
+    <script src="js/script.js"></script>
+    <script>
+      
+   // This script should be placed at the end of admin-dashboard.html, inside <script> tags,
+// or in a separate admin-dashboard.js file linked after js/script.js
+
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log("Admin Dashboard DOM Loaded and Script Initializing...");
+
+    // --- Configuration ---
+    const API_BASE_URL = (window.sanaApp && window.sanaApp.API_BASE_URL) ? window.sanaApp.API_BASE_URL : 'http://localhost:5000/api';
+    const UPLOADS_BASE_URL = (window.sanaApp && window.sanaApp.UPLOADS_BASE_URL) ? window.sanaApp.UPLOADS_BASE_URL : 'http://localhost:5000/uploads/';
+    console.log("Admin Dashboard - API Base URL:", API_BASE_URL);
+    console.log("Admin Dashboard - Uploads Base URL:", UPLOADS_BASE_URL);
+
+    // --- Global cache for fetched data for dropdowns ---
+    let allFetchedUsers = [];
+    let allFetchedCourses = [];
+
+
+    // --- DOM Element References ---
+    const dashboardContent = document.getElementById('dashboardContent');
+    const dashboardLoadingError = document.getElementById('dashboardLoadingError');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const dashboardMessage = document.getElementById('dashboardMessage');
+
+    const userListBody = document.getElementById('userList');
+    const courseListBody = document.getElementById('courseList');
+    const sectionListBody = document.getElementById('sectionList');
+    const pricePlanListBody = document.getElementById('pricePlanList');
+    const podcastListBody = document.getElementById('podcastList');
+    const bookListBody = document.getElementById('bookList');
+    const audioListBody = document.getElementById('audioList');
+    const storyListBody = document.getElementById('storyList');
+    const dictionaryListBody = document.getElementById('dictionaryList');
+    const testimonialListBody = document.getElementById('testimonialList');
+    const certificateListBody = document.getElementById('certificateList');
+
+    const noUsersMessage = document.getElementById('noUsersMessage');
+    const noCoursesMessage = document.getElementById('noCoursesMessage');
+    const noSectionsMessage = document.getElementById('noSectionsMessage');
+    const noPricePlansMessage = document.getElementById('noPricePlansMessage');
+    const noPodcastsMessage = document.getElementById('noPodcastsMessage');
+    const noBooksMessage = document.getElementById('noBooksMessage');
+    const noAudioMessage = document.getElementById('noAudioMessage');
+    const noStoriesMessage = document.getElementById('noStoriesMessage');
+    const noDictionaryEntriesMessage = document.getElementById('noDictionaryEntriesMessage');
+    const noTestimonialsMessage = document.getElementById('noTestimonialsMessage');
+    const noCertificatesMessage = document.getElementById('noCertificatesMessage');
+
+    const modals = {
+        user: { element: document.getElementById('userModal'), form: document.getElementById('userForm'), title: document.getElementById('userModalTitle'), error: document.getElementById('userFormErrorMessage'), saveButton: document.getElementById('saveUserButton'), idInput: document.getElementById('editUserId') },
+        course: { element: document.getElementById('courseModal'), form: document.getElementById('courseForm'), title: document.getElementById('courseModalTitle'), error: document.getElementById('courseFormErrorMessage'), saveButton: document.getElementById('saveCourseButton'), idInput: document.getElementById('editCourseId') },
+        section: { element: document.getElementById('sectionModal'), form: document.getElementById('sectionForm'), title: document.getElementById('sectionModalTitle'), error: document.getElementById('sectionFormErrorMessage'), saveButton: document.getElementById('saveSectionButton'), idInput: document.getElementById('editSectionId') },
+        pricePlan: { element: document.getElementById('pricePlanModal'), form: document.getElementById('pricePlanForm'), title: document.getElementById('pricePlanModalTitle'), error: document.getElementById('pricePlanFormErrorMessage'), saveButton: document.getElementById('savePricePlanButton'), idInput: document.getElementById('editPricePlanId') },
+        podcast: { element: document.getElementById('podcastModal'), form: document.getElementById('podcastForm'), title: document.getElementById('podcastModalTitle'), error: document.getElementById('podcastFormErrorMessage'), saveButton: document.getElementById('savePodcastButton'), idInput: document.getElementById('editPodcastId') },
+        book: { element: document.getElementById('bookModal'), form: document.getElementById('bookForm'), title: document.getElementById('bookModalTitle'), error: document.getElementById('bookFormErrorMessage'), saveButton: document.getElementById('saveBookButton'), idInput: document.getElementById('editBookId') },
+        audio: { element: document.getElementById('audioModal'), form: document.getElementById('audioForm'), title: document.getElementById('audioModalTitle'), error: document.getElementById('audioFormErrorMessage'), saveButton: document.getElementById('saveAudioButton'), idInput: document.getElementById('editAudioId') },
+        story: { element: document.getElementById('storyModal'), form: document.getElementById('storyForm'), title: document.getElementById('storyModalTitle'), error: document.getElementById('storyFormErrorMessage'), saveButton: document.getElementById('saveStoryButton'), idInput: document.getElementById('editStoryId') },
+        dictionary: { element: document.getElementById('dictionaryModal'), form: document.getElementById('dictionaryForm'), title: document.getElementById('dictionaryModalTitle'), error: document.getElementById('dictionaryFormErrorMessage'), saveButton: document.getElementById('saveDictionaryButton'), idInput: document.getElementById('editDictionaryEntryId') },
+        testimonial: { element: document.getElementById('testimonialModal'), form: document.getElementById('testimonialForm'), title: document.getElementById('testimonialModalTitle'), error: document.getElementById('testimonialFormErrorMessage'), saveButton: document.getElementById('saveTestimonialButton'), idInput: document.getElementById('editTestimonialId') },
+        certificate: { element: document.getElementById('certificateModal'), form: document.getElementById('certificateForm'), title: document.getElementById('certificateModalTitle'), error: document.getElementById('certificateFormErrorMessage'), saveButton: document.getElementById('saveCertificateButton'), idInput: document.getElementById('editCertificateId') }
+    };
+
+    const addUserButton = document.getElementById('addUserButton');
+    const addCourseButton = document.getElementById('addCourseButton');
+    const addSectionButton = document.getElementById('addSectionButton');
+    const addPricePlanButton = document.getElementById('addPricePlanButton');
+    const addPodcastButton = document.getElementById('addPodcastButton');
+    const addBookButton = document.getElementById('addBookButton');
+    const addAudioButton = document.getElementById('addAudioButton');
+    const addStoryButton = document.getElementById('addStoryButton');
+    const addDictionaryEntryButton = document.getElementById('addDictionaryEntryButton');
+    const addTestimonialButton = document.getElementById('addTestimonialButton');
+    const addCertificateButton = document.getElementById('addCertificateButton');
+
+    const introVideoForm = document.getElementById('introVideoForm');
+    const introVideoFileInput = document.getElementById('introVideoFile');
+    const currentIntroVideoDisplay = document.getElementById('currentIntroVideoDisplay');
+    const currentIntroVideoLink = document.getElementById('currentIntroVideoLink');
+    const noCurrentIntroVideo = document.getElementById('noCurrentIntroVideo');
+    const introVideoFormErrorMessage = document.getElementById('introVideoFormErrorMessage');
+    const saveIntroVideoButton = document.getElementById('saveIntroVideoButton');
+
+    const assignCourseSelect = document.getElementById('assignCourseSelect');
+    const assignUserSelect = document.getElementById('assignUserSelect');
+    const assignUserForm = document.getElementById('assignUserForm');
+    const assignUserMessage = document.getElementById('assignUserMessage');
+    const assignUserButton = document.getElementById('assignUserButton');
+
+    const userPasswordInput = document.getElementById('userPassword');
+    const passwordNoteAdd = document.getElementById('passwordNoteAdd');
+    const passwordNoteEdit = document.getElementById('passwordNoteEdit');
+    const courseInstructorSelect = document.getElementById('courseInstructor');
+    const pricePlanCourseIdSelect = document.getElementById('pricePlanCourseId');
+
+    const testimonialAvatarFileInput = document.getElementById('testimonialAvatarFile');
+    const testimonialAvatarPreview = document.getElementById('testimonialAvatarPreview');
+    const currentTestimonialAvatarFileP = document.getElementById('currentTestimonialAvatarFile');
+    const testimonialIsApprovedCheckbox = document.getElementById('testimonialIsApproved');
+
+    const certificateImageFileInput = document.getElementById('certificateImageFile');
+    const certificateImagePreview = document.getElementById('certificateImagePreview');
+
+    console.log("Admin Dashboard: Checking authentication...");
+    const token = localStorage.getItem('authToken');
+    let userInfo = null;
+    try {
+        userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    } catch (e) {
+        console.error("Admin Dashboard: Error parsing user info from localStorage:", e);
+    }
+
+    if (!token || !userInfo || userInfo.role !== 'admin') {
+        console.error("Admin Dashboard: Authentication failed or user is not admin. Redirecting to login.");
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userInfo');
+        window.location.href = 'login.html';
+        return;
+    }
+    console.log("Admin Dashboard: Authentication successful. User:", userInfo.email);
+
+    if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+        const ar = window.sanaApp.translations.ar;
+        const en = window.sanaApp.translations.en;
+        ar.admin_no_users_message = ar.admin_no_users_message || "لا يوجد مستخدمون لعرضهم.";
+        en.admin_no_users_message = en.admin_no_users_message || "No users to display.";
+        // ... (add all other admin-specific translation keys here if not already in script.js) ...
+        window.sanaApp.initPage('admin-dashboard.html');
+        console.log("sanaApp initialized for admin dashboard.");
+    } else {
+        console.error("Sana App or initPage function not found. Dashboard cannot be initialized properly.");
+        if(dashboardLoadingError) dashboardLoadingError.classList.remove('hidden');
+        if(loadingSpinner) loadingSpinner.classList.add('hidden');
+        if(dashboardMessage) dashboardMessage.textContent = 'Error initializing page script.';
+        return;
+    }
+
+    function handleLogout() {
+        console.log("Executing handleLogout...");
+        if (window.sanaApp && window.sanaApp.handleLogout) {
+            window.sanaApp.handleLogout();
+        } else {
+            console.error("handleLogout function not found in sanaApp. Performing basic logout.");
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'login.html';
+        }
+    }
+
+    console.log("Defining helper functions (fetchData, sendData)...");
+    async function fetchData(url) {
+         try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+            if (response.status === 401 || response.status === 403) {
+                console.warn(`Auth error (${response.status}) fetching ${url}. Logging out.`);
+                handleLogout();
+                return null;
+            }
+            if (!response.ok) {
+                let errorMsg = `HTTP error! status: ${response.status}`;
+                try { const errData = await response.json(); errorMsg = errData.message || errorMsg; } catch (e) {}
+                throw new Error(errorMsg);
+            }
+             if (response.status === 204) return null;
+            return await response.json();
+        } catch (error) {
+            console.error(`Fetch error for ${url}:`, error);
+            throw error;
+        }
+    }
+
+    async function sendData(url, method = 'POST', body = {}, isFormData = false) {
+         try {
+            const headers = { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' };
+             if (!isFormData) headers['Content-Type'] = 'application/json';
+            const response = await fetch(url, { method, headers, body: isFormData ? body : JSON.stringify(body) });
+             if (response.status === 401 || response.status === 403) { console.warn(`Auth error (${response.status}) sending data to ${url}. Logging out.`); handleLogout(); return null; }
+             let responseData;
+             const contentType = response.headers.get("content-type");
+             if (contentType && contentType.indexOf("application/json") !== -1) responseData = await response.json();
+             else responseData = { message: await response.text() };
+            if (!response.ok) throw new Error(responseData.message || `Request failed with status ${response.status}`);
+            return responseData;
+        } catch (error) { console.error(`Send data error for ${url} (${method}):`, error); throw error; }
+    }
+
+    // Helper function to convert snake_case to camelCase
+    function snakeToCamel(str) {
+        return str.toLowerCase().replace(/([-_][a-z])/g, group =>
+            group.toUpperCase().replace('-', '').replace('_', '')
+        );
+    }
+
+    function safePopulate(name, listBodyElement, noDataMessageElement, populateFunction, data) {
+        console.log(`Attempting to populate ${name}...`);
+        if (!listBodyElement || !noDataMessageElement) {
+            console.error(`Error: Missing DOM elements for section '${name}'. List: ${!!listBodyElement}, Message: ${!!noDataMessageElement}. Cannot populate.`);
+            return;
+        }
+        listBodyElement.innerHTML = '';
+        noDataMessageElement.classList.add('hidden');
+
+        if (data === null || data === undefined || (Array.isArray(data) && data.length === 0)) {
+            console.warn(`No data received or empty array for ${name}. Showing 'no data' message.`);
+            noDataMessageElement.classList.remove('hidden');
+            return;
+        }
+        try {
+            populateFunction(data);
+            console.log(`Successfully populated ${name}.`);
+        } catch (error) {
+            console.error(`Error populating ${name}:`, error);
+            noDataMessageElement.textContent = `Error loading ${name}. Check console.`;
+            noDataMessageElement.classList.remove('hidden');
+        }
+    }
+
+
+    function formatDuration(seconds) {
+        if (!seconds || seconds <= 0) return '-';
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    }
+
+    function showLoadingButton(button) {
+        if (!button) return;
+        button.disabled = true;
+        button.classList.add('button-loading');
+        const textSpan = button.querySelector('.button-text');
+        const spinner = button.querySelector('.spinner');
+        if (textSpan) textSpan.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()].loading || 'Loading...';
+        if (spinner) spinner.classList.remove('hidden');
+    }
+
+    function hideLoadingButton(button, originalTextKey) {
+        if (!button) return;
+        button.disabled = false;
+        button.classList.remove('button-loading');
+        const textSpan = button.querySelector('.button-text');
+        const spinner = button.querySelector('.spinner');
+        if (textSpan) textSpan.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()][originalTextKey] || originalTextKey;
+        if (spinner) spinner.classList.add('hidden');
+    }
+
+    function showFormError(element, message) {
+        if (element) element.textContent = message;
+    }
+
+    function clearFormError(element) {
+        if (element) element.textContent = '';
+    }
+
+    function setupImagePreview(inputId, previewId) {
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        if (input && preview) {
+            input.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('hidden');
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = '#';
+                    preview.classList.add('hidden');
+                }
+            });
+        }
+    }
+    console.log("Helper functions defined.");
+
+    // --- Populate Functions ---
+    console.log("Defining populate functions...");
+    function populateUsers(users) {
+         users.forEach(user => {
+            const row = userListBody.insertRow();
+            // Store all data from the user object into dataset attributes using camelCase
+            Object.keys(user).forEach(key => {
+                if (user[key] !== null && user[key] !== undefined) {
+                    try {
+                        row.dataset[snakeToCamel(key)] = user[key];
+                    } catch (e) {
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on user row:`, e.message);
+                    }
+                }
+            });
+            // Explicitly set the ID for easier access if needed, though it's already in dataset
+            row.dataset.userId = user.user_id;
+
+
+            const roleText = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()]['role_' + user.role] || user.role;
+            row.innerHTML = `<td>${user.full_name}</td><td>${user.email}</td><td>${roleText}</td><td><button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openUserModal('edit', '${user.user_id}')">Edit</button><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deleteUser('${user.user_id}', '${user.full_name}')">Delete</button></td>`;
+        });
+         window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+    function populateCourses(courses) {
+         courses.forEach(course => {
+            const row = courseListBody.insertRow();
+            Object.keys(course).forEach(key => {
+                if (course[key] !== null && course[key] !== undefined) {
+                    try {
+                         row.dataset[snakeToCamel(key)] = course[key];
+                    } catch (e) {
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on course row:`, e.message);
+                    }
+                }
+            });
+            row.dataset.courseId = course.course_id;
+
+            const title = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()][course.title_key] || course.title_key;
+            const instructorName = course.instructor_name || '-';
+            const studentCount = course.student_count !== undefined ? course.student_count : 'N/A';
+            row.innerHTML = `<td>${title}</td><td>${instructorName}</td><td>${studentCount}</td><td><button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openCourseModal('edit', '${course.course_id}')">Edit</button><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deleteCourse('${course.course_id}', '${title}')">Delete</button></td>`;
+        });
+         window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+     function populateSections(sections) {
+         sections.forEach(section => {
+            const row = sectionListBody.insertRow();
+             Object.keys(section).forEach(key => {
+                if (section[key] !== null && section[key] !== undefined) {
+                    try {
+                        row.dataset[snakeToCamel(key)] = section[key];
+                    } catch (e) {
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on section row:`, e.message);
+                    }
+                }
+            });
+            row.dataset.sectionId = section.section_id;
+
+            const name = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()][section.name_key] || section.name_key;
+            row.innerHTML = `<td>${name} (${section.name_key})</td><td><i class="${section.icon_class || 'fas fa-question'} mr-2"></i> ${section.icon_class || '?'}</td><td>${section.path}</td><td>${section.display_order}</td><td><label class="toggle-switch"><input type="checkbox" ${section.is_active ? 'checked' : ''} onchange="window.sanaAdminDashboard.toggleSectionActive('${section.section_id}', this.checked)"><span class="toggle-slider"></span></label></td><td><button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openSectionModal('edit', '${section.section_id}')">Edit</button><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deleteSection('${section.section_id}', '${name}')">Delete</button></td>`;
+        });
+         window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+    function populatePricePlansTable(plans) {
+        plans.forEach(plan => {
+            const row = pricePlanListBody.insertRow();
+            Object.keys(plan).forEach(key => {
+                if (plan[key] !== null && plan[key] !== undefined) {
+                     try {
+                        row.dataset[snakeToCamel(key)] = Array.isArray(plan[key]) ? plan[key].join(',') : plan[key]; // Convert array to string for dataset
+                    } catch (e) {
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on price plan row:`, e.message);
+                    }
+                }
+            });
+            row.dataset.planId = plan.plan_id;
+
+            const planName = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()][plan.name_key] || plan.name_key;
+            const billingPeriodText = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()]['billing_period_' + plan.billing_period] || plan.billing_period;
+
+            row.innerHTML = `
+                <td>${planName} (${plan.name_key})</td>
+                <td>${parseFloat(plan.price).toFixed(2)}</td>
+                <td>${plan.currency}</td>
+                <td>${billingPeriodText}</td>
+                <td><label class="toggle-switch"><input type="checkbox" ${plan.is_active ? 'checked' : ''} onchange="window.sanaAdminDashboard.togglePricePlanActive('${plan.plan_id}', this.checked)"><span class="toggle-slider"></span></label></td>
+                <td><label class="toggle-switch"><input type="checkbox" ${plan.is_featured ? 'checked' : ''} onchange="window.sanaAdminDashboard.togglePricePlanFeatured('${plan.plan_id}', this.checked)"><span class="toggle-slider"></span></label></td>
+                <td>
+                    <button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openPricePlanModal('edit', '${plan.plan_id}')">Edit</button>
+                    <button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deletePricePlan('${plan.plan_id}', '${planName}')">Delete</button>
+                </td>
+            `;
+        });
+        window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+    function populatePodcastsTable(podcasts) {
+         podcasts.forEach(p => {
+            const row = podcastListBody.insertRow();
+             Object.keys(p).forEach(key => {
+                if (p[key] !== null && p[key] !== undefined) {
+                    try {
+                        row.dataset[snakeToCamel(key)] = p[key];
+                    } catch (e) {
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on podcast row:`, e.message);
+                    }
+                }
+            });
+            row.dataset.podcastId = p.podcast_id;
+
+            const thumbnailUrl = p.thumbnail_url ? (p.thumbnail_url.startsWith('http') ? p.thumbnail_url : UPLOADS_BASE_URL + p.thumbnail_url) : 'https://placehold.co/50x50/eee/777?text=N/A';
+            const durationFormatted = formatDuration(p.duration_seconds);
+            const publishedDateFormatted = p.published_at ? new Date(p.published_at).toLocaleDateString(window.sanaApp.getCurrentLanguage()) : '-';
+            row.innerHTML = `<td>${p.title}</td><td><img src="${thumbnailUrl}" alt="Thumbnail" class="thumbnail-preview-table" onerror="this.onerror=null;this.src='https://placehold.co/50x50/eee/777?text=N/A';"></td><td>${durationFormatted}</td><td>${publishedDateFormatted}</td><td><button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openPodcastModal('edit', '${p.podcast_id}')">Edit</button><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deletePodcast('${p.podcast_id}', '${p.title}')">Delete</button></td>`;
+        });
+         window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+     function populateBooksTable(books) {
+         books.forEach(b => {
+            const row = bookListBody.insertRow();
+             Object.keys(b).forEach(key => {
+                if (b[key] !== null && b[key] !== undefined) {
+                    try {
+                        row.dataset[snakeToCamel(key)] = b[key];
+                    } catch (e) {
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on book row:`, e.message);
+                    }
+                }
+            });
+            row.dataset.bookId = b.book_id;
+
+            const coverUrl = b.cover_url ? (b.cover_url.startsWith('http') ? b.cover_url : UPLOADS_BASE_URL + b.cover_url) : 'https://placehold.co/40x50/eee/777?text=N/A';
+            const fileLink = b.file_url ? (b.file_url.startsWith('http') ? b.file_url : UPLOADS_BASE_URL + b.file_url) : null;
+            const fileIcon = fileLink ? `<a href="${fileLink}" target="_blank" class="text-green-600 hover:underline">✔</a>` : '<span class="text-red-500">✘</span>';
+            row.innerHTML = `<td><img src="${coverUrl}" alt="Cover" class="book-cover-preview-table" onerror="this.onerror=null;this.src='https://placehold.co/40x50/eee/777?text=N/A';"></td><td>${b.title}</td><td>${b.author || '-'}</td><td>${b.category || '-'}</td><td>${fileIcon}</td><td><button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openBookModal('edit', '${b.book_id}')">Edit</button><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deleteBook('${b.book_id}', '${b.title}')">Delete</button></td>`;
+        });
+         window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+     function populateAudioTable(audioFiles) {
+         audioFiles.forEach(a => {
+            const row = audioListBody.insertRow();
+             Object.keys(a).forEach(key => {
+                if (a[key] !== null && a[key] !== undefined) {
+                    try {
+                        row.dataset[snakeToCamel(key)] = a[key];
+                    } catch (e) {
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on audio row:`, e.message);
+                    }
+                }
+            });
+            row.dataset.audioId = a.audio_id;
+
+            const durationFormatted = formatDuration(a.duration_seconds);
+            row.innerHTML = `<td>${a.title}</td><td>${a.speaker_name || '-'}</td><td>${a.category || '-'}</td><td>${durationFormatted}</td><td><button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openAudioModal('edit', '${a.audio_id}')">Edit</button><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deleteAudio('${a.audio_id}', '${a.title}')">Delete</button></td>`;
+        });
+         window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+    function populateStoriesTable(stories) {
+         stories.forEach(s => {
+            const row = storyListBody.insertRow();
+             Object.keys(s).forEach(key => {
+                if (s[key] !== null && s[key] !== undefined) {
+                     try {
+                        row.dataset[snakeToCamel(key)] = s[key];
+                    } catch (e) {
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on story row:`, e.message);
+                    }
+                }
+            });
+            row.dataset.storyId = s.story_id;
+
+            const imageUrl = s.image_url ? (s.image_url.startsWith('http') ? s.image_url : UPLOADS_BASE_URL + s.image_url) : 'https://placehold.co/50x50/eee/777?text=N/A';
+            const categoryText = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()]['admin_story_category_' + s.category] || s.category;
+            row.innerHTML = `<td>${s.title}</td><td>${categoryText}</td><td><img src="${imageUrl}" alt="Story Image" class="thumbnail-preview-table" onerror="this.onerror=null;this.src='https://placehold.co/50x50/eee/777?text=N/A';"></td><td><button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openStoryModal('edit', '${s.story_id}')">Edit</button><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deleteStory('${s.story_id}', '${s.title}')">Delete</button></td>`;
+        });
+         window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+     function populateDictionaryTable(entries) {
+         entries.forEach(e => {
+            const row = dictionaryListBody.insertRow();
+            Object.keys(e).forEach(key => {
+                if (e[key] !== null && e[key] !== undefined) {
+                    try {
+                        row.dataset[snakeToCamel(key)] = e[key];
+                    } catch (err) { // Use a different variable name for the catch block
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on dictionary row:`, err.message);
+                    }
+                }
+            });
+            row.dataset.entryId = e.entry_id;
+
+
+            const definitionExcerpt = e.definition.substring(0, 50) + (e.definition.length > 50 ? '...' : '');
+            row.innerHTML = `<td>${e.term}</td><td class="text-xs">${definitionExcerpt}</td><td>${e.root || '-'}</td><td><button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openDictionaryModal('edit', '${e.entry_id}')">Edit</button><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deleteDictionaryEntry('${e.entry_id}', '${e.term}')">Delete</button></td>`;
+        });
+         window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+     function populateTestimonialsTable(testimonials) {
+         testimonials.forEach(t => {
+            const row = testimonialListBody.insertRow();
+            Object.keys(t).forEach(key => {
+                if (t[key] !== null && t[key] !== undefined) {
+                    try {
+                        row.dataset[snakeToCamel(key)] = t[key];
+                    } catch (e) {
+                         console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on testimonial row:`, e.message);
+                    }
+                }
+            });
+            row.dataset.testimonialId = t.testimonial_id;
+
+            const avatarUrl = t.avatar_url ? (t.avatar_url.startsWith('http') ? t.avatar_url : UPLOADS_BASE_URL + t.avatar_url) : 'https://placehold.co/40x40/eee/777?text=N/A';
+            const textExcerpt = t.testimonial_text ? t.testimonial_text.substring(0, 50) + (t.testimonial_text.length > 50 ? '...' : '') : '-';
+            row.innerHTML = `<td><img src="${avatarUrl}" alt="Avatar" class="testimonial-avatar-table" onerror="this.onerror=null;this.src='https://placehold.co/40x40/eee/777?text=N/A';"></td><td>${t.student_name}</td><td class="text-xs">${textExcerpt}</td><td class="approval-toggle"><label class="toggle-switch"><input type="checkbox" ${t.is_approved ? 'checked' : ''} onchange="window.sanaAdminDashboard.toggleTestimonialApproval('${t.testimonial_id}', this.checked)"><span class="toggle-slider"></span></label></td><td><button class="action-button action-button-edit" data-translate-key="admin_action_edit" onclick="window.sanaAdminDashboard.openTestimonialModal('edit', '${t.testimonial_id}')">Edit</button><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deleteTestimonial('${t.testimonial_id}', '${t.student_name}')">Delete</button></td>`;
+        });
+        window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+    function populateCertificatesTable(certificates) {
+         certificates.forEach(cert => {
+            const row = certificateListBody.insertRow();
+             Object.keys(cert).forEach(key => {
+                if (cert[key] !== null && cert[key] !== undefined) {
+                    try {
+                        row.dataset[snakeToCamel(key)] = cert[key];
+                    } catch (e) {
+                        console.warn(`Could not set dataset property for key ${key} (camelCase: ${snakeToCamel(key)}) on certificate row:`, e.message);
+                    }
+                }
+            });
+            row.dataset.certificateId = cert.certificate_id;
+
+            const imageUrl = cert.image_url ? (cert.image_url.startsWith('http') ? cert.image_url : UPLOADS_BASE_URL + cert.image_url) : 'https://placehold.co/80x60/eee/777?text=N/A';
+            const issueDate = cert.issue_date ? new Date(cert.issue_date).toLocaleDateString(window.sanaApp.getCurrentLanguage()) : '-';
+            row.innerHTML = `<td><a href="${imageUrl}" target="_blank"><img src="${imageUrl}" alt="Certificate" class="certificate-image-table" onerror="this.onerror=null;this.src='https://placehold.co/80x60/eee/777?text=N/A';"></a></td><td>${cert.student_name}</td><td>${cert.course_name || '-'}</td><td>${issueDate}</td><td><button class="action-button action-button-delete" data-translate-key="admin_action_delete" onclick="window.sanaAdminDashboard.deleteCertificate('${cert.certificate_id}', '${cert.student_name}')">Delete</button></td>`;
+        });
+         window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+
+    // MODIFIED: populateAssignmentDropdowns now uses global variables
+    function populateAssignmentDropdowns() {
+        console.log("Populating assignment dropdowns with cached data...");
+        console.log("Cached courses for dropdown:", allFetchedCourses);
+        console.log("Cached users for dropdown:", allFetchedUsers);
+
+        if (assignCourseSelect) {
+            const currentCourseVal = assignCourseSelect.value;
+            assignCourseSelect.innerHTML = `<option value="" data-translate-key="admin_assign_select_course">-- اختر الكورس --</option>`;
+            if (allFetchedCourses && allFetchedCourses.length > 0) {
+                allFetchedCourses.forEach(course => {
+                    const title = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()][course.title_key] || course.title_key;
+                    assignCourseSelect.add(new Option(title, course.course_id));
+                });
+            }
+            assignCourseSelect.value = currentCourseVal; // Restore previous selection if any
+        } else {
+            console.warn("assignCourseSelect element not found.");
+        }
+
+        if (assignUserSelect) {
+            const currentUserVal = assignUserSelect.value;
+            assignUserSelect.innerHTML = `<option value="" data-translate-key="admin_assign_select_user">-- اختر المستخدم --</option>`;
+            if (allFetchedUsers && allFetchedUsers.length > 0) {
+                allFetchedUsers.forEach(user => {
+                    const roleText = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()]['role_' + user.role] || user.role;
+                    assignUserSelect.add(new Option(`${user.full_name} (${roleText}) - ${user.email}`, user.user_id));
+                });
+            }
+            assignUserSelect.value = currentUserVal; // Restore previous selection if any
+        } else {
+            console.warn("assignUserSelect element not found.");
+        }
+        window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+        console.log("Assignment dropdowns populated.");
+    }
+    console.log("Populate functions defined.");
+
+    async function confirmAndDelete(messageKey, entityName, deleteUrl, successMessageKey, failureMessageKey, reloadFunc) {
+        const currentLang = window.sanaApp.getCurrentLanguage();
+        const confirmMsg = (window.sanaApp.translations[currentLang][messageKey] || `Are you sure you want to delete %ENTITY%?`).replace('%ENTITY%', entityName);
+        const successMsg = window.sanaApp.translations[currentLang][successMessageKey] || 'Deleted successfully.';
+        const failureMsgBase = window.sanaApp.translations[currentLang][failureMessageKey] || 'Failed to delete.';
+
+        if (confirm(confirmMsg)) {
+            try {
+                console.log(`Attempting DELETE: ${deleteUrl}`);
+                await sendData(deleteUrl, 'DELETE');
+                alert(successMsg);
+                reloadFunc();
+            } catch (error) {
+                console.error(`${failureMsgBase}:`, error);
+                alert(`${failureMsgBase} Error: ${error.message}`);
+            }
+        }
+    }
+
+    const _deleteUser = (userId, userName) => confirmAndDelete('admin_delete_confirm', userName, `${API_BASE_URL}/admin/users/${userId}`, 'admin_delete_user_success', 'admin_delete_user_fail', loadUsers);
+    const _deleteCourse = (courseId, courseTitle) => confirmAndDelete('admin_delete_course_confirm', courseTitle, `${API_BASE_URL}/courses/${courseId}`, 'admin_delete_course_success', 'admin_delete_course_fail', loadCourses);
+    const _deleteSection = (sectionId, sectionName) => confirmAndDelete('admin_delete_section_confirm', sectionName, `${API_BASE_URL}/admin/sections/${sectionId}`, 'admin_delete_section_success', 'admin_delete_section_fail', loadSections);
+    const _deletePricePlan = (planId, planName) => confirmAndDelete('admin_delete_price_plan_confirm', planName, `${API_BASE_URL}/admin/price-plans/${planId}`, 'admin_delete_price_plan_success', 'admin_delete_price_plan_fail', loadPricePlans);
+    const _deletePodcast = (podcastId, podcastTitle) => confirmAndDelete('admin_delete_podcast_confirm', podcastTitle, `${API_BASE_URL}/podcasts/${podcastId}`, 'admin_delete_podcast_success', 'admin_delete_podcast_fail', loadPodcasts);
+    const _deleteBook = (bookId, bookTitle) => confirmAndDelete('admin_delete_book_confirm', bookTitle, `${API_BASE_URL}/books/${bookId}`, 'admin_delete_book_success', 'admin_delete_book_fail', loadBooks);
+    const _deleteAudio = (audioId, audioTitle) => confirmAndDelete('admin_delete_audio_confirm', audioTitle, `${API_BASE_URL}/audio/${audioId}`, 'admin_delete_audio_success', 'admin_delete_audio_fail', loadAudio);
+    const _deleteStory = (storyId, storyTitle) => confirmAndDelete('admin_delete_story_confirm', storyTitle, `${API_BASE_URL}/admin/stories/${storyId}`, 'admin_delete_story_success', 'admin_delete_story_fail', loadStories);
+    const _deleteDictionaryEntry = (entryId, term) => confirmAndDelete('admin_delete_dictionary_confirm', term, `${API_BASE_URL}/dictionaries/${entryId}`, 'admin_delete_dictionary_success', 'admin_delete_dictionary_fail', loadDictionary);
+    const _deleteTestimonial = (testimonialId, studentName) => confirmAndDelete('admin_delete_testimonial_confirm', studentName, `${API_BASE_URL}/admin/testimonials/${testimonialId}`, 'admin_delete_testimonial_success', 'admin_delete_testimonial_fail', loadTestimonials);
+    const _deleteCertificate = (certificateId, studentName) => confirmAndDelete('admin_delete_certificate_confirm', studentName, `${API_BASE_URL}/admin/certificates/${certificateId}`, 'admin_delete_certificate_success', 'admin_delete_certificate_fail', loadCertificates);
+
+    const _toggleSectionActive = async (sectionId, isActive) => {
+        try { await sendData(`${API_BASE_URL}/admin/sections/${sectionId}`, 'PUT', { is_active: isActive }); console.log(`Section ${sectionId} active status updated to ${isActive}`); }
+        catch (error) { console.error(`Failed to toggle section ${sectionId} active status:`, error); alert(`Error updating section status: ${error.message}`); loadSections(); }
+    };
+    const _toggleTestimonialApproval = async (testimonialId, isApproved) => {
+        try { await sendData(`${API_BASE_URL}/admin/testimonials/${testimonialId}`, 'PUT', { is_approved: isApproved }); console.log(`Testimonial ${testimonialId} approval updated to ${isApproved}`); }
+        catch (error) { console.error(`Failed to toggle testimonial ${testimonialId} approval:`, error); alert(`Error updating testimonial approval: ${error.message}`); loadTestimonials(); }
+    };
+    const _togglePricePlanActive = async (planId, isActive) => {
+        try { await sendData(`${API_BASE_URL}/admin/price-plans/${planId}`, 'PUT', { is_active: isActive }); console.log(`Price Plan ${planId} active status updated to ${isActive}`); }
+        catch (error) { console.error(`Failed to toggle Price Plan ${planId} active status:`, error); alert(`Error updating Price Plan status: ${error.message}`); loadPricePlans(); }
+    };
+    const _togglePricePlanFeatured = async (planId, isFeatured) => {
+        try { await sendData(`${API_BASE_URL}/admin/price-plans/${planId}`, 'PUT', { is_featured: isFeatured }); console.log(`Price Plan ${planId} featured status updated to ${isFeatured}`); }
+        catch (error) { console.error(`Failed to toggle Price Plan ${planId} featured status:`, error); alert(`Error updating Price Plan featured status: ${error.message}`); loadPricePlans(); }
+    };
+
+    console.log("Defining modal functions...");
+    function openModal(modalKey, mode = 'add', entityId = null, data = null) {
+        const modalConfig = modals[modalKey];
+        if (!modalConfig || !modalConfig.element) {
+            console.error(`Modal configuration or element not found for key: ${modalKey}`);
+            return;
+        }
+
+        modalConfig.form.reset();
+        clearFormError(modalConfig.error);
+        hideLoadingButton(modalConfig.saveButton, 'admin_modal_save_button');
+
+        if (modalKey === 'testimonial' && testimonialAvatarPreview && currentTestimonialAvatarFileP) {
+            testimonialAvatarPreview.classList.add('hidden'); testimonialAvatarPreview.src = '#';
+            currentTestimonialAvatarFileP.textContent = '';
+        } else if (modalKey === 'certificate' && certificateImagePreview) {
+             certificateImagePreview.classList.add('hidden'); certificateImagePreview.src = '#';
+        } else if (modalKey === 'podcast') {
+            const audioFileInput = modalConfig.form.querySelector('#podcastAudioFileInput');
+            const currentAudioFileP = modalConfig.form.querySelector('#currentPodcastAudioFileP');
+            const thumbnailFileInput = modalConfig.form.querySelector('#podcastThumbnailFileInput');
+            const thumbnailPreview = modalConfig.form.querySelector('#podcastThumbnailPreview');
+            const currentThumbnailFileP = modalConfig.form.querySelector('#currentPodcastThumbnailFileP');
+            if(audioFileInput) audioFileInput.value = '';
+            if(currentAudioFileP) currentAudioFileP.textContent = '';
+            if(thumbnailFileInput) thumbnailFileInput.value = '';
+            if(thumbnailPreview) { thumbnailPreview.classList.add('hidden'); thumbnailPreview.src = '#'; }
+            if(currentThumbnailFileP) currentThumbnailFileP.textContent = '';
+        } else if (modalKey === 'book') {
+            const coverFileInput = modalConfig.form.querySelector('#bookCoverFileInput');
+            const currentCoverFileP = modalConfig.form.querySelector('#currentBookCoverFileP');
+            const coverPreview = modalConfig.form.querySelector('#bookCoverPreview');
+            const bookFileInput = modalConfig.form.querySelector('#bookFileInput');
+            const currentBookFileP = modalConfig.form.querySelector('#currentBookFileP');
+            if(coverFileInput) coverFileInput.value = '';
+            if(currentCoverFileP) currentCoverFileP.textContent = '';
+            if(coverPreview) {coverPreview.classList.add('hidden'); coverPreview.src = '#';}
+            if(bookFileInput) bookFileInput.value = '';
+            if(currentBookFileP) currentBookFileP.textContent = '';
+        } else if (modalKey === 'audio') {
+            const audioFileInput = modalConfig.form.querySelector('#audioFileInput');
+            const currentAudioFileP = modalConfig.form.querySelector('#currentAudioFileP');
+            if(audioFileInput) audioFileInput.value = '';
+            if(currentAudioFileP) currentAudioFileP.textContent = '';
+        } else if (modalKey === 'story') {
+            const imageFileInput = modalConfig.form.querySelector('#storyImageFileInput');
+            const imagePreview = modalConfig.form.querySelector('#storyImagePreview');
+            const currentImageFileP = modalConfig.form.querySelector('#currentStoryImageFileP');
+            if(imageFileInput) imageFileInput.value = '';
+            if(imagePreview) { imagePreview.classList.add('hidden'); imagePreview.src = '#';}
+            if(currentImageFileP) currentImageFileP.textContent = '';
+        }
+
+        if (mode === 'add') {
+            modalConfig.title.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()]['admin_modal_add_' + modalKey + '_title'] || `Add New ${modalKey.replace(/([A-Z])/g, ' $1').trim()}`;
+            if (modalConfig.idInput) modalConfig.idInput.value = '';
+            if (modalConfig.populate) modalConfig.populate(null);
+        } else if (mode === 'edit' && entityId) {
+            modalConfig.title.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()]['admin_modal_edit_' + modalKey + '_title'] || `Edit ${modalKey.replace(/([A-Z])/g, ' $1').trim()}`;
+            if (modalConfig.idInput) modalConfig.idInput.value = entityId;
+
+            const listBody = document.getElementById(`${modalKey}List`);
+            // Ensure correct dataset key construction (e.g., data-user-id, data-course-id)
+            const datasetIdKey = modalKey.endsWith('y') ? modalKey.slice(0, -1) + 'Id' : modalKey + 'Id'; // dictionary -> dictionaryId, user -> userId
+            const row = listBody ? listBody.querySelector(`tr[data-${datasetIdKey}="${entityId}"]`) : null;
+
+
+            if (row && modalConfig.populate) {
+                modalConfig.populate(row.dataset);
+            } else if (data && modalConfig.populate) { // data can be passed directly if row not found/needed
+                 modalConfig.populate(data);
+            } else {
+                console.error(`Could not find data for ${modalKey} ID ${entityId} to populate edit form.`);
+                showFormError(modalConfig.error, 'Could not load data for editing.');
+            }
+        } else {
+             console.error(`Invalid mode or missing ID for opening modal: ${modalKey}, mode: ${mode}, ID: ${entityId}`);
+             return;
+        }
+        modalConfig.element.classList.add('active');
+        window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+    }
+
+    if(addUserButton) addUserButton.addEventListener('click', () => openModal('user', 'add'));
+    if(addCourseButton) addCourseButton.addEventListener('click', () => openModal('course', 'add'));
+    if(addSectionButton) addSectionButton.addEventListener('click', () => openModal('section', 'add'));
+    if(addPricePlanButton) addPricePlanButton.addEventListener('click', () => openModal('pricePlan', 'add'));
+    if(addPodcastButton) addPodcastButton.addEventListener('click', () => openModal('podcast', 'add'));
+    if(addBookButton) addBookButton.addEventListener('click', () => openModal('book', 'add'));
+    if(addAudioButton) addAudioButton.addEventListener('click', () => openModal('audio', 'add'));
+    if(addStoryButton) addStoryButton.addEventListener('click', () => openModal('story', 'add'));
+    if(addDictionaryEntryButton) addDictionaryEntryButton.addEventListener('click', () => openModal('dictionary', 'add'));
+    if(addTestimonialButton) addTestimonialButton.addEventListener('click', () => openModal('testimonial', 'add'));
+    if(addCertificateButton) addCertificateButton.addEventListener('click', () => openModal('certificate', 'add'));
+
+    Object.values(modals).forEach(modalConfig => {
+        if (modalConfig.element) {
+            const closeButton = modalConfig.element.querySelector('.modal-close-button');
+            const cancelButton = modalConfig.element.querySelector('.cta-button-secondary');
+            if (closeButton) closeButton.addEventListener('click', () => modalConfig.element.classList.remove('active'));
+            if (cancelButton) cancelButton.addEventListener('click', () => modalConfig.element.classList.remove('active'));
+            modalConfig.element.addEventListener('click', (event) => {
+                if (event.target === modalConfig.element) {
+                    modalConfig.element.classList.remove('active');
+                }
+            });
+        }
+    });
+
+     function populateUserForm(data) {
+        const isEdit = data !== null;
+        document.getElementById('userFullName').value = isEdit ? (data.fullName || '') : ''; // Use camelCase from dataset
+        document.getElementById('userEmail').value = isEdit ? (data.email || '') : '';
+        document.getElementById('userRole').value = isEdit ? (data.role || 'student') : 'student';
+        userPasswordInput.value = '';
+        userPasswordInput.required = !isEdit;
+        passwordNoteAdd.classList.toggle('hidden', isEdit);
+        passwordNoteEdit.classList.toggle('hidden', !isEdit);
+    }
+     function populateCourseForm(data) {
+        const isEdit = data !== null;
+        document.getElementById('courseTitleKey').value = isEdit ? (data.titleKey || '') : '';
+        document.getElementById('courseDescriptionKey').value = isEdit ? (data.descriptionKey || '') : '';
+        document.getElementById('courseCategoryKey').value = isEdit ? (data.categoryKey || '') : '';
+        document.getElementById('courseImageUrl').value = isEdit ? (data.imageUrl || '') : '';
+        courseInstructorSelect.value = isEdit ? (data.instructorId || '') : '';
+    }
+     function populateSectionForm(data) {
+        const isEdit = data !== null;
+        document.getElementById('sectionNameKey').value = isEdit ? (data.nameKey || '') : '';
+        document.getElementById('sectionIconClass').value = isEdit ? (data.iconClass || '') : '';
+        document.getElementById('sectionPath').value = isEdit ? (data.path || '') : '';
+        document.getElementById('sectionDisplayOrder').value = isEdit ? (data.displayOrder || '0') : '0';
+        document.getElementById('sectionIsActive').checked = isEdit ? (data.isActive === 'true') : true;
+    }
+    function populatePricePlanForm(data) {
+        const isEdit = data !== null;
+        const form = modals.pricePlan.form;
+        form.querySelector('#pricePlanNameKey').value = isEdit ? (data.nameKey || '') : '';
+        form.querySelector('#pricePlanDescriptionKey').value = isEdit ? (data.descriptionKey || '') : '';
+        form.querySelector('#pricePlanPrice').value = isEdit ? parseFloat(data.price).toFixed(2) : '';
+        form.querySelector('#pricePlanCurrency').value = isEdit ? (data.currency || 'USD') : 'USD';
+        form.querySelector('#pricePlanBillingPeriod').value = isEdit ? (data.billingPeriod || 'monthly') : 'monthly';
+        form.querySelector('#pricePlanFeaturesKeys').value = isEdit ? (data.featuresKeys || '') : ''; // Was already string
+        form.querySelector('#pricePlanCourseId').value = isEdit ? (data.courseId || '') : '';
+        form.querySelector('#pricePlanDisplayOrder').value = isEdit ? (data.displayOrder || '0') : '0';
+        form.querySelector('#pricePlanIsActive').checked = isEdit ? (data.isActive === 'true') : true;
+        form.querySelector('#pricePlanIsFeatured').checked = isEdit ? (data.isFeatured === 'true') : false;
+    }
+    function populateTestimonialForm(data) {
+        const isEdit = data !== null;
+        document.getElementById('testimonialStudentName').value = isEdit ? (data.studentName || '') : '';
+        document.getElementById('testimonialText').value = isEdit ? (data.testimonialText || '') : '';
+        document.getElementById('testimonialStudentDetail').value = isEdit ? (data.studentDetail || '') : '';
+        testimonialIsApprovedCheckbox.checked = isEdit ? (data.isApproved === 'true') : false;
+        testimonialAvatarFileInput.value = '';
+        testimonialAvatarPreview.classList.add('hidden');
+        testimonialAvatarPreview.src = '#';
+        const currentAvatarUrl = isEdit ? (data.avatarUrl || '') : '';
+        currentTestimonialAvatarFileP.textContent = currentAvatarUrl ? `Current: ${currentAvatarUrl.split('/').pop()}` : '';
+         if (currentAvatarUrl) {
+            testimonialAvatarPreview.src = currentAvatarUrl.startsWith('http') ? currentAvatarUrl : UPLOADS_BASE_URL + currentAvatarUrl;
+            testimonialAvatarPreview.classList.remove('hidden');
+        }
+    }
+    function populateCertificateForm(data) {
+        const isEdit = data !== null;
+        document.getElementById('editCertificateId').value = isEdit ? (data.certificateId || '') : '';
+        document.getElementById('certificateStudentName').value = isEdit ? (data.studentName || '') : '';
+        document.getElementById('certificateCourseName').value = isEdit ? (data.courseName || '') : '';
+        document.getElementById('certificateIssueDate').value = isEdit ? (data.issueDate ? data.issueDate.split('T')[0] : '') : ''; // Format for date input
+        certificateImageFileInput.value = '';
+        certificateImagePreview.classList.add('hidden');
+        certificateImagePreview.src = '#';
+        if (isEdit && data.imageUrl) {
+            certificateImagePreview.src = data.imageUrl.startsWith('http') ? data.imageUrl : UPLOADS_BASE_URL + data.imageUrl;
+            certificateImagePreview.classList.remove('hidden');
+        }
+    }
+    function populatePodcastForm(data) {
+        const isEdit = data !== null;
+        const form = modals.podcast.form;
+        form.querySelector('#podcastTitleInput').value = isEdit ? (data.title || '') : '';
+        form.querySelector('#podcastDescriptionTextarea').value = isEdit ? (data.description || '') : '';
+        form.querySelector('#podcastDurationSecondsInput').value = isEdit ? (data.durationSeconds || '') : '';
+        const publishedAt = isEdit ? (data.publishedAt) : '';
+        form.querySelector('#podcastPublishedAtInput').value = publishedAt ? publishedAt.substring(0, 16) : '';
+
+        const audioFileInput = form.querySelector('#podcastAudioFileInput');
+        const currentAudioFileP = form.querySelector('#currentPodcastAudioFileP');
+        if(audioFileInput) audioFileInput.value = '';
+        if(currentAudioFileP) currentAudioFileP.textContent = isEdit && data.audioUrl ? `Current Audio: ${data.audioUrl.split('/').pop()}` : '';
+
+        const thumbnailFileInput = form.querySelector('#podcastThumbnailFileInput');
+        const thumbnailPreview = form.querySelector('#podcastThumbnailPreview');
+        const currentThumbnailFileP = form.querySelector('#currentPodcastThumbnailFileP');
+        if(thumbnailFileInput) thumbnailFileInput.value = '';
+        if(thumbnailPreview) { thumbnailPreview.classList.add('hidden'); thumbnailPreview.src = '#'; }
+        if(currentThumbnailFileP) currentThumbnailFileP.textContent = '';
+        if (isEdit && data.thumbnailUrl) {
+            const fullThumbnailUrl = data.thumbnailUrl.startsWith('http') ? data.thumbnailUrl : UPLOADS_BASE_URL + data.thumbnailUrl;
+            if (thumbnailPreview) { thumbnailPreview.src = fullThumbnailUrl; thumbnailPreview.classList.remove('hidden'); }
+            if(currentThumbnailFileP) currentThumbnailFileP.textContent = `Current Thumbnail: ${data.thumbnailUrl.split('/').pop()}`;
+        }
+    }
+    function populateBookForm(data) {
+        const isEdit = data !== null;
+        const form = modals.book.form;
+        form.querySelector('#bookTitleInput').value = isEdit ? (data.title || '') : '';
+        form.querySelector('#bookAuthorInput').value = isEdit ? (data.author || '') : '';
+        form.querySelector('#bookDescriptionTextarea').value = isEdit ? (data.description || '') : '';
+        form.querySelector('#bookCategoryInput').value = isEdit ? (data.category || '') : '';
+        form.querySelector('#bookPublishedYearInput').value = isEdit ? (data.publishedYear || '') : '';
+
+        const coverFileInput = form.querySelector('#bookCoverFileInput');
+        const currentCoverFileP = form.querySelector('#currentBookCoverFileP');
+        const coverPreview = form.querySelector('#bookCoverPreview');
+        if(coverFileInput) coverFileInput.value = '';
+        if(currentCoverFileP) currentCoverFileP.textContent = '';
+        if(coverPreview) {coverPreview.classList.add('hidden'); coverPreview.src = '#';}
+        if (isEdit && data.coverUrl) {
+            const fullUrl = data.coverUrl.startsWith('http') ? data.coverUrl : UPLOADS_BASE_URL + data.coverUrl;
+            if(coverPreview) { coverPreview.src = fullUrl; coverPreview.classList.remove('hidden'); }
+            if(currentCoverFileP) currentCoverFileP.textContent = `Current Cover: ${data.coverUrl.split('/').pop()}`;
+        }
+
+        const bookFileInput = form.querySelector('#bookFileInput');
+        const currentBookFileP = form.querySelector('#currentBookFileP');
+        if(bookFileInput) bookFileInput.value = '';
+        if(currentBookFileP) currentBookFileP.textContent = isEdit && data.fileUrl ? `Current File: ${data.fileUrl.split('/').pop()}` : '';
+    }
+    function populateAudioForm(data) {
+        const isEdit = data !== null;
+        const form = modals.audio.form;
+        form.querySelector('#audioTitleInput').value = isEdit ? (data.title || '') : '';
+        form.querySelector('#audioDescriptionTextarea').value = isEdit ? (data.description || '') : '';
+        form.querySelector('#audioSpeakerNameInput').value = isEdit ? (data.speakerName || '') : '';
+        form.querySelector('#audioCategoryInput').value = isEdit ? (data.category || '') : '';
+        form.querySelector('#audioDurationSecondsInput').value = isEdit ? (data.durationSeconds || '') : '';
+
+        const audioFileInput = form.querySelector('#audioFileInput');
+        const currentAudioFileP = form.querySelector('#currentAudioFileP');
+        if(audioFileInput) audioFileInput.value = '';
+        if(currentAudioFileP) currentAudioFileP.textContent = isEdit && data.audioUrl ? `Current Audio: ${data.audioUrl.split('/').pop()}` : '';
+    }
+    function populateStoryForm(data) {
+        const isEdit = data !== null;
+        const form = modals.story.form;
+        form.querySelector('#storyTitleInput').value = isEdit ? (data.title || '') : '';
+        form.querySelector('#storyContentTextarea').value = isEdit ? (data.content || '') : '';
+        form.querySelector('#storyCategorySelect').value = isEdit ? (data.category || 'prophets') : 'prophets';
+
+        const imageFileInput = form.querySelector('#storyImageFileInput');
+        const imagePreview = form.querySelector('#storyImagePreview');
+        const currentImageFileP = form.querySelector('#currentStoryImageFileP');
+        if(imageFileInput) imageFileInput.value = '';
+        if(imagePreview) { imagePreview.classList.add('hidden'); imagePreview.src = '#';}
+        if(currentImageFileP) currentImageFileP.textContent = '';
+        if (isEdit && data.imageUrl) {
+            const fullUrl = data.imageUrl.startsWith('http') ? data.imageUrl : UPLOADS_BASE_URL + data.imageUrl;
+            if(imagePreview) { imagePreview.src = fullUrl; imagePreview.classList.remove('hidden');}
+            if(currentImageFileP) currentImageFileP.textContent = `Current Image: ${data.imageUrl.split('/').pop()}`;
+        }
+    }
+    function populateDictionaryForm(data) {
+        const isEdit = data !== null;
+        const form = modals.dictionary.form;
+        form.querySelector('#dictionaryTermInput').value = isEdit ? (data.term || '') : '';
+        form.querySelector('#dictionaryDefinitionTextarea').value = isEdit ? (data.definition || '') : '';
+        form.querySelector('#dictionaryRootInput').value = isEdit ? (data.root || '') : '';
+        form.querySelector('#dictionaryExampleTextarea').value = isEdit ? (data.example || '') : '';
+    }
+
+    modals.user.populate = populateUserForm;
+    modals.course.populate = populateCourseForm;
+    modals.section.populate = populateSectionForm;
+    modals.pricePlan.populate = populatePricePlanForm;
+    modals.testimonial.populate = populateTestimonialForm;
+    modals.certificate.populate = populateCertificateForm;
+    modals.podcast.populate = populatePodcastForm;
+    modals.book.populate = populateBookForm;
+    modals.audio.populate = populateAudioForm;
+    modals.story.populate = populateStoryForm;
+    modals.dictionary.populate = populateDictionaryForm;
+
+    window.sanaAdminDashboard = {
+        openModal: openModal,
+        openUserModal: (mode, id) => openModal('user', mode, id),
+        openCourseModal: (mode, id) => openModal('course', mode, id),
+        openSectionModal: (mode, id) => openModal('section', mode, id),
+        openPricePlanModal: (mode, id) => openModal('pricePlan', mode, id),
+        openPodcastModal: (mode, id) => openModal('podcast', mode, id),
+        openBookModal: (mode, id) => openModal('book', mode, id),
+        openAudioModal: (mode, id) => openModal('audio', mode, id),
+        openStoryModal: (mode, id) => openModal('story', mode, id),
+        openDictionaryModal: (mode, id) => openModal('dictionary', mode, id),
+        openTestimonialModal: (mode, id) => openModal('testimonial', mode, id),
+        openCertificateModal: (mode, id) => openModal('certificate', mode, id),
+        deleteUser: _deleteUser,
+        deleteCourse: _deleteCourse,
+        deleteSection: _deleteSection,
+        deletePricePlan: _deletePricePlan,
+        deletePodcast: _deletePodcast,
+        deleteBook: _deleteBook,
+        deleteAudio: _deleteAudio,
+        deleteStory: _deleteStory,
+        deleteDictionaryEntry: _deleteDictionaryEntry,
+        deleteTestimonial: _deleteTestimonial,
+        deleteCertificate: _deleteCertificate,
+        toggleSectionActive: _toggleSectionActive,
+        toggleTestimonialApproval: _toggleTestimonialApproval,
+        togglePricePlanActive: _togglePricePlanActive,
+        togglePricePlanFeatured: _togglePricePlanFeatured
+    };
+    console.log("Modal functions defined and attached to window.sanaAdminDashboard.");
+
+    console.log("Attaching form submit listeners...");
+    async function handleGenericFormSubmit(event, modalKey, reloadFunc) {
+        event.preventDefault();
+        const modalConfig = modals[modalKey];
+        if (!modalConfig || !modalConfig.form) {
+            console.error(`Form or modal config not found for key: ${modalKey}`);
+            return;
+        }
+        const form = modalConfig.form;
+        const formData = new FormData(form);
+        const entityId = modalConfig.idInput ? modalConfig.idInput.value : null;
+        const method = entityId ? 'PUT' : 'POST';
+        let url;
+
+        switch (modalKey) {
+            case 'user': url = entityId ? `${API_BASE_URL}/admin/users/${entityId}` : `${API_BASE_URL}/admin/users`; break;
+            case 'course': url = entityId ? `${API_BASE_URL}/courses/${entityId}` : `${API_BASE_URL}/courses`; break;
+            case 'section': url = entityId ? `${API_BASE_URL}/admin/sections/${entityId}` : `${API_BASE_URL}/admin/sections`; break;
+            case 'pricePlan': url = entityId ? `${API_BASE_URL}/admin/price-plans/${entityId}` : `${API_BASE_URL}/admin/price-plans`; break;
+            case 'testimonial': url = entityId ? `${API_BASE_URL}/admin/testimonials/${entityId}` : `${API_BASE_URL}/admin/testimonials`; break;
+            case 'certificate': url = entityId ? `${API_BASE_URL}/admin/certificates/${entityId}` : `${API_BASE_URL}/admin/certificates`; break;
+            case 'podcast': url = entityId ? `${API_BASE_URL}/podcasts/${entityId}` : `${API_BASE_URL}/podcasts`; break;
+            case 'book': url = entityId ? `${API_BASE_URL}/books/${entityId}` : `${API_BASE_URL}/books`; break;
+            case 'audio': url = entityId ? `${API_BASE_URL}/audio/${entityId}` : `${API_BASE_URL}/audio`; break;
+            case 'story': url = entityId ? `${API_BASE_URL}/admin/stories/${entityId}` : `${API_BASE_URL}/admin/stories`; break;
+            case 'dictionary': url = entityId ? `${API_BASE_URL}/dictionaries/${entityId}` : `${API_BASE_URL}/dictionaries`; break;
+            default: console.error(`Unknown modalKey for URL construction: ${modalKey}`); return;
+        }
+
+        if (modalKey === 'section') formData.set('is_active', form.querySelector('#sectionIsActive').checked.toString());
+        if (modalKey === 'pricePlan') {
+            formData.set('is_active', form.querySelector('#pricePlanIsActive').checked.toString());
+            formData.set('is_featured', form.querySelector('#pricePlanIsFeatured').checked.toString());
+            // features_keys is already a string from input, backend will parse if needed
+        }
+        if (modalKey === 'testimonial') formData.set('is_approved', form.querySelector('#testimonialIsApproved').checked.toString());
+
+
+        let isFormDataRequest = false;
+        let bodyToSend;
+        const fileUploadModals = ['testimonial', 'certificate', 'podcast', 'book', 'story', 'audio'];
+        if (fileUploadModals.includes(modalKey) || (modalKey === 'user' && formData.has('avatar') && formData.get('avatar').size > 0)) {
+            isFormDataRequest = true;
+            bodyToSend = formData;
+        } else {
+            bodyToSend = {};
+            formData.forEach((value, key) => {
+                if (form.elements[key] && form.elements[key].type === 'checkbox') {
+                    bodyToSend[key] = form.elements[key].checked;
+                } else if (key !== 'avatar' && key !== 'certificateImage' && key !== 'audioFile' && key !== 'thumbnailFile' && key !== 'coverFile' && key !== 'bookFile' && key !== 'imageFile') { // Exclude file inputs if not FormData
+                    bodyToSend[key] = value;
+                }
+            });
+        }
+
+
+        showLoadingButton(modalConfig.saveButton);
+        clearFormError(modalConfig.error);
+
+        try {
+            await sendData(url, method, bodyToSend, isFormDataRequest);
+            alert(`${modalKey.charAt(0).toUpperCase() + modalKey.slice(1)} saved successfully!`);
+            modalConfig.element.classList.remove('active');
+            reloadFunc();
+        } catch (error) {
+            console.error(`Error saving ${modalKey}:`, error);
+            showFormError(modalConfig.error, `Error: ${error.message}`);
+        } finally {
+            hideLoadingButton(modalConfig.saveButton, 'admin_modal_save_button');
+        }
+    }
+
+    if (modals.user.form) modals.user.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'user', loadUsers));
+    if (modals.course.form) modals.course.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'course', loadCourses));
+    if (modals.section.form) modals.section.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'section', loadSections));
+    if (modals.pricePlan.form) modals.pricePlan.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'pricePlan', loadPricePlans));
+    if (modals.testimonial.form) modals.testimonial.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'testimonial', loadTestimonials));
+    if (modals.certificate.form) modals.certificate.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'certificate', loadCertificates));
+    if (modals.podcast.form) modals.podcast.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'podcast', loadPodcasts));
+    if (modals.book.form) modals.book.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'book', loadBooks));
+    if (modals.audio.form) modals.audio.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'audio', loadAudio));
+    if (modals.story.form) modals.story.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'story', loadStories));
+    if (modals.dictionary.form) modals.dictionary.form.addEventListener('submit', (e) => handleGenericFormSubmit(e, 'dictionary', loadDictionary));
+
+
+    if (introVideoForm) {
+        introVideoForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const fileInput = introVideoFileInput;
+            if (!fileInput || fileInput.files.length === 0) {
+                showFormError(introVideoFormErrorMessage, 'Please select a video file.');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('introVideoFile', fileInput.files[0]);
+
+            showLoadingButton(saveIntroVideoButton);
+            clearFormError(introVideoFormErrorMessage);
+
+            try {
+                const data = await sendData(`${API_BASE_URL}/admin/settings/intro-video`, 'PUT', formData, true);
+                alert('Intro video updated successfully!');
+                if (data && data.setting && data.setting.value) {
+                    currentIntroVideoLink.href = data.setting.value;
+                    currentIntroVideoLink.textContent = data.setting.value.split('/').pop();
+                    currentIntroVideoDisplay.classList.remove('hidden');
+                    noCurrentIntroVideo.classList.add('hidden');
+                } else {
+                     currentIntroVideoDisplay.classList.add('hidden');
+                     noCurrentIntroVideo.classList.remove('hidden');
+                }
+                introVideoForm.reset();
+            } catch (error) {
+                 console.error('Error updating intro video:', error);
+                 showFormError(introVideoFormErrorMessage, `Error: ${error.message}`);
+            } finally {
+                 hideLoadingButton(saveIntroVideoButton, 'admin_intro_video_upload_button');
+            }
+        });
+    }
+
+     if (assignUserForm) {
+         assignUserForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const courseId = assignCourseSelect.value;
+            const userId = assignUserSelect.value;
+            if (!courseId || !userId) {
+                showFormError(assignUserMessage, 'Please select both a course and a user.');
+                return;
+            }
+            showLoadingButton(assignUserButton);
+            clearFormError(assignUserMessage);
+            try {
+                await sendData(`${API_BASE_URL}/admin/assignments`, 'POST', { userId, courseId });
+                assignUserMessage.textContent = 'User assigned successfully!';
+                assignUserMessage.className = 'text-sm text-center font-medium h-4 text-green-600';
+                assignUserForm.reset();
+                loadCourses(); // Reload courses to update student count or instructor
+            } catch (error) {
+                 console.error('Error assigning user:', error);
+                 showFormError(assignUserMessage, `Error: ${error.message}`);
+                 assignUserMessage.classList.add('text-red-600');
+            } finally {
+                 hideLoadingButton(assignUserButton, 'admin_assign_button');
+                 setTimeout(() => clearFormError(assignUserMessage), 3000);
+            }
+         });
+     }
+
+    console.log("Form submit listeners attached.");
+
+    setupImagePreview('testimonialAvatarFile', 'testimonialAvatarPreview');
+    setupImagePreview('certificateImageFile', 'certificateImagePreview');
+    setupImagePreview('podcastThumbnailFileInput', 'podcastThumbnailPreview');
+    setupImagePreview('bookCoverFileInput', 'bookCoverPreview');
+    setupImagePreview('storyImageFileInput', 'storyImagePreview');
+
+    console.log("Defining load data functions...");
+    // MODIFIED: loadUsers and loadCourses now store data and then call populateAssignmentDropdowns
+    async function loadUsers() {
+        try {
+            const data = await fetchData(`${API_BASE_URL}/admin/users`);
+            allFetchedUsers = data?.users || []; // Store fetched users
+            safePopulate('user', userListBody, noUsersMessage, populateUsers, allFetchedUsers);
+            populateAssignmentDropdowns(); // Call to update dropdowns
+        } catch (e) {
+            console.error("Load Users failed:", e);
+            safePopulate('user', userListBody, noUsersMessage, populateUsers, []);
+            allFetchedUsers = []; // Clear on error
+            populateAssignmentDropdowns(); // Still try to populate with empty/existing data
+        }
+    }
+    async function loadCourses() {
+        try {
+            const data = await fetchData(`${API_BASE_URL}/courses`);
+            allFetchedCourses = data?.courses || []; // Store fetched courses
+            safePopulate('course', courseListBody, noCoursesMessage, populateCourses, allFetchedCourses);
+
+            const teachers = (await fetchData(`${API_BASE_URL}/admin/users?role=teacher`))?.users || [];
+            if(courseInstructorSelect) {
+                const currentVal = courseInstructorSelect.value;
+                courseInstructorSelect.innerHTML = '<option value="">-- اختر مدرس --</option>';
+                teachers.forEach(t => courseInstructorSelect.add(new Option(t.full_name, t.user_id)));
+                courseInstructorSelect.value = currentVal;
+            }
+            if(pricePlanCourseIdSelect) {
+                const currentVal = pricePlanCourseIdSelect.value;
+                pricePlanCourseIdSelect.innerHTML = '<option value="">-- لا يوجد كورس محدد --</option>';
+                (allFetchedCourses).forEach(c => {
+                    const title = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()][c.title_key] || c.title_key;
+                    pricePlanCourseIdSelect.add(new Option(title, c.course_id));
+                });
+                pricePlanCourseIdSelect.value = currentVal;
+            }
+            populateAssignmentDropdowns(); // Call to update dropdowns
+        } catch (e) {
+            console.error("Load Courses failed:", e);
+            safePopulate('course', courseListBody, noCoursesMessage, populateCourses, []);
+            allFetchedCourses = []; // Clear on error
+            populateAssignmentDropdowns(); // Still try to populate
+        }
+    }
+    async function loadSections() { try { const data = await fetchData(`${API_BASE_URL}/admin/sections`); safePopulate('section', sectionListBody, noSectionsMessage, populateSections, data?.sections); } catch (e) { console.error("Load Sections failed:", e); safePopulate('section', sectionListBody, noSectionsMessage, populateSections, []); } }
+    async function loadPricePlans() { try { const data = await fetchData(`${API_BASE_URL}/admin/price-plans`); safePopulate('pricePlan', pricePlanListBody, noPricePlansMessage, populatePricePlansTable, data?.plans); } catch (e) { console.error("Load Price Plans failed:", e); safePopulate('pricePlan', pricePlanListBody, noPricePlansMessage, populatePricePlansTable, []); } }
+    async function loadPodcasts() { try { const data = await fetchData(`${API_BASE_URL}/podcasts`); safePopulate('podcast', podcastListBody, noPodcastsMessage, populatePodcastsTable, data?.podcasts); } catch (e) { console.error("Load Podcasts failed:", e); safePopulate('podcast', podcastListBody, noPodcastsMessage, populatePodcastsTable, []); } }
+    async function loadBooks() { try { const data = await fetchData(`${API_BASE_URL}/books`); safePopulate('book', bookListBody, noBooksMessage, populateBooksTable, data?.books); } catch (e) { console.error("Load Books failed:", e); safePopulate('book', bookListBody, noBooksMessage, populateBooksTable, []); } }
+    async function loadAudio() { try { const data = await fetchData(`${API_BASE_URL}/audio`); safePopulate('audio', audioListBody, noAudioMessage, populateAudioTable, data?.audioFiles); } catch (e) { console.error("Load Audio failed:", e); safePopulate('audio', audioListBody, noAudioMessage, populateAudioTable, []); } }
+    async function loadStories() { try { const data = await fetchData(`${API_BASE_URL}/admin/stories`); safePopulate('story', storyListBody, noStoriesMessage, populateStoriesTable, data?.stories); } catch (e) { console.error("Load Stories failed:", e); safePopulate('story', storyListBody, noStoriesMessage, populateStoriesTable, []); } }
+    async function loadDictionary() { try { const data = await fetchData(`${API_BASE_URL}/dictionaries`); safePopulate('dictionary', dictionaryListBody, noDictionaryEntriesMessage, populateDictionaryTable, data?.dictionaries); } catch (e) { console.error("Load Dictionary failed:", e); safePopulate('dictionary', dictionaryListBody, noDictionaryEntriesMessage, populateDictionaryTable, []); } }
+    async function loadTestimonials() { try { const data = await fetchData(`${API_BASE_URL}/admin/testimonials`); safePopulate('testimonial', testimonialListBody, noTestimonialsMessage, populateTestimonialsTable, data?.testimonials); } catch (e) { console.error("Load Testimonials failed:", e); safePopulate('testimonial', testimonialListBody, noTestimonialsMessage, populateTestimonialsTable, []); } }
+    async function loadCertificates() { try { const data = await fetchData(`${API_BASE_URL}/admin/certificates`); safePopulate('certificate', certificateListBody, noCertificatesMessage, populateCertificatesTable, data?.certificates); } catch (e) { console.error("Load Certificates failed:", e); safePopulate('certificate', certificateListBody, noCertificatesMessage, populateCertificatesTable, []); } }
+
+    async function loadCurrentIntroVideo() {
+         try {
+             const data = await fetchData(`${API_BASE_URL}/settings/intro_video_url`);
+             if (data && data.setting && data.setting.value) {
+                 currentIntroVideoLink.href = data.setting.value;
+                 currentIntroVideoLink.textContent = data.setting.value.split('/').pop();
+                 currentIntroVideoDisplay.classList.remove('hidden');
+                 noCurrentIntroVideo.classList.add('hidden');
+             } else {
+                 currentIntroVideoDisplay.classList.add('hidden');
+                 noCurrentIntroVideo.classList.remove('hidden');
+                 noCurrentIntroVideo.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()].admin_intro_video_none || 'No current video.';
+             }
+         } catch (error) {
+             console.error("Failed to load current intro video URL:", error);
+              currentIntroVideoDisplay.classList.add('hidden');
+              noCurrentIntroVideo.classList.remove('hidden');
+              noCurrentIntroVideo.textContent = '(Error loading video info)';
+         }
+    }
+    console.log("Load data functions defined.");
+
+     console.log("Defining loadDashboard function...");
+     async function loadDashboard() {
+         console.log("Starting dashboard load...");
+         dashboardLoadingError.classList.remove('hidden');
+         loadingSpinner.classList.remove('hidden');
+         dashboardMessage.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()].loading || 'Loading dashboard data...';
+         dashboardContent.classList.add('hidden');
+
+         let loadError = null;
+
+         try {
+             console.log("Fetching all dashboard data in parallel...");
+             // Ensure loadUsers and loadCourses complete before other dependent operations
+             await Promise.allSettled([
+                 loadUsers(), // This will now store users in allFetchedUsers and call populateAssignmentDropdowns
+                 loadCourses() // This will now store courses in allFetchedCourses and call populateAssignmentDropdowns
+             ]);
+
+             // Load other data
+             await Promise.allSettled([
+                 loadSections(),
+                 loadPricePlans(),
+                 loadPodcasts(),
+                 loadBooks(),
+                 loadAudio(),
+                 loadStories(),
+                 loadDictionary(),
+                 loadTestimonials(),
+                 loadCertificates(),
+                 loadCurrentIntroVideo()
+             ]);
+             console.log("Finished loading all data sections.");
+
+             if (!localStorage.getItem('authToken')) {
+                 console.warn("Logout detected during data fetch. Aborting dashboard display.");
+                 return;
+             }
+
+             console.log("Hiding loading state, showing dashboard content.");
+             dashboardLoadingError.classList.add('hidden');
+             dashboardContent.classList.remove('hidden');
+             document.querySelectorAll('#dashboardContent .scroll-animate-item').forEach(item => {
+                item.style.opacity = '1';
+                item.classList.add('is-visible');
+             });
+             window.sanaApp.initializeScrollAnimation();
+
+         } catch (error) {
+             console.error("Critical error during dashboard load:", error);
+             loadError = error;
+         } finally {
+              console.log("Load dashboard finally block executing.");
+              if(loadingSpinner) loadingSpinner.classList.add('hidden');
+              if (loadError) {
+                  console.error("Displaying load error message because loadError is set.");
+                  if(dashboardMessage) dashboardMessage.textContent = `Error: ${loadError.message || 'Failed to load dashboard.'}`;
+                  if(dashboardLoadingError) dashboardLoadingError.classList.remove('hidden');
+                  if(dashboardContent) dashboardContent.classList.add('hidden');
+              } else if(localStorage.getItem('authToken')) {
+                  if(dashboardLoadingError && !dashboardLoadingError.classList.contains('hidden')) {
+                      dashboardLoadingError.classList.add('hidden');
+                  }
+                  if (dashboardContent && dashboardContent.classList.contains('hidden')) {
+                     console.warn("Content was still hidden in finally block, forcefully showing now.");
+                     dashboardContent.classList.remove('hidden');
+                     dashboardContent.style.opacity = '1';
+                     dashboardContent.style.visibility = 'visible';
+                     window.sanaApp.initializeScrollAnimation();
+                  }
+              }
+              console.log("Dashboard load process finished.");
+         }
+     }
+
+    console.log("Defining updateHeaderUI function...");
+    function updateHeaderUI() {
+        if (window.sanaApp && window.sanaApp.updateHeaderUI) {
+            window.sanaApp.updateHeaderUI();
+            console.log("Header UI updated via sanaApp.");
+        } else {
+            console.error("sanaApp.updateHeaderUI is not available.");
+        }
+    }
+    console.log("updateHeaderUI function defined.");
+
+    console.log("Calling loadDashboard...");
+    await loadDashboard();
+    console.log("Calling updateHeaderUI...");
+    updateHeaderUI();
+
+    console.log("Admin Dashboard Initialisation Complete.");
+
+}); // End DOMContentLoaded
+
+</script>
+</body></html>

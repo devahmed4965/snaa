@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" data-translate-key="meta_description_dictionaries" content="ابحث واستكشف معاجم اللغة العربية المتوفرة على منصة سنا الأكاديمية.">
+    <title data-translate-key="title_dictionaries">المعاجم العربية | منصة سنا الأكاديمية</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Reusing auth button styles */
+        .auth-button {
+             padding: 0.4rem 0.9rem; border-radius: 0.375rem; font-weight: 500;
+             transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+             font-size: 0.875rem; text-align: center; border: 1px solid transparent;
+        }
+        .auth-button-login {
+            background-color: rgba(255, 255, 255, 0.15); color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+         .auth-button-login:hover { background-color: rgba(255, 255, 255, 0.25); }
+         .auth-button-signup {
+             background-color: #ffffff; color: #065f46;
+             box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+         }
+         .auth-button-signup:hover { background-color: #f0fdf4; box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.07); }
+         .auth-button-logout {
+            background-color: rgba(255, 255, 255, 0.15); color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+         .auth-button-logout:hover { background-color: rgba(255, 255, 255, 0.25); }
+         #mobile-menu .auth-button { display: block; width: calc(100% - 2rem); margin: 0.5rem auto 0 auto; }
+         #mobile-menu .auth-button-login { background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+         #mobile-menu .auth-button-login:hover { background-color: rgba(255, 255, 255, 0.2); }
+         #mobile-menu .auth-button-signup { background-color: #a7f3d0; color: #065f46; }
+         #mobile-menu .auth-button-signup:hover { background-color: #6ee7b7; }
+         #mobile-menu .auth-button-logout {
+             background-color: rgba(255, 100, 100, 0.1); border-color: rgba(255, 100, 100, 0.3);
+             color: #f87171;
+         }
+          #mobile-menu .auth-button-logout:hover { background-color: rgba(255, 100, 100, 0.2); }
+
+        /* Dictionary Entry Styles */
+        .dictionary-entry {
+            background-color: #ffffff;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); /* shadow-md */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .dictionary-term {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            color: #1e3a8a; /* text-blue-800 - Adjusted for dictionary theme */
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .dictionary-definition {
+            font-size: 1rem; /* text-base */
+            color: #374151; /* gray-700 */
+            line-height: 1.7;
+        }
+        /* Search Bar Styles */
+        .search-bar {
+            margin-bottom: 2rem; /* mb-8 */
+            display: flex;
+            gap: 0.5rem; /* space-x-2 */
+        }
+        .search-input {
+            flex-grow: 1;
+        }
+        .search-button {
+            flex-shrink: 0;
+            padding-left: 1.5rem; /* px-6 */
+            padding-right: 1.5rem; /* px-6 */
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            border: 4px solid #f3f4f6; /* gray-100 */
+            border-top: 4px solid #10b981; /* emerald-500 */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 3rem auto; /* Center spinner */
+         }
+         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-700 antialiased flex flex-col min-h-screen">
+
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto logo-large" src="logo2.jpeg" alt="شعار أكاديمية سنا">
+                </a>
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div id="desktopNavLinks" class="flex space-x-1 lg:space-x-2"></div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <div id="desktopAuthArea" class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20"></div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                         <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                 <div id="mobileAuthArea" class="pt-2 pb-1 border-t border-white/20">
+                     </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        <section class="page-header text-center scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 data-translate-key="dictionaries_page_title" class="text-4xl md:text-5xl font-bold">المعاجم العربية</h1>
+                <p data-translate-key="dictionaries_page_subtitle" class="text-lg mt-4 max-w-2xl mx-auto">ابحث عن معاني المصطلحات والمفردات العربية.</p>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+
+                <div class="search-bar scroll-animate-item scroll-animate-from-bottom delay-100">
+                    <input type="search" id="dictionarySearchInput" class="form-input search-input" placeholder="ابحث عن مصطلح..." data-translate-key="dictionary_search_placeholder">
+                    <button id="dictionarySearchButton" class="cta-button cta-button-primary search-button text-sm" data-translate-key="dictionary_search_button">بحث</button>
+                </div>
+
+                <div id="dictionaryList" class="space-y-6">
+                    </div>
+
+                <div id="loadingState" class="text-center py-10">
+                    <div class="loading-spinner"></div>
+                    <p data-translate-key="loading">جار تحميل المعاجم...</p>
+                </div>
+
+                <div id="errorState" class="text-center py-10 hidden">
+                    <p class="text-red-600" data-translate-key="dictionary_load_error">عفواً، حدث خطأ أثناء تحميل المعاجم. يرجى المحاولة مرة أخرى.</p>
+                </div>
+
+                <div id="noResultsState" class="text-center py-10 hidden">
+                    <p class="text-gray-500" data-translate-key="no_dictionary_results">لا توجد نتائج مطابقة لبحثك أو لا توجد إدخالات حالياً.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-gray-400 py-10 mt-auto">
+        <div class="container mx-auto px-6 text-center">
+             <img class="h-10 w-auto mx-auto mb-4 opacity-90 logo-large" src="logo2.jpeg" alt="شعار أكاديمية سنا - التذييل">
+             <p class="text-sm">&copy; <span id="currentYear"></span> <span data-translate-key="footer_rights">منصة سنا الأكاديمية. جميع الحقوق محفوظة.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-white transition duration-150 ease-in-out text-xs">سياسة الخصوصية</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-white transition duration-150 ease-in-out text-xs">شروط الاستخدام</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-white transition duration-150 ease-in-out text-xs">تواصل معنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // --- Configuration ---
+            const API_BASE_URL = 'http://localhost:5000/api'; // Adjust if needed
+
+            // --- DOM Elements ---
+            const dictionaryListContainer = document.getElementById('dictionaryList');
+            const loadingState = document.getElementById('loadingState');
+            const errorState = document.getElementById('errorState');
+            const noResultsState = document.getElementById('noResultsState');
+            const searchInput = document.getElementById('dictionarySearchInput');
+            const searchButton = document.getElementById('dictionarySearchButton');
+
+            // --- Initialize Common Elements (Header, Footer, Language, Animations) ---
+            if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+                 // Add translations for this page before initializing
+                 if (!window.sanaApp.translations.ar.title_dictionaries) { // Basic check
+                     window.sanaApp.translations.ar.title_dictionaries = "المعاجم العربية | منصة سنا الأكاديمية";
+                     window.sanaApp.translations.ar.meta_description_dictionaries = "ابحث واستكشف معاجم اللغة العربية المتوفرة على منصة سنا الأكاديمية.";
+                     window.sanaApp.translations.ar.dictionaries_page_title = "المعاجم العربية";
+                     window.sanaApp.translations.ar.dictionaries_page_subtitle = "ابحث عن معاني المصطلحات والمفردات العربية.";
+                     window.sanaApp.translations.ar.dictionary_search_placeholder = "ابحث عن مصطلح...";
+                     window.sanaApp.translations.ar.dictionary_search_button = "بحث";
+                     window.sanaApp.translations.ar.dictionary_load_error = "عفواً، حدث خطأ أثناء تحميل المعاجم. يرجى المحاولة مرة أخرى.";
+                     window.sanaApp.translations.ar.no_dictionary_results = "لا توجد نتائج مطابقة لبحثك أو لا توجد إدخالات حالياً.";
+
+                     window.sanaApp.translations.en.title_dictionaries = "Arabic Dictionaries | Sanaa Academy Platform";
+                     window.sanaApp.translations.en.meta_description_dictionaries = "Search and explore the Arabic dictionaries available on the Sanaa Academy Platform.";
+                     window.sanaApp.translations.en.dictionaries_page_title = "Arabic Dictionaries";
+                     window.sanaApp.translations.en.dictionaries_page_subtitle = "Find the meanings of Arabic terms and vocabulary.";
+                     window.sanaApp.translations.en.dictionary_search_placeholder = "Search for a term...";
+                     window.sanaApp.translations.en.dictionary_search_button = "Search";
+                     window.sanaApp.translations.en.dictionary_load_error = "Sorry, an error occurred while loading dictionaries. Please try again.";
+                     window.sanaApp.translations.en.no_dictionary_results = "No results match your search or no entries are currently available.";
+                 }
+                 window.sanaApp.initPage('dictionaries.html'); // Initialize page
+            } else {
+                console.error("Sana App or initPage function not found.");
+                loadingState.classList.add('hidden');
+                errorState.classList.remove('hidden');
+                return;
+            }
+
+            // --- Helper Function to Fetch Data ---
+            async function fetchData(url) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+                    });
+                    const textResponse = await response.text();
+                    let data;
+                    try { data = JSON.parse(textResponse); }
+                    catch (e) { console.error(`Failed to parse JSON from ${url}:`, textResponse); throw new Error(`Received non-JSON response (Status: ${response.status})`); }
+                    if (response.ok) { return data; }
+                    throw new Error(data.message || `Request failed with status ${response.status}`);
+                } catch (error) { console.error(`Error fetching ${url}:`, error); throw error; }
+            }
+
+            // --- Function to Create Dictionary Entry HTML ---
+            function createDictionaryEntry(entry) {
+                const item = document.createElement('div');
+                item.className = 'dictionary-entry scroll-animate-item scroll-animate-from-bottom'; // Add animation class
+
+                // Basic highlighting (can be improved)
+                const definitionHtml = entry.definition.replace(
+                    new RegExp(`(${searchInput.value.trim()})`, 'gi'),
+                    '<mark class="bg-yellow-200">$1</mark>'
+                );
+
+                item.innerHTML = `
+                    <h3 class="dictionary-term">${entry.term}</h3>
+                    <div class="dictionary-definition">${definitionHtml}</div>
+                    ${entry.root ? `<p class="text-xs text-gray-500 mt-2">الجذر: ${entry.root}</p>` : ''}
+                    ${entry.example ? `<p class="text-xs text-gray-500 mt-1">مثال: ${entry.example}</p>` : ''}
+                `;
+                return item;
+            }
+
+            // --- Load Dictionary Entries ---
+            async function loadDictionaryEntries(searchTerm = '') {
+                loadingState.classList.remove('hidden');
+                errorState.classList.add('hidden');
+                noResultsState.classList.add('hidden');
+                dictionaryListContainer.innerHTML = ''; // Clear previous entries
+
+                try {
+                    // Construct the API URL with optional search term
+                    let apiUrl = `${API_BASE_URL}/dictionaries`;
+                    if (searchTerm) {
+                        apiUrl += `?term=${encodeURIComponent(searchTerm)}`;
+                    }
+
+                    // TODO: Replace with actual API call when backend is ready
+                    // const data = await fetchData(apiUrl);
+                    // --- Placeholder Data ---
+                    const data = {
+                        dictionaries: searchTerm.toLowerCase().startsWith('ك') ? [
+                            { dictionary_id: 1, term: 'كتاب', definition: 'مجموعة من الأوراق المكتوبة أو المطبوعة والمجمعة معًا.', root: 'ك ت ب', example: 'قرأت كتابًا ممتعًا.' },
+                            { dictionary_id: 2, term: 'كلمة', definition: 'لفظة واحدة ذات معنى.', root: 'ك ل م', example: 'قال كلمة طيبة.' }
+                        ] : searchTerm ? [] : [
+                            { dictionary_id: 1, term: 'كتاب', definition: 'مجموعة من الأوراق المكتوبة أو المطبوعة والمجمعة معًا.', root: 'ك ت ب', example: 'قرأت كتابًا ممتعًا.' },
+                            { dictionary_id: 2, term: 'كلمة', definition: 'لفظة واحدة ذات معنى.', root: 'ك ل م', example: 'قال كلمة طيبة.' },
+                            { dictionary_id: 3, term: 'علم', definition: 'إدراك الشيء بحقيقته، المعرفة.', root: 'ع ل م', example: 'طلب العلم فريضة.' }
+                        ]
+                    };
+                    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate network delay
+                    // --- End Placeholder Data ---
+
+                    loadingState.classList.add('hidden');
+
+                    if (data && data.dictionaries && data.dictionaries.length > 0) {
+                        data.dictionaries.forEach(entry => {
+                            const item = createDictionaryEntry(entry);
+                            dictionaryListContainer.appendChild(item);
+                        });
+                        // Re-initialize scroll animations
+                        window.sanaApp.initializeScrollAnimation();
+                    } else {
+                        noResultsState.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error("Failed to load dictionary entries:", error);
+                    loadingState.classList.add('hidden');
+                    errorState.classList.remove('hidden');
+                }
+            }
+
+            // --- Search Event Listeners ---
+            searchButton.addEventListener('click', () => {
+                loadDictionaryEntries(searchInput.value.trim());
+            });
+            searchInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    loadDictionaryEntries(searchInput.value.trim());
+                }
+            });
+
+            // --- Initial Load ---
+            loadDictionaryEntries(); // Load all entries initially
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>

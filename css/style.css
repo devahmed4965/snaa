@@ -1,0 +1,505 @@
+/*
+ * Sanaa Academy Platform - Main CSS File
+ *
+ * Contains custom styles complementing Tailwind CSS.
+ * Version: 2.7 (Added logo sizing and scroll animation base)
+ */
+
+/* --- تعريف الخط المخصص بأوزانه --- */
+
+/* Qatar 2022 Arabic - Thin */
+@font-face {
+    font-family: 'Qatar2022Arabic';
+    src: url('../fonts/Qatar2022Arabic-Thin.otf') format('opentype'); /* <<< تأكد من اسم الملف الصحيح */
+    font-weight: 100; /* Thin */
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Qatar 2022 Arabic - Book (Regular) */
+  @font-face {
+    font-family: 'Qatar2022Arabic';
+    src: url('../fonts/Qatar2022Arabic-Book.otf') format('opentype'); /* <<< تأكد من اسم الملف الصحيح */
+    font-weight: 400; /* Normal/Book/Regular */
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Qatar 2022 Arabic - Medium */
+  @font-face {
+    font-family: 'Qatar2022Arabic';
+    src: url('../fonts/Qatar2022Arabic-Medium.otf') format('opentype'); /* <<< تأكد من اسم الملف الصحيح */
+    font-weight: 500; /* Medium */
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Qatar 2022 Arabic - Bold */
+  @font-face {
+    font-family: 'Qatar2022Arabic';
+    src: url('../fonts/Qatar2022Arabic-Bold.otf') format('opentype'); /* <<< تأكد من اسم الملف الصحيح */
+    font-weight: 700; /* Bold */
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Qatar 2022 Arabic - Heavy */
+  @font-face {
+    font-family: 'Qatar2022Arabic';
+    src: url('../fonts/Qatar2022Arabic-Heavy.otf') format('opentype'); /* <<< تأكد من اسم الملف الصحيح */
+    font-weight: 900; /* Heavy/Black */
+    font-style: normal;
+    font-display: swap;
+  }
+
+
+  /* --- الأنماط الأساسية والخطوط --- */
+  body {
+      /* تطبيق الخط المخصص كخط افتراضي بوزن عادي (Book) */
+      /* Use Cairo for Arabic, Inter as fallback */
+      font-family: 'Cairo', 'Inter', sans-serif;
+      font-weight: 400; /* تحديد الوزن الافتراضي (Book/Regular) */
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #f8fafc; /* Tailwind gray-50 */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #374151; /* gray-700 */
+  }
+
+  main {
+      flex-grow: 1;
+      overflow-x: hidden; /* Prevent horizontal scroll caused by animations */
+  }
+
+  /* تحسين حالات التركيز للوصولية */
+  *:focus-visible {
+      outline: 3px solid #2563eb; /* focus:ring-blue-500 */
+      outline-offset: 2px;
+      border-radius: 4px;
+  }
+
+  /* --- تنسيق الهيدر (تدرج أخضر) --- */
+  header#main-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      transition: box-shadow 0.3s ease-in-out;
+      background: linear-gradient(to right, #065f46, #10b981); /* Emerald-800 to Emerald-500 */
+      color: #ffffff;
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-scrolled {
+       box-shadow: 0 4px 12px -1px rgb(0 0 0 / 0.1), 0 2px 8px -2px rgb(0 0 0 / 0.06);
+  }
+
+  /* *** NEW: Logo Size Styling *** */
+  header#main-header .logo-large {
+     height: 3rem; /* 48px - Base size */
+     width: auto;
+     transition: height 0.3s ease; /* Smooth transition if needed */
+  }
+  @media (min-width: 768px) { /* md breakpoint */
+     header#main-header .logo-large {
+        height: 3.5rem; /* 56px - Larger on medium screens and up */
+     }
+  }
+  /* Optional: Slightly larger on scroll? */
+  /* .header-scrolled .logo-large { height: 3rem; } */
+
+  /* روابط التنقل في الهيدر */
+  header#main-header nav a.nav-link {
+      color: #ffffff;
+      opacity: 0.9;
+      transition: opacity 0.2s ease, background-color 0.2s ease; /* Updated transition */
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem; /* rounded-md */
+      font-weight: 500; /* استخدام وزن Medium للروابط */
+  }
+  header#main-header nav a.nav-link:hover {
+      opacity: 1;
+      background-color: rgba(255, 255, 255, 0.1);
+  }
+  /* نمط رابط التنقل النشط */
+  header#main-header nav a.nav-link.active-nav-link {
+      opacity: 1;
+      font-weight: 700; /* استخدام وزن Bold للرابط النشط */
+      background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  /* حاوية مبدل اللغة */
+  .lang-switcher {
+       border-radius: 0.375rem; /* rounded-md */
+       overflow: hidden;
+       border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+  /* أزرار مبدل اللغة */
+  .lang-switcher button {
+      transition: background-color 0.2s ease, color 0.2s ease;
+      color: #ffffff;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem; /* text-sm */
+      font-weight: 500; /* وزن Medium للأزرار */
+  }
+  .lang-switcher button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+  }
+  .lang-switcher button.active {
+      background-color: #ffffff;
+      color: #065f46; /* emerald-800 */
+      font-weight: 700; /* وزن Bold للزر النشط */
+  }
+
+  /* زر قائمة الموبايل */
+  #menu-toggle {
+      color: #ffffff;
+      opacity: 0.9;
+      transition: opacity 0.2s ease;
+  }
+  #menu-toggle:hover {
+      opacity: 1;
+  }
+
+  /* لوحة قائمة الموبايل */
+  #mobile-menu {
+      background-color: #065f46; /* emerald-800 */
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  #mobile-menu a.nav-link {
+      color: #ffffff;
+      opacity: 0.9;
+      display: block;
+      padding: 0.75rem 1rem;
+      font-weight: 500; /* وزن Medium لروابط الموبايل */
+      transition: background-color 0.2s ease, opacity 0.2s ease;
+  }
+  #mobile-menu a.nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      opacity: 1;
+  }
+  #mobile-menu a.nav-link.active-nav-link {
+       background-color: rgba(255, 255, 255, 0.15);
+       font-weight: 700; /* وزن Bold للرابط النشط */
+       opacity: 1;
+  }
+
+
+  /* --- تنسيق هيدر الصفحة (عن، المحاضرات، الجدول، اتصل) --- */
+  .page-header {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cdefs%3E%3Csymbol id='h' viewBox='0 0 80 46'%3E%3Cpath d='M40 0 L80 23 L40 46 L0 23 Z' stroke='%236ee7b7' stroke-width='0.75' fill='none' stroke-opacity='0.4'/%3E%3Cpath d='M40 11.5 L50 23 L40 34.5 L30 23 Z' stroke='%23a7f3d0' stroke-width='0.5' fill='none' stroke-opacity='0.3'/%3E%3Cpath d='M40 11.5 L20 23 L40 34.5 L60 23 Z' stroke='%23a7f3d0' stroke-width='0.5' fill='none' stroke-opacity='0.3'/%3E%3C/symbol%3E%3C/defs%3E%3Cuse href='%23h' x='0' y='0'/%3E%3Cuse href='%23h' x='-40' y='23'/%3E%3Cuse href='%23h' x='40' y='23'/%3E%3Cuse href='%23h' x='0' y='46'/%3E%3Cuse href='%23h' x='-40' y='69'/%3E%3Cuse href='%23h' x='40' y='69'/%3E%3C/svg%3E");
+      background-color: #f0fdf4; /* green-50 */
+      background-size: 60px 69px;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid #a7f3d0; /* emerald-200 */
+  }
+  .page-header h1 {
+      color: #065f46; /* emerald-800 */
+      font-weight: 700; /* Bold */
+  }
+  .page-header p {
+      color: #047857; /* emerald-700 */
+      font-weight: 500; /* Medium */
+  }
+
+
+  /* --- تنسيق البطاقات (عام) --- */
+  .feature-card, .info-card, .instructor-card, .lecture-card, .testimonial-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      border-width: 1px;
+      border-color: #e5e7eb; /* gray-200 */
+      background-color: #ffffff;
+      border-radius: 0.75rem; /* rounded-xl */
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  }
+
+  /* **** ENHANCED HOVER EFFECT **** */
+  .feature-card:hover, .info-card:hover, .instructor-card:hover, .lecture-card:hover, .testimonial-card:hover {
+      transform: translateY(-8px); /* Lift slightly more */
+      box-shadow: 0 12px 20px -3px rgb(0 0 0 / 0.1), 0 4px 8px -4px rgb(0 0 0 / 0.08); /* More pronounced shadow */
+      border-color: #34d399; /* emerald-400 for a bit more emphasis */
+  }
+
+  /* تعديلات محتوى البطاقات المحددة */
+  .lecture-card { display: flex; flex-direction: column; }
+  .lecture-card .card-content { flex-grow: 1; display: flex; flex-direction: column; padding: 1.5rem; }
+  .lecture-card .card-footer { margin-top: auto; padding-top: 1rem; }
+  .info-card { padding: 2rem; text-align: center; }
+  .instructor-card { padding: 1.5rem; text-align: center; }
+  .instructor-card img { border-color: #a7f3d0; /* emerald-200 */ }
+
+  /* بطاقة الشهادات */
+  .testimonial-card { padding: 1.5rem; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .testimonial-card blockquote { font-style: italic; color: #4b5563; /* gray-600 */ margin-bottom: 1rem; font-weight: 400; /* Book */ }
+  .testimonial-card .student-name { font-weight: 700; /* Bold */ color: #065f46; /* emerald-800 */ }
+  .testimonial-card .student-detail { font-size: 0.875rem; /* text-sm */ color: #6b7280; /* gray-500 */ font-weight: 400; /* Book */ }
+
+  /* العناوين داخل البطاقات */
+  .info-card h2, .instructor-card h3, .lecture-card h3, .testimonial-card h3 {
+      font-weight: 700; /* Bold */
+  }
+  .instructor-card p:first-of-type { /* لتحديد التخصص */
+       font-weight: 500; /* Medium */
+  }
+
+  /* --- تنسيق الجدول (صفحة الجدول) --- */
+  .schedule-table {
+      border-collapse: separate; border-spacing: 0; border: 1px solid #d1fae5; /* emerald-100 */
+      border-radius: 0.75rem; /* rounded-xl */ overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      width: 100%;
+  }
+  .schedule-table th {
+      background-color: #d1fae5; /* emerald-100 */ color: #065f46; /* emerald-800 */ font-weight: 700; /* Bold */
+      padding: 0.875rem 1rem; border-bottom: 1px solid #a7f3d0; /* emerald-200 */
+      text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; /* text-xs */
+  }
+  html[dir="rtl"] .schedule-table th, html[dir="rtl"] .schedule-table td { text-align: right; }
+  html[dir="ltr"] .schedule-table th, html[dir="ltr"] .schedule-table td { text-align: left; }
+  .schedule-table th:last-child, .schedule-table td:last-child { text-align: center; }
+
+  .schedule-table td {
+      padding: 1rem 1rem; border-bottom: 1px solid #ecfdf5; /* emerald-50 */
+      transition: background-color 0.2s ease-in-out; vertical-align: middle;
+      font-size: 0.875rem; /* text-sm */ color: #374151; /* gray-700 */ font-weight: 400; /* Book */
+  }
+  .schedule-table tbody tr:last-child td { border-bottom: none; }
+  .schedule-table tbody tr:hover td { background-color: #f0fdf4; /* green-50 */ }
+  .schedule-table .zoom-link {
+      display: inline-block; padding: 0.3rem 0.8rem; border-radius: 9999px; /* rounded-full */
+      background-color: #10b981; /* emerald-500 */ color: #ffffff; font-weight: 500; /* Medium */
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      border: 1px solid #059669; /* emerald-600 */ white-space: nowrap;
+  }
+   .schedule-table .zoom-link:hover { background-color: #059669; /* emerald-600 */ transform: scale(1.05); }
+   .schedule-table td a { font-weight: 500; /* Medium for lecture links */ }
+
+  /* --- تنسيق قسم الملاحظات (صفحة الجدول) --- */
+  .notes-section {
+      background-color: #f0fdf4; /* green-50 */ border-left-width: 4px; border-color: #34d399; /* emerald-400 */
+      padding: 1.5rem; border-radius: 0.5rem; /* rounded-lg */ margin-top: 3rem;
+  }
+  html[dir="rtl"] .notes-section { border-left-width: 0; border-right-width: 4px; }
+  .notes-section ul { list-style: none; padding: 0; }
+  .notes-section ul li { position: relative; padding-right: 1.5rem; margin-bottom: 0.5rem; color: #1f2937; /* gray-800 */ }
+  html[lang="en"] .notes-section ul li { padding-right: 0; padding-left: 1.5rem; }
+  .notes-section ul li::before {
+       content: "\2713"; color: #10b981; /* emerald-500 */ font-weight: 700; /* Bold checkmark */
+       display: inline-block; position: absolute; right: 0; top: 1px; width: 1em;
+  }
+   html[lang="en"] .notes-section ul li::before { right: auto; left: 0; }
+   .notes-section a { color: #059669; /* emerald-600 */ font-weight: 500; /* Medium */ }
+   .notes-section a:hover { color: #065f46; /* emerald-800 */ }
+   .notes-section h3 { font-weight: 700; /* Bold */ }
+
+  /* --- تنسيق النموذج (صفحة اتصل) --- */
+  .form-label {
+      margin-bottom: 0.5rem; display: block; font-weight: 500; /* Medium */
+      color: #374151; /* gray-700 */ font-size: 0.875rem; /* text-sm */
+  }
+  .form-input {
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; /* gray-300 */
+      border-radius: 0.5rem; /* rounded-lg */ box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      background-color: #ffffff; font-weight: 400; /* Book for input text */
+      color: #1f2937; /* gray-800 */
+  }
+  .form-input:focus {
+       border-color: #10b981; /* emerald-500 */ box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+       outline: none;
+  }
+  /* Placeholder text weight */
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-weight: 400; /* Book */
+    color: #9ca3af; /* gray-400 */
+    opacity: 1; /* Firefox */
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    font-weight: 400; /* Book */
+    color: #9ca3af; /* gray-400 */
+  }
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    font-weight: 400; /* Book */
+    color: #9ca3af; /* gray-400 */
+  }
+
+
+  /* تنسيق عنصر معلومات الاتصال */
+  .contact-info-item { transition: background-color 0.2s ease-in-out; border-radius: 0.5rem; /* rounded-lg */ padding: 1rem; }
+  .contact-info-item:hover { background-color: #f0fdf4; /* green-50 */ }
+  .contact-info-item svg { color: #10b981; /* emerald-500 */ }
+  .contact-info-item h3 { color: #1f2937; /* gray-800 */ font-weight: 700; /* Bold */ }
+  .contact-info-item a, .contact-info-item p { color: #4b5563; /* gray-600 */ }
+  .contact-info-item a:hover { color: #059669; /* emerald-600 */ }
+
+  /* تنسيق أيقونة التواصل الاجتماعي */
+  .social-icon { transition: transform 0.2s ease-in-out, color 0.2s ease-in-out; color: #9ca3af; /* gray-400 */ }
+  .social-icon:hover { transform: scale(1.15); }
+
+
+  /* --- الأزرار --- */
+  .cta-button {
+      display: inline-block; font-weight: 700; /* Bold for buttons */
+      padding: 0.75rem 2rem; border-radius: 0.5rem; /* rounded-lg */
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2), 0 2px 4px -2px rgba(16, 185, 129, 0.1);
+      border: none; cursor: pointer; text-align: center;
+  }
+  .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2), 0 4px 6px -4px rgba(16, 185, 129, 0.1);
+  }
+  .cta-button:active {
+      transform: translateY(0px);
+      box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2), 0 2px 4px -2px rgba(16, 185, 129, 0.1);
+  }
+
+  /* الزر الرئيسي (أخضر) */
+  .cta-button-primary { background-color: #10b981; /* emerald-500 */ color: white; }
+  .cta-button-primary:hover { background-color: #059669; /* emerald-600 */ }
+
+  /* الزر الثانوي (أبيض/مخطط) */
+  .cta-button-secondary {
+      background-color: #ffffff; color: #059669; /* emerald-600 */ border: 1px solid #a7f3d0; /* emerald-200 */
+      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); font-weight: 500; /* Medium for secondary */
+  }
+  .cta-button-secondary:hover {
+      background-color: #f0fdf4; /* green-50 */ border-color: #6ee7b7; /* emerald-300 */
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  }
+
+
+  /* --- الرسوم المتحركة (FadeInUp - Replaced by Scroll Animation) --- */
+  /* @keyframes fadeInUp { from { opacity: 0; transform: translate3d(0, 30px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } } */
+  /* .animate-fadeInUp { animation-name: fadeInUp; animation-duration: 0.7s; animation-fill-mode: both; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); } */
+  /* .delay-100 { animation-delay: 0.1s; } .delay-200 { animation-delay: 0.2s; } .delay-300 { animation-delay: 0.3s; } .delay-400 { animation-delay: 0.4s; } .delay-500 { animation-delay: 0.5s; } */
+  /* .reveal { visibility: hidden; } */ /* Now handled by JS/ScrollReveal */
+
+  /* *** NEW: Scroll Animation Base Styles *** */
+  /* Initial state for items that will animate */
+  .scroll-animate-item {
+      opacity: 0;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.1s; /* Add a small delay */
+      will-change: opacity, transform; /* Hint for browser optimization */
+  }
+  /* Define starting positions based on direction classes */
+  .scroll-animate-from-left { transform: translateX(-50px); }
+  .scroll-animate-from-right { transform: translateX(50px); }
+  .scroll-animate-from-top { transform: translateY(-40px); }
+  .scroll-animate-from-bottom { transform: translateY(40px); }
+
+  /* Final state when the item becomes visible (class added by JS) */
+  .scroll-animate-item.is-visible {
+      opacity: 1;
+      transform: translate(0, 0); /* Move to original position */
+  }
+  /* --- End Scroll Animation Base Styles --- */
+
+
+  /* --- تنسيق التذييل (تدرج أخضر) --- */
+  footer {
+      background: linear-gradient(to right, #065f46, #10b981); /* Emerald-800 to Emerald-500 */ color: #d1fae5; /* emerald-100 */
+      padding: 2.5rem 0; margin-top: auto;
+  }
+  footer a { color: #ffffff; transition: color 0.2s ease; }
+  footer a:hover { color: #a7f3d0; /* emerald-200 */ text-decoration: none; }
+  footer p { color: #d1fae5; /* emerald-100 */ }
+  /* *** NEW: Footer Logo Size *** */
+  footer img.logo-large {
+       opacity: 0.9;
+       filter: brightness(0) invert(1); /* Make it white */
+       height: 2.5rem; /* 40px - Adjust as needed */
+       width: auto;
+       transition: height 0.3s ease;
+  }
+   @media (min-width: 768px) { /* md breakpoint */
+      footer img.logo-large {
+         height: 3rem; /* 48px - Larger on medium screens */
+      }
+   }
+
+  /* --- تنسيق معرض الشهادات والشهادات (أساسي) --- */
+  .certificate-gallery img { border: 4px solid #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; border-radius: 0.5rem; /* rounded-lg */ }
+  .certificate-gallery img:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+
+  /* أنماط Swiper JS */
+  .swiper-pagination-bullet { background-color: #a7f3d0; /* emerald-200 */ opacity: 0.7; }
+  .swiper-pagination-bullet-active { background-color: #10b981; /* emerald-500 */ opacity: 1; }
+  .swiper-button-next, .swiper-button-prev {
+      color: #10b981; /* emerald-500 */ transition: color 0.2s ease; width: 2.5rem; height: 2.5rem; /* Increased size */
+      background-color: rgba(255, 255, 255, 0.7); border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .swiper-button-next::after, .swiper-button-prev::after { font-size: 1rem; font-weight: 700; /* Bold arrows */ }
+  .swiper-button-next:hover, .swiper-button-prev:hover { color: #065f46; /* emerald-800 */ background-color: rgba(255, 255, 255, 0.9); }
+  /* Adjust position slightly for larger buttons */
+  .swiper-button-next { right: 5px; }
+  .swiper-button-prev { left: 5px; }
+  @media (min-width: 768px) {
+      .swiper-button-next { right: 10px; }
+      .swiper-button-prev { left: 10px; }
+  }
+
+
+  /* تطبيق أوزان الخطوط على عناصر محددة (يمكن استخدام فئات Tailwind أيضًا) */
+  h1, h2, h3, h4, h5, h6 {
+      font-weight: 700; /* Bold for headings */
+  }
+
+  strong, b {
+      font-weight: 700; /* Bold */
+  }
+
+  /* --- Homepage Specific Styles --- */
+  /* Style for the icons grid */
+  .sections-icon-grid a { /* Target the link wrapping the icon */
+     display: block; /* Make the link fill the grid cell */
+     text-decoration: none; /* Remove underline from link */
+  }
+  .sections-icon-grid .icon-wrapper { /* The colored circle */
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+  .sections-icon-grid a:hover .icon-wrapper {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .sections-icon-grid p { /* The text below the icon */
+      transition: color 0.2s ease-out;
+  }
+  .sections-icon-grid a:hover p {
+      color: #059669; /* emerald-600 on hover */
+  }
+  /* Style for video container */
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #e5e7eb; /* Lighter gray background */
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    border: 1px solid #d1d5db; /* border-gray-300 */
+  }
+  .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0; /* Remove iframe border */
+  }
+  header#main-header nav a.nav-link {
+    color: #ffffff;
+    opacity: 0.9;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    margin-left: 5px;
+}

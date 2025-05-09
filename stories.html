@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" data-translate-key="meta_description_stories" content="اقرأ وتأمل في قصص الأنبياء الملهمة على منصة سنا الأكاديمية.">
+    <title data-translate-key="title_stories">قصص الأنبياء | منصة سنا الأكاديمية</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Reusing auth button styles */
+        .auth-button {
+             padding: 0.4rem 0.9rem; border-radius: 0.375rem; font-weight: 500;
+             transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+             font-size: 0.875rem; text-align: center; border: 1px solid transparent;
+        }
+        .auth-button-login {
+            background-color: rgba(255, 255, 255, 0.15); color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+         .auth-button-login:hover { background-color: rgba(255, 255, 255, 0.25); }
+         .auth-button-signup {
+             background-color: #ffffff; color: #065f46;
+             box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+         }
+         .auth-button-signup:hover { background-color: #f0fdf4; box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.07); }
+         .auth-button-logout {
+            background-color: rgba(255, 255, 255, 0.15); color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+         .auth-button-logout:hover { background-color: rgba(255, 255, 255, 0.25); }
+         #mobile-menu .auth-button { display: block; width: calc(100% - 2rem); margin: 0.5rem auto 0 auto; }
+         #mobile-menu .auth-button-login { background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+         #mobile-menu .auth-button-login:hover { background-color: rgba(255, 255, 255, 0.2); }
+         #mobile-menu .auth-button-signup { background-color: #a7f3d0; color: #065f46; }
+         #mobile-menu .auth-button-signup:hover { background-color: #6ee7b7; }
+         #mobile-menu .auth-button-logout {
+             background-color: rgba(255, 100, 100, 0.1); border-color: rgba(255, 100, 100, 0.3);
+             color: #f87171;
+         }
+          #mobile-menu .auth-button-logout:hover { background-color: rgba(255, 100, 100, 0.2); }
+
+        /* Story Card Styles */
+        .story-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* shadow-lg */
+        }
+        .story-image {
+            width: 100%;
+            height: 200px; /* Adjust height as needed */
+            object-fit: cover;
+        }
+        .story-content {
+            padding: 1.5rem; /* p-6 */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .story-title {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            color: #1f2937; /* gray-800 */
+            margin-bottom: 0.75rem; /* mb-3 */
+        }
+        .story-excerpt { /* Displaying first few lines of content */
+            font-size: 0.875rem; /* text-sm */
+            color: #4b5563; /* gray-600 */
+            line-height: 1.6;
+            margin-bottom: 1rem; /* mb-4 */
+            flex-grow: 1;
+            /* Limit lines */
+            display: -webkit-box;
+            -webkit-line-clamp: 4; /* Limit to 4 lines */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 60px; /* Adjust based on line height */
+        }
+        .story-footer {
+            margin-top: auto; /* Push button to bottom */
+            padding-top: 1rem;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            border: 4px solid #f3f4f6; /* gray-100 */
+            border-top: 4px solid #10b981; /* emerald-500 */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 3rem auto; /* Center spinner */
+         }
+         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-700 antialiased flex flex-col min-h-screen">
+
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto logo-large" src="logo2.jpeg" alt="شعار أكاديمية سنا">
+                </a>
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div id="desktopNavLinks" class="flex space-x-1 lg:space-x-2"></div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <div id="desktopAuthArea" class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20"></div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                         <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                 <div id="mobileAuthArea" class="pt-2 pb-1 border-t border-white/20">
+                     </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        <section class="page-header text-center scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 data-translate-key="stories_page_title" class="text-4xl md:text-5xl font-bold">قصص الأنبياء</h1>
+                <p data-translate-key="stories_page_subtitle" class="text-lg mt-4 max-w-2xl mx-auto">استلهم العبر والحكم من حياة الأنبياء والرسل عليهم السلام.</p>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-20 bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="storyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                    </div>
+
+                <div id="loadingState" class="text-center py-10">
+                    <div class="loading-spinner"></div>
+                    <p data-translate-key="loading">جار تحميل القصص...</p>
+                </div>
+
+                <div id="errorState" class="text-center py-10 hidden">
+                    <p class="text-red-600" data-translate-key="story_load_error">عفواً، حدث خطأ أثناء تحميل القصص. يرجى المحاولة مرة أخرى.</p>
+                </div>
+
+                <div id="noStoriesState" class="text-center py-10 hidden">
+                    <p class="text-gray-500" data-translate-key="no_stories_found">لا توجد قصص متاحة حالياً.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-gray-400 py-10 mt-auto">
+        <div class="container mx-auto px-6 text-center">
+             <img class="h-10 w-auto mx-auto mb-4 opacity-90 logo-large" src="logo2.jpeg" alt="شعار أكاديمية سنا - التذييل">
+             <p class="text-sm">&copy; <span id="currentYear"></span> <span data-translate-key="footer_rights">منصة سنا الأكاديمية. جميع الحقوق محفوظة.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-white transition duration-150 ease-in-out text-xs">سياسة الخصوصية</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-white transition duration-150 ease-in-out text-xs">شروط الاستخدام</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-white transition duration-150 ease-in-out text-xs">تواصل معنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // --- Configuration ---
+            const API_BASE_URL = 'http://localhost:5000/api'; // Adjust if needed
+            const UPLOADS_BASE_URL = 'http://localhost:5000/uploads/'; // Base URL for static files
+
+            // --- DOM Elements ---
+            const storyGrid = document.getElementById('storyGrid');
+            const loadingState = document.getElementById('loadingState');
+            const errorState = document.getElementById('errorState');
+            const noStoriesState = document.getElementById('noStoriesState');
+
+            // --- Initialize Common Elements (Header, Footer, Language, Animations) ---
+            if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+                 // Add translations for this page before initializing
+                 if (!window.sanaApp.translations.ar.title_stories) { // Basic check
+                     window.sanaApp.translations.ar.title_stories = "قصص الأنبياء | منصة سنا الأكاديمية";
+                     window.sanaApp.translations.ar.meta_description_stories = "اقرأ وتأمل في قصص الأنبياء الملهمة على منصة سنا الأكاديمية.";
+                     window.sanaApp.translations.ar.stories_page_title = "قصص الأنبياء";
+                     window.sanaApp.translations.ar.stories_page_subtitle = "استلهم العبر والحكم من حياة الأنبياء والرسل عليهم السلام.";
+                     window.sanaApp.translations.ar.story_load_error = "عفواً، حدث خطأ أثناء تحميل القصص. يرجى المحاولة مرة أخرى.";
+                     window.sanaApp.translations.ar.no_stories_found = "لا توجد قصص متاحة حالياً.";
+                     window.sanaApp.translations.ar.read_story = "اقرأ القصة كاملة"; // Button text
+
+                     window.sanaApp.translations.en.title_stories = "Prophets' Stories | Sanaa Academy Platform";
+                     window.sanaApp.translations.en.meta_description_stories = "Read and reflect on the inspiring stories of the Prophets on Sanaa Academy Platform.";
+                     window.sanaApp.translations.en.stories_page_title = "Prophets' Stories";
+                     window.sanaApp.translations.en.stories_page_subtitle = "Draw lessons and wisdom from the lives of the Prophets and Messengers (peace be upon them).";
+                     window.sanaApp.translations.en.story_load_error = "Sorry, an error occurred while loading stories. Please try again.";
+                     window.sanaApp.translations.en.no_stories_found = "No stories are currently available.";
+                     window.sanaApp.translations.en.read_story = "Read Full Story";
+                 }
+                 window.sanaApp.initPage('stories.html'); // Initialize page
+            } else {
+                console.error("Sana App or initPage function not found.");
+                loadingState.classList.add('hidden');
+                errorState.classList.remove('hidden');
+                return;
+            }
+
+            // --- Helper Function to Fetch Data ---
+            async function fetchData(url) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+                    });
+                    const textResponse = await response.text();
+                    let data;
+                    try { data = JSON.parse(textResponse); }
+                    catch (e) { console.error(`Failed to parse JSON from ${url}:`, textResponse); throw new Error(`Received non-JSON response (Status: ${response.status})`); }
+                    if (response.ok) { return data; }
+                    throw new Error(data.message || `Request failed with status ${response.status}`);
+                } catch (error) { console.error(`Error fetching ${url}:`, error); throw error; }
+            }
+
+            // --- Function to Create Story Card HTML ---
+            function createStoryCard(story) {
+                const card = document.createElement('div');
+                card.className = 'story-card scroll-animate-item scroll-animate-from-bottom'; // Add animation class
+
+                // Construct full URL for image, using placeholder if null/empty
+                const imageUrl = story.image_url
+                    ? (story.image_url.startsWith('http') ? story.image_url : `${UPLOADS_BASE_URL}${story.image_url.replace(/\\/g, '/')}`)
+                    : `https://placehold.co/600x400/ecfdf5/065f46?text=${encodeURIComponent(story.title)}`; // Placeholder with title
+
+                // Extract an excerpt from the content (e.g., first 150 characters)
+                const excerpt = story.content ? story.content.substring(0, 150) + (story.content.length > 150 ? '...' : '') : '';
+
+                // TODO: Create a separate page (e.g., story-detail.html?id=...) to show the full story
+                // For now, the button link will be '#'
+                const storyDetailUrl = `#`; // Replace with actual detail page link later
+
+                card.innerHTML = `
+                    <img src="${imageUrl}" alt="صورة متعلقة بـ ${story.title}" class="story-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/ecfdf5/065f46?text=Story';">
+                    <div class="story-content">
+                        <h3 class="story-title">${story.title}</h3>
+                        ${excerpt ? `<p class="story-excerpt">${excerpt}</p>` : '<div class="flex-grow"></div>'}
+                        <div class="story-footer">
+                            <a href="${storyDetailUrl}" data-translate-key="read_story" class="cta-button cta-button-secondary block w-full text-center py-2 px-4 text-sm rounded-md">
+                                اقرأ القصة كاملة
+                            </a>
+                        </div>
+                    </div>
+                `;
+                return card;
+            }
+
+            // --- Load Stories ---
+            async function loadStories() {
+                loadingState.classList.remove('hidden');
+                errorState.classList.add('hidden');
+                noStoriesState.classList.add('hidden');
+                storyGrid.innerHTML = ''; // Clear previous entries
+
+                try {
+                    // Fetch stories (assuming endpoint exists and filters for 'prophets')
+                    // TODO: Update endpoint when backend is ready
+                    const data = await fetchData(`${API_BASE_URL}/stories?category=prophets`);
+                    loadingState.classList.add('hidden');
+
+                    if (data && data.stories && data.stories.length > 0) {
+                        data.stories.forEach(story => {
+                            const card = createStoryCard(story);
+                            storyGrid.appendChild(card);
+                        });
+                        // Re-initialize scroll animations
+                        window.sanaApp.initializeScrollAnimation();
+                        // Re-apply translations to buttons etc.
+                        window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+                    } else {
+                        noStoriesState.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error("Failed to load stories:", error);
+                    loadingState.classList.add('hidden');
+                    errorState.classList.remove('hidden');
+                }
+            }
+
+            // --- Initial Load ---
+            // TODO: Uncomment when backend endpoint is ready
+            // loadStories();
+            // --- Placeholder Content (Remove when API is ready) ---
+             loadingState.classList.add('hidden');
+             storyGrid.innerHTML = `
+                <p class="text-center text-gray-500 md:col-span-2 lg:col-span-3">(محتوى قصص الأنبياء سيتم جلبه من الواجهة الخلفية هنا)</p>
+                <div class="story-card">
+                     <img src="https://placehold.co/600x400/ecfdf5/065f46?text=قصة+آدم" alt="صورة متعلقة بـ قصة آدم عليه السلام" class="story-image">
+                     <div class="story-content">
+                         <h3 class="story-title">قصة آدم عليه السلام</h3>
+                         <p class="story-excerpt">خلق الله آدم من تراب، ونفخ فيه من روحه، وأسكنه الجنة...</p>
+                         <div class="story-footer">
+                             <a href="#" data-translate-key="read_story" class="cta-button cta-button-secondary block w-full text-center py-2 px-4 text-sm rounded-md">
+                                 اقرأ القصة كاملة
+                             </a>
+                         </div>
+                     </div>
+                 </div>
+             `;
+             window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage()); // Apply translations to example
+            // --- End Placeholder Content ---
+
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" data-translate-key="meta_description_base" content="منصة سنا الأكاديمية: بوابتك لتعلم الدراسات الإسلامية، اللغة العربية، والقرآن الكريم عبر الإنترنت.">
+    <title data-translate-key="title_index">منصة سنا الأكاديمية | الرئيسية</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* أنماط إضافية خاصة بصفحة index إذا لزم الأمر */
+        .hero-section {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cdefs%3E%3Csymbol id='h' viewBox='0 0 80 46'%3E%3Cpath d='M40 0 L80 23 L40 46 L0 23 Z' stroke='%236ee7b7' stroke-width='0.75' fill='none' stroke-opacity='0.4'/%3E%3Cpath d='M40 11.5 L50 23 L40 34.5 L30 23 Z' stroke='%23a7f3d0' stroke-width='0.5' fill='none' stroke-opacity='0.3'/%3E%3Cpath d='M40 11.5 L20 23 L40 34.5 L60 23 Z' stroke='%23a7f3d0' stroke-width='0.5' fill='none' stroke-opacity='0.3'/%3E%3C/symbol%3E%3C/defs%3E%3Cuse href='%23h' x='0' y='0'/%3E%3Cuse href='%23h' x='-40' y='23'/%3E%3Cuse href='%23h' x='40' y='23'/%3E%3Cuse href='%23h' x='0' y='46'/%3E%3Cuse href='%23h' x='-40' y='69'/%3E%3Cuse href='%23h' x='40' y='69'/%3E%3C/svg%3E");
+            background-color: #ffffff; /* لون خلفية احتياطي */
+        }
+
+        .hero-image-container {
+            position: relative;
+        }
+
+        /* أنماط أزرار Swiper */
+        .swiper-button-next,
+        .swiper-button-prev {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            width: 2.5rem; /* 40px */
+            height: 2.5rem; /* 40px */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 1rem; /* 16px */
+            font-weight: bold;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* أنماط خلفيات الأقسام */
+        .section-bg-gray { background-color: #f9fafb; /* gray-50 */ }
+        .section-bg-white { background-color: #ffffff; }
+        .section-bg-emerald-light { background-color: #ecfdf5; /* emerald-50 */ }
+        .section-bg-emerald-dark { background-color: #065f46; /* emerald-800 */ }
+
+
+        /* أنماط أزرار المصادقة (تسجيل الدخول/الخروج/إنشاء حساب) */
+        .auth-button {
+            padding: 0.4rem 0.9rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            font-size: 0.875rem;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+        .auth-button-login {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .auth-button-login:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+        .auth-button-signup {
+            background-color: #01956b; /* لون أخضر داكن قليلاً */
+            color: #ffffff;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+        .auth-button-signup:hover {
+            background-color: #027a58; /* لون أخضر أغمق عند التحويم */
+            box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.07);
+        }
+        .auth-button-logout { /* نمط زر تسجيل الخروج */
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .auth-button-logout:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* أزرار المصادقة في قائمة الموبايل */
+        #mobile-menu .auth-button {
+            display: block;
+            width: calc(100% - 2rem);
+            margin: 0.5rem auto 0 auto;
+        }
+        #mobile-menu .auth-button-login {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        #mobile-menu .auth-button-login:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        #mobile-menu .auth-button-signup {
+            background-color: #a7f3d0;
+            color: #065f46;
+        }
+        #mobile-menu .auth-button-signup:hover {
+             background-color: #6ee7b7;
+        }
+        #mobile-menu .auth-button-logout { /* نمط زر تسجيل الخروج في الموبايل */
+            background-color: rgba(255, 100, 100, 0.1);
+            border-color: rgba(255, 100, 100, 0.3);
+            color: #f87171;
+        }
+        #mobile-menu .auth-button-logout:hover {
+            background-color: rgba(255, 100, 100, 0.2);
+        }
+
+        /* أنماط أيقونات الأقسام */
+        .section-icon-link {
+            display: block;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+        .section-icon-link:hover {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .section-icon-link .icon-wrapper {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 9999px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease-out;
+        }
+        .section-icon-link:hover .icon-wrapper {
+            transform: scale(1.1);
+        }
+        .section-icon-link .icon-wrapper svg,
+        .section-icon-link .icon-wrapper i { /* Support for FontAwesome icons */
+            width: 2rem; /* w-8 */
+            height: 2rem; /* h-8 */
+            font-size: 2rem; /* For FontAwesome */
+        }
+        .section-icon-link p {
+            font-weight: 600;
+            color: #374151;
+            transition: color 0.2s ease-out;
+        }
+        .section-icon-link:hover p {
+            color: #059669;
+        }
+
+        /* أنماط حاوية الفيديو */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #e5e7eb;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #d1d5db;
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem;
+            object-fit: cover;
+        }
+        /* دوار التحميل */
+         .loading-spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #10b981;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+         }
+         @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+         }
+         /* --- أنماط بطاقة خطة الأسعار --- */
+         .price-plan-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .price-plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        .price-plan-card.featured {
+            border-top-width: 4px;
+            border-top-color: #10b981;
+            transform: scale(1.05);
+        }
+        .plan-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        .plan-price {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 1rem;
+        }
+        .plan-price .currency {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #4b5563;
+        }
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+            font-size: 0.875rem;
+            flex-grow: 1;
+        }
+        .plan-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #e5e7eb;
+        }
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+        .plan-features svg {
+            width: 1rem;
+            height: 1rem;
+            color: #10b981;
+            margin-right: 0.5rem; /* LTR: mr-2 */
+        }
+        html[dir="rtl"] .plan-features svg {
+            margin-right: 0;
+            margin-left: 0.5rem; /* RTL: ml-2 */
+        }
+        .price-plan-card .cta-button {
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-700 antialiased">
+
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto logo-large" src="logo.png" alt="[Image of شعار أكاديمية سنا]">
+                </a>
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div id="desktopNavLinks" class="flex space-x-1 lg:space-x-2">
+                        </div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <div id="desktopAuthArea" class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+                        </div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                        <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English" data-lang="en">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium active" aria-label="Switch to Arabic" data-lang="ar">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                <div id="mobileAuthArea" class="pt-2 pb-1 border-t border-white/20">
+                    </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section relative overflow-hidden pt-20 pb-16 md:pt-28 md:pb-24 scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="flex flex-wrap lg:flex-nowrap items-center -mx-4">
+                    <div class="w-full lg:w-1/2 px-4 order-2 lg:order-1 text-center lg:text-right">
+                        <div class="scroll-animate-item scroll-animate-from-right">
+                            <h1 data-translate-key="hero_title_main" class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+                                منصة سنا الأكاديمية
+                            </h1>
+                            <p data-translate-key="hero_subtitle_platform" class="text-xl md:text-2xl text-gray-700 mb-6">
+                                بوابتك لتعلّم الإسلام واللغة العربية والقرآن
+                            </p>
+                            <div class="inline-flex flex-col items-center lg:items-end space-y-2 mb-10 text-lg text-gray-700">
+                                <span class="flex items-center">
+                                    <span data-translate-key="subject_islamic">الدراسات الإسلامية</span>
+                                    <svg class="w-5 h-5 text-emerald-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                </span>
+                                <span class="flex items-center">
+                                     <span data-translate-key="subject_arabic">اللغة العربية</span>
+                                    <svg class="w-5 h-5 text-emerald-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                </span>
+                                <span class="flex items-center">
+                                     <span data-translate-key="subject_quran">القرآن الكريم</span>
+                                    <svg class="w-5 h-5 text-emerald-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                </span>
+                            </div>
+                            <a href="lectures.html" data-translate-key="hero_cta" class="cta-button cta-button-primary text-lg">
+                                اكتشف المحاضرات الآن
+                            </a>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/2 px-4 order-1 lg:order-2 mb-10 lg:mb-0 scroll-animate-item scroll-animate-from-left">
+                        <div class="hero-image-container relative rounded-2xl overflow-hidden mx-auto max-w-lg">
+                            <div class="absolute inset-0 hero-image-gradient opacity-25 z-0"></div>
+                            <img src="logo2.png" alt="[Image of طالب يقرأ القرآن - منصة سنا الأكاديمية]" class="relative z-10 w-full h-auto object-cover max-h-[550px] rounded-2xl" onerror="this.onerror=null;this.src='https://placehold.co/600x550/ffffff/333333?text=Hero+Image+Placeholder';">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 -translate-x-1/3 translate-y-1/3 opacity-5 pointer-events-none" aria-hidden="true">
+                <svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="400" cy="400" r="400" fill="url(#grad_hero_bg)" />
+                    <defs>
+                        <radialGradient id="grad_hero_bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(400 400) rotate(90) scale(400)">
+                            <stop stop-color="#6ee7b7" />
+                            <stop offset="1" stop-color="#10b981" stop-opacity="0" />
+                        </radialGradient>
+                    </defs>
+                </svg>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24 section-bg-gray scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-6 text-center">
+                <h2 data-translate-key="about_section_title" class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">ما هي منصة سنا؟</h2>
+                <p data-translate-key="about_section_text" class="text-lg text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+                    منصة "سنا" هي مبادرة تعليمية تهدف إلى تقديم فهم عميق وشامل لعلوم الدين الإسلامي للناطقين بغير العربية. نسعى لتبسيط المفاهيم وتقديمها بأسلوب يجمع بين الأصالة والمعاصرة، مع التركيز على القيم الأساسية للإسلام كدين رحمة وحكمة.
+                </p>
+                <a href="about.html" data-translate-key="about_section_cta" class="text-emerald-600 font-semibold hover:underline text-lg transition duration-150 ease-in-out">اعرف المزيد عنا</a>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24 section-bg-white scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8" data-translate-key="intro_video_title">مرحبًا بكم في أكاديمية سنا!</h2>
+                <div id="introVideoContainer" class="video-container max-w-4xl mx-auto">
+                    <div id="videoLoadingSpinner" class="loading-spinner mt-16"></div>
+                    <video id="introVideoPlayer" controls preload="metadata" class="w-full h-full absolute top-0 left-0 hidden" style="border-radius: 0.5rem;">
+                        <source src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <p id="introVideoError" class="text-sm text-red-500 mt-4 hidden" data-translate-key="intro_video_load_error">
+                    (تعذر تحميل الفيديو التعريفي)
+                </p>
+                 <p id="introVideoPlaceholder" class="text-sm text-gray-500 mt-4 hidden" data-translate-key="intro_video_not_set">
+                    (لم يتم رفع الفيديو التعريفي بعد)
+                </p>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24 section-bg-gray scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-12" data-translate-key="getting_started_title">خريطة البدء وأقسامنا</h2>
+                 <div class="mb-16 scroll-animate-item scroll-animate-from-bottom">
+                     <p class="text-lg text-gray-600 mb-4" data-translate-key="getting_started_map_placeholder">(خريطة البدء - سيتم إضافة تصميم تفاعلي هنا)</p>
+                     <div class="w-full h-64 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-700 border border-emerald-200">
+                         [Image of صورة لخريطة البدء]
+                     </div>
+                 </div>
+
+                 <div id="sectionsIconGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8 sections-icon-grid">
+                    </div>
+            </div>
+        </section>
+
+        <section id="price-plans" class="py-16 md:py-24 section-bg-white scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-6">
+                <h2 data-translate-key="price_plans_title" class="text-3xl md:text-4xl font-bold text-gray-800 mb-12 text-center">خطط الأسعار والعروض</h2>
+                <div id="pricePlanLoading" class="text-center text-gray-500 italic mb-8">
+                    <div class="loading-spinner mx-auto"></div>
+                    <p data-translate-key="loading">جار تحميل خطط الأسعار...</p>
+                </div>
+                <div id="pricePlanGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                    </div>
+                <p id="noPricePlansMessage" class="text-center text-gray-500 italic py-4 hidden" data-translate-key="no_price_plans_found">لا توجد خطط أسعار متاحة حالياً.</p>
+            </div>
+        </section>
+        <section class="py-16 md:py-24 section-bg-gray scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-6">
+                <h2 data-translate-key="featured_lectures_title" class="text-3xl md:text-4xl font-bold text-gray-800 mb-12 text-center">محاضرات مميزة</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                    <div class="lecture-card rounded-lg overflow-hidden border-t-4 border-blue-500 scroll-animate-item scroll-animate-from-left">
+                         <img src="https://images.unsplash.com/photo-1584740160079-5572f033fd9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="[Image of صورة محاضرة العقيدة]" class="w-full h-52 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/3b82f6/ffffff?text=Aqidah';">
+                        <div class="p-6 card-content">
+                            <h3 data-translate-key="lecture1_title" class="text-xl font-semibold mb-2 text-gray-900">مدخل إلى العقيدة الإسلامية</h3>
+                            <p data-translate-key="lecture1_desc" class="text-gray-600 mb-4 text-sm leading-relaxed">نظرة شاملة على أركان الإيمان وأهم المفاهيم الأساسية في العقيدة الإسلامية.</p>
+                             <div class="card-footer">
+                                <a href="lectures.html#aqidah" data-translate-key="view_details" class="cta-button cta-button-secondary w-full text-sm">عرض التفاصيل</a>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="lecture-card rounded-lg overflow-hidden border-t-4 border-emerald-500 scroll-animate-item scroll-animate-from-bottom">
+                         <img src="https://images.unsplash.com/photo-1604580864964-3c9e549079a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="[Image of صورة محاضرة الفقه]" class="w-full h-52 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/10b981/ffffff?text=Fiqh';">
+                        <div class="p-6 card-content">
+                            <h3 data-translate-key="lecture2_title" class="text-xl font-semibold mb-2 text-gray-900">أساسيات الفقه (العبادات)</h3>
+                            <p data-translate-key="lecture2_desc" class="text-gray-600 mb-4 text-sm leading-relaxed">شرح مبسط لأحكام الطهارة، الصلاة، الزكاة، والصيام وكيفية أدائها بشكل صحيح.</p>
+                             <div class="card-footer">
+                                <a href="lectures.html#fiqh" data-translate-key="view_details" class="cta-button cta-button-secondary w-full text-sm">عرض التفاصيل</a>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="lecture-card rounded-lg overflow-hidden border-t-4 border-yellow-500 scroll-animate-item scroll-animate-from-right">
+                          <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="[Image of صورة محاضرة القرآن]" class="w-full h-52 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Quran';">
+                        <div class="p-6 card-content">
+                            <h3 data-translate-key="lecture3_title_quran" class="text-xl font-semibold mb-2 text-gray-900">مقدمة في علوم القرآن</h3>
+                            <p data-translate-key="lecture3_desc_quran" class="text-gray-600 mb-4 text-sm leading-relaxed">تعلم أساسيات التجويد وفهم المعاني الأساسية لآيات القرآن الكريم.</p>
+                             <div class="card-footer">
+                                <a href="lectures.html#tafsir" data-translate-key="view_details" class="cta-button cta-button-secondary w-full text-sm">عرض التفاصيل</a>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-12 scroll-animate-item scroll-animate-from-bottom">
+                      <a href="lectures.html" data-translate-key="all_lectures_cta" class="cta-button cta-button-primary">
+                        عرض كل المحاضرات
+                    </a>
+                  </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="py-16 md:py-24 section-bg-emerald-light scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-6">
+                <h2 data-translate-key="testimonials_title" class="text-3xl md:text-4xl font-bold text-emerald-800 mb-12 text-center">آراء طلابنا</h2>
+                <div class="swiper testimonials-swiper">
+                    <div class="swiper-wrapper pb-12" id="testimonial-swiper-wrapper">
+                        <div id="testimonialLoading" class="swiper-slide text-center text-gray-500 italic">
+                            <div class="loading-spinner mx-auto"></div>
+                            <p data-translate-key="loading">جار تحميل الآراء...</p>
+                        </div>
+                        </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certificates" class="py-16 md:py-24 section-bg-white scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-6">
+                <h2 data-translate-key="gallery_title" class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">الشهادات والإنجازات</h2>
+                <p data-translate-key="gallery_subtitle" class="text-lg text-gray-600 mb-12 text-center max-w-3xl mx-auto">نفخر بطلابنا المتميزين وشهاداتهم</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 certificate-gallery" id="certificate-gallery-container">
+                     <div id="certificateLoading" class="col-span-full text-center text-gray-500 italic">
+                         <div class="loading-spinner mx-auto"></div>
+                         <p data-translate-key="loading">جار تحميل الشهادات...</p>
+                     </div>
+                    </div>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24 section-bg-emerald-dark text-white scroll-animate-item scroll-animate-from-bottom">
+            <div class="container mx-auto px-6 text-center">
+                <h2 data-translate-key="cta_section_title" class="text-3xl md:text-4xl font-bold mb-4">جاهزون للبدء في رحلتكم التعليمية؟</h2>
+                <p data-translate-key="cta_section_subtitle" class="text-lg text-emerald-100 mb-10 max-w-2xl mx-auto">انضموا إلى محاضراتنا المباشرة عبر زوم وتفاعلوا مع المحاضرين المؤهلين.</p>
+                <a href="schedule.html" data-translate-key="cta_section_button" class="cta-button inline-block bg-white text-emerald-700 font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white">
+                    اطلع على الجدول الزمني
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-gray-400 py-10 mt-auto">
+        <div class="container mx-auto px-6 text-center">
+             <img class="h-10 w-auto mx-auto mb-4 opacity-90 logo-large" src="logo.png" alt="[Image of شعار أكاديمية سنا - التذييل]" onerror="this.onerror=null;this.style.display='none';">
+             <p class="text-sm">© <span id="currentYear"></span> <span data-translate-key="footer_rights">منصة سنا الأكاديمية. جميع الحقوق محفوظة.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-white transition duration-150 ease-in-out text-xs">سياسة الخصوصية</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-white transition duration-150 ease-in-out text-xs">شروط الاستخدام</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-white transition duration-150 ease-in-out text-xs">تواصل معنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Configuration ---
+            // Use global sanaApp constants if available, otherwise fallback
+            const API_BASE_URL = (window.sanaApp && window.sanaApp.API_BASE_URL) ? window.sanaApp.API_BASE_URL : 'http://localhost:5000/api';
+            const UPLOADS_BASE_URL = (window.sanaApp && window.sanaApp.UPLOADS_BASE_URL) ? window.sanaApp.UPLOADS_BASE_URL : 'http://localhost:5000/uploads/';
+
+            // --- DOM Elements ---
+            const introVideoContainer = document.getElementById('introVideoContainer');
+            const introVideoPlayer = document.getElementById('introVideoPlayer');
+            const videoSource = introVideoPlayer ? introVideoPlayer.querySelector('source') : null;
+            const videoLoadingSpinner = document.getElementById('videoLoadingSpinner');
+            const introVideoError = document.getElementById('introVideoError');
+            const introVideoPlaceholder = document.getElementById('introVideoPlaceholder');
+            const testimonialSwiperWrapper = document.getElementById('testimonial-swiper-wrapper');
+            const testimonialLoading = document.getElementById('testimonialLoading');
+            const certificateGalleryContainer = document.getElementById('certificate-gallery-container');
+            const certificateLoading = document.getElementById('certificateLoading');
+            const sectionsIconGrid = document.getElementById('sectionsIconGrid');
+
+
+            // --- Initialize Common Elements (Header, Footer, Language, Animations) ---
+            if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+                 // Ensure translations are available
+                 if (!window.sanaApp.translations.ar.intro_video_load_error) { // Basic check
+                     window.sanaApp.translations.ar.intro_video_load_error = "(تعذر تحميل الفيديو التعريفي)";
+                     window.sanaApp.translations.ar.intro_video_not_set = "(لم يتم رفع الفيديو التعريفي بعد)";
+                     window.sanaApp.translations.ar.no_testimonials_found = "(لا توجد آراء حالياً)";
+                     window.sanaApp.translations.ar.testimonial_load_error = "(خطأ في تحميل الآراء)";
+                     window.sanaApp.translations.ar.no_certificates_found = "(لا توجد شهادات لعرضها)";
+                     window.sanaApp.translations.ar.certificate_load_error = "(خطأ في تحميل الشهادات)";
+                     window.sanaApp.translations.ar.error_loading_data = "حدث خطأ أثناء تحميل البيانات.";
+                     window.sanaApp.translations.ar.no_sections_available = "لا توجد أقسام متاحة حاليًا.";
+                 }
+                 if (!window.sanaApp.translations.en.intro_video_load_error) {
+                    window.sanaApp.translations.en.intro_video_load_error = "(Failed to load intro video)";
+                    window.sanaApp.translations.en.intro_video_not_set = "(Intro video has not been uploaded yet)";
+                    window.sanaApp.translations.en.no_testimonials_found = "(No testimonials currently available)";
+                    window.sanaApp.translations.en.testimonial_load_error = "(Error loading testimonials)";
+                    window.sanaApp.translations.en.no_certificates_found = "(No certificates to display)";
+                    window.sanaApp.translations.en.certificate_load_error = "(Error loading certificates)";
+                    window.sanaApp.translations.en.error_loading_data = "Error loading data.";
+                    window.sanaApp.translations.en.no_sections_available = "No sections currently available.";
+                 }
+
+                 window.sanaApp.initPage('index.html'); // This will call loadPricePlans internally
+            } else {
+                console.error("Sana App or initPage function not found. Page might not function correctly.");
+                const pricePlanLoadingDiv = document.getElementById('pricePlanLoading');
+                if(pricePlanLoadingDiv) pricePlanLoadingDiv.innerHTML = '<p class="text-red-500">Error loading page script.</p>';
+                // Fallback for other loading indicators if sanaApp is missing
+                if(videoLoadingSpinner) videoLoadingSpinner.classList.add('hidden');
+                if(testimonialLoading) testimonialLoading.innerHTML = '<p class="text-red-500 col-span-full">Error loading page script.</p>';
+                if(certificateLoading) certificateLoading.innerHTML = '<p class="text-red-500 col-span-full">Error loading page script.</p>';
+                if(sectionsIconGrid) sectionsIconGrid.innerHTML = '<p class="text-red-500 col-span-full">Error loading page script.</p>';
+                return;
+            }
+
+            // Helper function to fetch public data (no auth token needed)
+            async function fetchData(url) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+                    });
+                    if (!response.ok) {
+                        let errorData;
+                        try { errorData = await response.json(); } catch (e) { /* ignore if not json */ }
+                        throw new Error(errorData?.message || `Request failed with status ${response.status}`);
+                    }
+                    if (response.status === 204) return null; // Handle No Content
+                    return await response.json();
+                } catch (error) {
+                    console.error(`Error fetching ${url}:`, error);
+                    throw error;
+                }
+            }
+
+            // Function to load introductory video
+            async function loadIntroVideo() {
+                if (!introVideoContainer || !videoLoadingSpinner || !introVideoPlayer || !videoSource || !introVideoError || !introVideoPlaceholder) {
+                    console.warn("Intro video DOM elements not all found, skipping video load.");
+                    if(videoLoadingSpinner) videoLoadingSpinner.classList.add('hidden');
+                    if(introVideoPlaceholder) {
+                        introVideoPlaceholder.classList.remove('hidden');
+                        introVideoPlaceholder.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()].intro_video_not_set || '(Intro video not set)';
+                    }
+                    return;
+                }
+                videoLoadingSpinner.classList.remove('hidden');
+                introVideoPlayer.classList.add('hidden');
+                introVideoError.classList.add('hidden');
+                introVideoPlaceholder.classList.add('hidden');
+
+                try {
+                    const data = await fetchData(`${API_BASE_URL}/settings/intro_video_url`);
+                    videoLoadingSpinner.classList.add('hidden');
+
+                    if (data && data.setting && data.setting.value) {
+                        videoSource.src = data.setting.value.startsWith('http') ? data.setting.value : UPLOADS_BASE_URL + data.setting.value;
+                        introVideoPlayer.load();
+                        introVideoPlayer.classList.remove('hidden');
+                    } else {
+                        introVideoPlaceholder.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error("Failed to load intro video URL:", error);
+                    videoLoadingSpinner.classList.add('hidden');
+                    introVideoError.classList.remove('hidden');
+                }
+                 if (window.sanaApp && typeof window.sanaApp.updateTexts === 'function') {
+                    window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+                 }
+            }
+
+            // Function to load testimonials
+            async function loadTestimonials() {
+                 if (!testimonialSwiperWrapper || !testimonialLoading) {
+                     console.warn("Testimonial DOM elements not found, skipping testimonial load.");
+                     return;
+                 }
+                 testimonialLoading.classList.remove('hidden');
+                 testimonialSwiperWrapper.innerHTML = ''; // Clear previous slides
+
+                 try {
+                    const data = await fetchData(`${API_BASE_URL}/testimonials`); // Public endpoint
+                    testimonialLoading.classList.add('hidden');
+
+                    if (data && data.testimonials && data.testimonials.length > 0) {
+                        data.testimonials.forEach(testimonial => {
+                            const slide = document.createElement('div');
+                            slide.className = 'swiper-slide';
+                            const avatarUrl = testimonial.avatar_url ? (testimonial.avatar_url.startsWith('http') ? testimonial.avatar_url : UPLOADS_BASE_URL + testimonial.avatar_url) : 'https://placehold.co/100x100/a7f3d0/065f46?text=SN';
+                            slide.innerHTML = `
+                                <div class="testimonial-card bg-white rounded-lg shadow-lg p-6 md:p-8 mx-auto max-w-2xl">
+                                    <img src="${avatarUrl}" alt="[Image of صورة الطالب ${testimonial.student_name}]" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-emerald-200" onerror="this.onerror=null;this.src='https://placehold.co/100x100/a7f3d0/065f46?text=SN';">
+                                    <blockquote><p>${testimonial.testimonial_text}</p></blockquote>
+                                    <p class="student-name">${testimonial.student_name}</p>
+                                    <p class="student-detail">${testimonial.student_detail || ''}</p>
+                                </div>`;
+                            testimonialSwiperWrapper.appendChild(slide);
+                        });
+
+                        new Swiper('.testimonials-swiper', {
+                            loop: data.testimonials.length > 1,
+                            slidesPerView: 1,
+                            spaceBetween: 30,
+                            autoplay: { delay: 5000, disableOnInteraction: false, },
+                            pagination: { el: '.swiper-pagination', clickable: true, },
+                            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev', },
+                            observer: true, observeParents: true,
+                        });
+                    } else {
+                        testimonialSwiperWrapper.innerHTML = `<div class="swiper-slide text-center text-gray-500 italic" data-translate-key="no_testimonials_found">(لا توجد آراء حالياً)</div>`;
+                    }
+                 } catch (error) {
+                      console.error("Failed to load testimonials:", error);
+                      testimonialSwiperWrapper.innerHTML = `<div class="swiper-slide text-center text-red-500" data-translate-key="testimonial_load_error">(خطأ في تحميل الآراء)</div>`;
+                 }
+                 if (window.sanaApp && typeof window.sanaApp.updateTexts === 'function') {
+                    window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+                 }
+            }
+
+            // Function to load certificates
+            async function loadCertificates() {
+                if (!certificateGalleryContainer || !certificateLoading) {
+                    console.warn("Certificate DOM elements not found, skipping certificate load.");
+                    return;
+                }
+                certificateLoading.classList.remove('hidden');
+                certificateGalleryContainer.innerHTML = ''; // Clear previous items
+
+                try {
+                    const data = await fetchData(`${API_BASE_URL}/certificates`); // Public endpoint
+                    certificateLoading.classList.add('hidden');
+
+                    if (data && data.certificates && data.certificates.length > 0) {
+                        data.certificates.forEach((cert, index) => {
+                            const delay = (index % 4) * 100;
+                            const item = document.createElement('div');
+                            item.className = `text-center scroll-animate-item scroll-animate-from-bottom delay-${delay}`;
+                            const imageUrl = cert.image_url ? (cert.image_url.startsWith('http') ? cert.image_url : UPLOADS_BASE_URL + cert.image_url) : `https://placehold.co/400x300/ecfdf5/065f46?text=Cert+${cert.certificate_id}`;
+                            const studentName = cert.student_name || 'Student';
+                            item.innerHTML = `
+                                <a href="${imageUrl}" target="_blank">
+                                    <img src="${imageUrl}" alt="[Image of شهادة الطالب ${studentName}]" class="w-full h-auto object-cover mb-3 border-4 border-white shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ecfdf5/065f46?text=Cert';">
+                                </a>
+                                <p class="text-sm font-semibold text-emerald-700">${studentName}</p>
+                                ${cert.course_name ? `<p class="text-xs text-gray-500">${cert.course_name}</p>` : ''}
+                            `;
+                            certificateGalleryContainer.appendChild(item);
+                        });
+                        if (window.sanaApp && typeof window.sanaApp.initializeScrollAnimation === 'function') {
+                           window.sanaApp.initializeScrollAnimation();
+                        }
+                    } else {
+                         certificateGalleryContainer.innerHTML = `<p class="col-span-full text-center text-gray-500 italic" data-translate-key="no_certificates_found">(لا توجد شهادات لعرضها)</p>`;
+                    }
+                } catch (error) {
+                     console.error("Failed to load certificates:", error);
+                     certificateGalleryContainer.innerHTML = `<p class="col-span-full text-center text-red-500" data-translate-key="certificate_load_error">(خطأ في تحميل الشهادات)</p>`;
+                }
+                if (window.sanaApp && typeof window.sanaApp.updateTexts === 'function') {
+                    window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+                }
+            }
+
+            // Function to load sections icons for the main page grid
+            async function loadSectionsIcons() {
+                if (!sectionsIconGrid) {
+                    console.warn("Sections icon grid DOM element not found, skipping icon load.");
+                    return;
+                }
+                sectionsIconGrid.innerHTML = '<div class="loading-spinner col-span-full"></div>';
+
+                try {
+                    const data = await fetchData(`${API_BASE_URL}/sections`); // Public endpoint for sections
+                    sectionsIconGrid.innerHTML = '';
+
+                    if (data && data.sections && data.sections.length > 0) {
+                        const activeSections = data.sections.filter(s => s.is_active).sort((a,b) => (a.display_order || 0) - (b.display_order || 0));
+                        activeSections.forEach((section, index) => {
+                            const sectionName = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()][section.name_key] || section.name_key.replace('section_', '').replace(/_/g, ' ');
+                            const delay = index * 50;
+                            const comingSoonText = section.name_key === 'section_ai_learning' ? `<span class="text-xs text-gray-400 block mt-1" data-translate-key="coming_soon">${window.sanaApp.translations[window.sanaApp.getCurrentLanguage()].coming_soon || '(Coming Soon)'}</span>` : '';
+                            const linkClass = section.name_key === 'section_ai_learning' ? 'opacity-50 cursor-not-allowed' : '';
+                            const linkHref = section.name_key === 'section_ai_learning' ? '#' : `${section.path}.html`;
+                            const onclickPrevent = section.name_key === 'section_ai_learning' ? 'event.preventDefault();' : '';
+
+                            const iconHTML = section.icon_class && section.icon_class.startsWith('<svg')
+                                ? section.icon_class
+                                : `<i class="${section.icon_class || 'fas fa-question-circle'}"></i>`;
+
+                            const sectionElement = document.createElement('a');
+                            sectionElement.href = linkHref;
+                            sectionElement.className = `section-icon-link scroll-animate-item scroll-animate-from-bottom ${linkClass}`;
+                            sectionElement.style.animationDelay = `${delay}ms`;
+                            if(onclickPrevent) sectionElement.setAttribute('onclick', onclickPrevent);
+
+                            sectionElement.innerHTML = `
+                                <div class="icon-wrapper bg-emerald-100 text-emerald-600">
+                                    ${iconHTML}
+                                </div>
+                                <p data-translate-key="${section.name_key}">${sectionName}</p>
+                                ${comingSoonText}
+                            `;
+                            sectionsIconGrid.appendChild(sectionElement);
+                        });
+                        if (window.sanaApp && typeof window.sanaApp.initializeScrollAnimation === 'function') {
+                           window.sanaApp.initializeScrollAnimation();
+                        }
+                    } else {
+                        sectionsIconGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 italic" data-translate-key="no_sections_available">(لا توجد أقسام متاحة حاليًا)</p>`;
+                    }
+                } catch (error) {
+                    console.error("Failed to load sections icons:", error);
+                    sectionsIconGrid.innerHTML = `<p class="col-span-full text-center text-red-500" data-translate-key="error_loading_data">(خطأ في تحميل الأقسام)</p>`;
+                }
+                if (window.sanaApp && typeof window.sanaApp.updateTexts === 'function') {
+                    window.sanaApp.updateTexts(window.sanaApp.getCurrentLanguage());
+                }
+            }
+
+
+            // --- Initial Data Loads for index.html specific content ---
+            loadIntroVideo();
+            loadTestimonials();
+            loadCertificates();
+            loadSectionsIcons();
+            // Note: sanaApp.loadPricePlans() is called by sanaApp.initPage('index.html')
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+
+</html>

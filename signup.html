@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create a new account on the Sanaa Academy Platform.">
+    <title>Sign Up | Sanaa Academy Platform</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .auth-button {
+             padding: 0.4rem 0.9rem; border-radius: 0.375rem; font-weight: 500;
+             transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+             font-size: 0.875rem; text-align: center; border: 1px solid transparent;
+        }
+        .auth-button-login {
+            background-color: rgba(255, 255, 255, 0.15); color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+         .auth-button-login:hover { background-color: rgba(255, 255, 255, 0.25); }
+         .auth-button-signup {
+             background-color: #ffffff; color: #065f46;
+             box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+         }
+         .auth-button-signup:hover { background-color: #f0fdf4; box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0.07); }
+         #mobile-menu .auth-button { display: block; width: calc(100% - 2rem); margin: 0.5rem auto 0 auto; }
+         #mobile-menu .auth-button-login { background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+         #mobile-menu .auth-button-login:hover { background-color: rgba(255, 255, 255, 0.2); }
+         #mobile-menu .auth-button-signup { background-color: #a7f3d0; color: #065f46; }
+         #mobile-menu .auth-button-signup:hover { background-color: #6ee7b7; }
+
+         .signup-container { max-width: 600px; margin-top: 4rem; margin-bottom: 4rem; }
+        .form-section-header {
+            border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1.5rem;
+            font-size: 1.125rem; font-weight: 600; color: #1f2937;
+        }
+        select.form-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center; background-repeat: no-repeat;
+            background-size: 1.5em 1.5em; padding-right: 2.5rem;
+        }
+        html[dir="rtl"] select.form-input {
+             background-position: left 0.5rem center; padding-left: 2.5rem; padding-right: 0.75rem;
+        }
+        /* Style for loading state on button */
+        .button-loading { cursor: not-allowed; opacity: 0.7; }
+        .button-loading .spinner {
+           display: inline-block; border: 2px solid rgba(255, 255, 255, 0.3);
+           border-radius: 50%; border-top-color: #fff; width: 1em; height: 1em;
+           animation: spin 1s ease-in-out infinite; margin-left: 0.5rem; /* LTR */
+           vertical-align: middle;
+        }
+         html[dir="rtl"] .button-loading .spinner { margin-left: 0; margin-right: 0.5rem; /* RTL */ }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+
+</head>
+<body class="bg-gray-100 text-gray-700 antialiased flex flex-col min-h-screen">
+
+    <header id="main-header" class="sticky-header">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2 rtl:space-x-reverse flex-shrink-0">
+                    <img class="h-10 md:h-12 w-auto" src="logo2.jpeg" alt="Sanaa Academy Logo">
+                </a>
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <div class="flex space-x-1 lg:space-x-2">
+                        <a href="index.html" data-translate-key="nav_home" class="nav-link px-3 py-2 font-medium">Home</a>
+                        <a href="about.html" data-translate-key="nav_about" class="nav-link px-3 py-2 font-medium">About Sana</a>
+                        <a href="lectures.html" data-translate-key="nav_lectures" class="nav-link px-3 py-2 font-medium">Lectures</a>
+                        <a href="schedule.html" data-translate-key="nav_schedule" class="nav-link px-3 py-2 font-medium">Schedule</a>
+                        <a href="contact.html" data-translate-key="nav_contact" class="nav-link px-3 py-2 font-medium">Contact</a>
+                        </div>
+                    <div class="lang-switcher flex ml-4">
+                        <button class="lang-btn en px-3 py-1 font-medium" aria-label="Switch to English">EN</button>
+                        <button class="lang-btn ar px-3 py-1 font-medium" aria-label="Switch to Arabic">ع</button>
+                    </div>
+                    <div class="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+                        <a href="login.html" data-translate-key="nav_login" class="auth-button auth-button-login">Login</a>
+                        <a href="signup.html" data-translate-key="nav_signup" class="auth-button auth-button-signup">Sign Up</a>
+                    </div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <div class="lang-switcher flex text-xs mr-3 rtl:mr-0 rtl:ml-3">
+                         <button class="lang-btn en px-2 py-1 font-medium" aria-label="Switch to English">EN</button>
+                        <button class="lang-btn ar px-2 py-1 font-medium" aria-label="Switch to Arabic">ع</button>
+                    </div>
+                    <button id="menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white hover:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="toggle menu" aria-expanded="false">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-2 pb-3 space-y-1 absolute left-0 right-0 z-40 shadow-lg">
+                <a href="index.html" data-translate-key="nav_home" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="about.html" data-translate-key="nav_about" class="nav-link block px-3 py-2 rounded-md text-base font-medium">About Sana</a>
+                <a href="lectures.html" data-translate-key="nav_lectures" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Lectures</a>
+                <a href="schedule.html" data-translate-key="nav_schedule" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Schedule</a>
+                <a href="contact.html" data-translate-key="nav_contact" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                 <div class="pt-2 pb-1 border-t border-white/20">
+                     <a href="login.html" data-translate-key="nav_login" class="auth-button auth-button-login">Login</a>
+                     <a href="signup.html" data-translate-key="nav_signup" class="auth-button auth-button-signup">Sign Up</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-12">
+        <div class="signup-container w-full bg-white p-8 rounded-lg shadow-xl border border-gray-200 reveal">
+            <div class="text-center mb-8">
+                <img class="h-16 w-auto mx-auto mb-4" src="logo2.jpeg" alt="Sanaa Academy Logo">
+                <h1 class="text-2xl font-bold text-gray-800" data-translate-key="signup_title">إنشاء حساب جديد</h1>
+                <p class="text-sm text-gray-500 mt-1" data-translate-key="signup_subtitle">أو <a href="login.html" class="font-medium text-emerald-600 hover:text-emerald-500" data-translate-key="signup_login_link">قم بتسجيل الدخول إذا كان لديك حساب</a></p>
+            </div>
+
+            <form id="signupForm" class="space-y-6"> <h2 class="form-section-header" data-translate-key="signup_section_basic">المعلومات الأساسية</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                    <div>
+                        <label for="fullName" class="form-label text-sm" data-translate-key="signup_fullname_label">الاسم الكامل</label>
+                        <input id="fullName" name="fullName" type="text" autocomplete="name" required class="form-input w-full mt-1" placeholder="اسمك كما سيظهر">
+                    </div>
+                    <div>
+                        <label for="email" class="form-label text-sm" data-translate-key="signup_email_label">البريد الإلكتروني</label>
+                        <input id="email" name="email" type="email" autocomplete="email" required class="form-input w-full mt-1" placeholder="you@example.com">
+                    </div>
+                    <div>
+                        <label for="password" class="form-label text-sm" data-translate-key="signup_password_label">كلمة المرور</label>
+                        <input id="password" name="password" type="password" autocomplete="new-password" required class="form-input w-full mt-1" placeholder="********">
+                    </div>
+                    <div>
+                        <label for="passwordConfirm" class="form-label text-sm" data-translate-key="signup_password_confirm_label">تأكيد كلمة المرور</label>
+                        <input id="passwordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" required class="form-input w-full mt-1" placeholder="********">
+                    </div>
+                     <div>
+                        <label for="age" class="form-label text-sm" data-translate-key="signup_age_label">السن</label>
+                        <input id="age" name="age" type="number" min="10" max="100" class="form-input w-full mt-1" placeholder="عمرك">
+                    </div>
+                    <div>
+                        <label for="gender" class="form-label text-sm" data-translate-key="signup_gender_label">النوع</label>
+                        <select id="gender" name="gender" class="form-input w-full mt-1">
+                            <option value="" data-translate-key="signup_gender_select">-- اختر --</option>
+                            <option value="male" data-translate-key="signup_gender_male">ذكر</option>
+                            <option value="female" data-translate-key="signup_gender_female">أنثى</option>
+                            <option value="other" data-translate-key="signup_gender_other">آخر</option>
+                            <option value="prefer_not_to_say" data-translate-key="signup_gender_prefer_not">أفضل عدم القول</option>
+                        </select>
+                    </div>
+                </div>
+
+                 <h2 class="form-section-header pt-4" data-translate-key="signup_section_knowledge">مستوى المعرفة الدينية</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                    <div>
+                        <label for="islamKnowledgeLevel" class="form-label text-sm" data-translate-key="signup_knowledge_islam_label">معرفتك العامة بالإسلام؟</label>
+                        <select id="islamKnowledgeLevel" name="islamKnowledgeLevel" class="form-input w-full mt-1">
+                             <option value="" data-translate-key="signup_level_select">-- اختر المستوى --</option>
+                             <option value="beginner" data-translate-key="signup_level_beginner">مبتدئ / لا أعرف شيئاً</option>
+                             <option value="intermediate" data-translate-key="signup_level_intermediate">متوسط / لدي بعض المعلومات</option>
+                             <option value="advanced" data-translate-key="signup_level_advanced">متقدم / لدي معرفة جيدة</option>
+                        </select>
+                    </div>
+                     <div>
+                        <label for="quranKnowledgeLevel" class="form-label text-sm" data-translate-key="signup_knowledge_quran_label">معرفتك بالقرآن الكريم؟</label>
+                        <select id="quranKnowledgeLevel" name="quranKnowledgeLevel" class="form-input w-full mt-1">
+                             <option value="" data-translate-key="signup_quran_select">-- اختر المستوى --</option>
+                             <option value="none" data-translate-key="signup_quran_none">لا أعرف القراءة</option>
+                             <option value="basic_reading" data-translate-key="signup_quran_basic">أستطيع القراءة ببطء</option>
+                             <option value="fluent_reading" data-translate-key="signup_quran_fluent">أقرأ بطلاقة</option>
+                             <option value="tajweed" data-translate-key="signup_quran_tajweed">أعرف بعض أحكام التجويد</option>
+                             <option value="memorization" data-translate-key="signup_quran_memorization">أحفظ بعض السور</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="form-label text-sm" data-translate-key="signup_knowledge_new_muslim_label">هل أنت حديث عهد بالإسلام؟</label>
+                        <div class="mt-2 space-x-4 rtl:space-x-reverse flex">
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio text-emerald-600" name="isNewMuslim" value="yes">
+                                <span class="ml-2 rtl:mr-2 rtl:ml-0 text-sm" data-translate-key="signup_yes">نعم</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" class="form-radio text-emerald-600" name="isNewMuslim" value="no" checked>
+                                <span class="ml-2 rtl:mr-2 rtl:ml-0 text-sm" data-translate-key="signup_no">لا</span>
+                            </label>
+                        </div>
+                    </div>
+                 </div>
+
+                 <h2 class="form-section-header pt-4" data-translate-key="signup_section_goals">الأهداف والتعريف بالمنصة</h2>
+                 <div>
+                    <label for="aspirations" class="form-label text-sm" data-translate-key="signup_aspirations_label">ما هي طموحاتك أو ما الذي تأمل في تعلمه؟</label>
+                    <textarea id="aspirations" name="aspirations" rows="3" class="form-input w-full mt-1" placeholder="صف بإيجاز ما تود تحقيقه..."></textarea>
+                 </div>
+                 <div>
+                    <label for="howHeard" class="form-label text-sm" data-translate-key="signup_how_heard_label">كيف عرفت عن منصة سنا؟</label>
+                    <select id="howHeard" name="howHeard" class="form-input w-full mt-1">
+                         <option value="" data-translate-key="signup_how_heard_select">-- اختر --</option>
+                         <option value="friend" data-translate-key="signup_how_heard_friend">عن طريق صديق</option>
+                         <option value="social_media" data-translate-key="signup_how_heard_social">وسائل التواصل الاجتماعي (فيسبوك، تويتر، ..)</option>
+                         <option value="search_engine" data-translate-key="signup_how_heard_search">محرك البحث (جوجل، ..)</option>
+                         <option value="website" data-translate-key="signup_how_heard_website">موقع إلكتروني آخر / مدونة</option>
+                         <option value="other" data-translate-key="signup_how_heard_other">أخرى (يرجى التوضيح في الطموحات)</option>
+                    </select>
+                 </div>
+
+                 <div id="signupErrorMessage" class="text-sm text-red-600 text-center h-4"></div>
+
+                <div>
+                    <button type="submit" id="signupButton"
+                            class="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 cta-button">
+                        <span class="button-text" data-translate-key="signup_button">إنشاء الحساب</span>
+                        <span class="spinner hidden"></span> </button>
+                </div>
+            </form>
+
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-300"></div></div>
+                    <div class="relative flex justify-center text-sm"><span class="px-2 bg-white text-gray-500" data-translate-key="signup_or_continue_with"> أو التسجيل بواسطة </span></div>
+                </div>
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <div><a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"><span class="sr-only">Sign up with Google</span><svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 0C4.477 0 0 4.477 0 10c0 4.433 2.664 8.198 6.346 9.49.12.71.31 1.4.56 2.06.07.19.16.38.26.56.11.21.23.41.36.61.13.19.28.38.43.56.15.18.31.35.48.51.16.16.34.31.52.45.18.14.37.27.56.39.19.12.39.23.59.33.2.1.41.19.62.27.21.08.43.15.65.21.22.06.44.1.67.14.23.04.46.07.69.09.23.02.47.03.7.03.24 0 .47-.01.7-.03.23-.02.46-.05.69-.09.23-.04.45-.08.67-.14.22-.06.44-.13.65-.21.21-.08.42-.17.62-.27.2-.1.39-.21.59-.33.19-.12.38-.25.56-.39.18-.14.36-.29.52-.45.17-.16.33-.33.48-.51.15-.18.3-.37.43-.56.13-.2.25-.4.36-.61.1-.18.19-.37.26-.56.25-.66.44-1.35.56-2.06C17.336 18.198 20 14.433 20 10c0-5.523-4.477-10-10-10zm4.6 10.87c0 .61-.05 1.21-.15 1.79h-4.45v-3.38h2.53c-.11.91-.59 1.68-1.27 2.23v2.17h2.79c1.63-1.5 2.56-3.7 2.56-6.21 0-.75-.08-1.48-.22-2.18H10V7.23h4.6c.1.4.15.81.15 1.24 0 .87-.17 1.71-.45 2.4z" clip-rule="evenodd"/></svg></a></div>
+                    <div><a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"><span class="sr-only">Sign up with Facebook</span><svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clip-rule="evenodd"/></svg></a></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="text-gray-400 py-10 mt-auto bg-gray-100">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm">&copy; <span id="currentYear"></span> <span data-translate-key="footer_rights">Sanaa Academy Platform. All rights reserved.</span></p>
+            <div class="mt-4 space-x-4 rtl:space-x-reverse">
+                <a href="#" data-translate-key="footer_privacy" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">Privacy Policy</a>
+                <a href="#" data-translate-key="footer_terms" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">Terms of Use</a>
+                <a href="contact.html" data-translate-key="footer_contact" class="hover:text-emerald-700 transition duration-150 ease-in-out text-xs">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize common elements
+            if (window.sanaApp && typeof window.sanaApp.initPage === 'function') {
+                 window.sanaApp.initPage('signup.html');
+
+                 // --- Signup Form Handling ---
+                 const signupForm = document.getElementById('signupForm');
+                 const signupErrorMessage = document.getElementById('signupErrorMessage');
+                 const password = document.getElementById('password');
+                 const passwordConfirm = document.getElementById('passwordConfirm');
+                 const signupButton = document.getElementById('signupButton');
+                 const signupButtonText = signupButton.querySelector('.button-text');
+                 const signupSpinner = signupButton.querySelector('.spinner');
+                 // Define Backend API URL (Replace with your actual backend URL)
+                 const API_BASE_URL = 'http://localhost:5000/api'; // Example for local development
+
+                 if(signupForm && signupErrorMessage && password && passwordConfirm && signupButton && signupButtonText && signupSpinner) {
+                    signupForm.addEventListener('submit', async function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                        signupErrorMessage.textContent = ''; // Clear previous errors
+
+                        // Client-side password match validation
+                        if (password.value !== passwordConfirm.value) {
+                            const currentLang = window.sanaApp.getCurrentLanguage();
+                            const errorMsg = currentLang === 'ar' ? 'كلمتا المرور غير متطابقتين!' : 'Passwords do not match!';
+                            signupErrorMessage.textContent = errorMsg;
+                            passwordConfirm.focus();
+                            return; // Stop submission
+                        }
+
+                        // Disable button and show spinner
+                        signupButton.disabled = true;
+                        signupButton.classList.add('button-loading');
+                        signupButtonText.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()].loading || 'Loading...';
+                        signupSpinner.classList.remove('hidden');
+
+                        // Collect form data
+                        const formData = {
+                            fullName: document.getElementById('fullName').value,
+                            email: document.getElementById('email').value,
+                            password: password.value,
+                            passwordConfirm: passwordConfirm.value, // Send confirmation for backend validation too
+                            age: document.getElementById('age').value || null, // Send null if empty
+                            gender: document.getElementById('gender').value || null,
+                            islamKnowledgeLevel: document.getElementById('islamKnowledgeLevel').value || null,
+                            quranKnowledgeLevel: document.getElementById('quranKnowledgeLevel').value || null,
+                            isNewMuslim: document.querySelector('input[name="isNewMuslim"]:checked').value,
+                            aspirations: document.getElementById('aspirations').value || null,
+                            howHeard: document.getElementById('howHeard').value || null
+                        };
+
+                        try {
+                            const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(formData),
+                            });
+
+                            const data = await response.json(); // Attempt to parse JSON response
+
+                            if (response.ok) { // Status code 201 Created
+                                console.log('Signup successful:', data);
+                                // Display success message (optional)
+                                alert('Account created successfully! Please login.'); // Simple alert for now
+                                // Redirect to login page
+                                window.location.href = 'login.html';
+
+                            } else {
+                                // Handle errors (e.g., 400, 409, 500)
+                                console.error('Signup failed:', data);
+                                signupErrorMessage.textContent = data.message || 'An error occurred during signup.'; // Display error message from backend
+                            }
+
+                        } catch (error) {
+                            // Handle network errors or issues parsing JSON
+                            console.error('Network or parsing error during signup:', error);
+                            signupErrorMessage.textContent = 'Unable to connect to the server. Please try again later.';
+                        } finally {
+                            // Re-enable button and restore text regardless of success or failure
+                            signupButton.disabled = false;
+                            signupButton.classList.remove('button-loading');
+                            signupButtonText.textContent = window.sanaApp.translations[window.sanaApp.getCurrentLanguage()].signup_button || 'Create Account';
+                            signupSpinner.classList.add('hidden');
+                        }
+                    });
+                 }
+
+            } else {
+                console.error("Sana App or initPage function not found.");
+            }
+        });
+    </script>
+
+</body>
+</html>
