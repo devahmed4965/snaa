@@ -995,7 +995,7 @@ window.sanaApp = {
     // --- State ---
     currentLanguage: 'ar',
     intersectionObserver: null,
-    API_BASE_URL: 'https://snaa.onrender.com',
+    API_BASE_URL: 'https://snaa.onrender.com/api',
     UPLOADS_BASE_URL: 'http://localhost:5000/uploads/', // Added for consistency
 
     // --- Core Functions ---
