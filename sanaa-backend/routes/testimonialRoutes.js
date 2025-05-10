@@ -1,40 +1,19 @@
 // routes/testimonialRoutes.js
+// تم تعديل هذا الملف لاستخدام multer مع memoryStorage لتحضير صور الطلاب للرفع إلى Cloudinary.
 
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs'); // File system for creating directories
-const testimonialController = require('../controllers/testimonialController'); // استيراد وحدة تحكم آراء الطلاب
-const { authenticateToken, authorizeRole } = require('../middleware/authMiddleware'); // استيراد وسائط الحماية
+// const path = require('path'); //  لم نعد بحاجة إليه هنا
+// const fs = require('fs'); // لم نعد بحاجة إليه هنا
+const testimonialController = require('../controllers/testimonialController');
+const { authenticateToken, authorizeRole } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// --- إعداد Multer لرفع صور الطلاب الرمزية (Avatars) ---
-// سنستخدم نفس مجلد avatars المستخدم في userRoutes لتناسق التخزين
+// --- إعداد Multer لرفع صور الطلاب الرمزية (Avatars) في الذاكرة ---
+const storage = multer.memoryStorage(); // <<<--- التغيير هنا: استخدام التخزين في الذاكرة
 
-// التأكد من وجود مجلد avatars
-const uploadsDir = path.join(__dirname, '..', 'uploads');
-const avatarsDir = path.join(uploadsDir, 'avatars');
-
-// إنشاء المجلد إذا لم يكن موجودًا
-fs.mkdirSync(uploadsDir, { recursive: true });
-fs.mkdirSync(avatarsDir, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // تخزين الصور الرمزية في 'uploads/avatars'
-    cb(null, avatarsDir);
-  },
-  filename: function (req, file, cb) {
-    // إنشاء اسم فريد للملف: testimonial-{timestamp}-{random}-{originalname}
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E6);
-    const extension = path.extname(file.originalname);
-    const safeOriginalName = file.originalname.replace(/[^a-zA-Z0-9.]/g, '_').toLowerCase();
-    cb(null, `testimonial-${uniqueSuffix}-${safeOriginalName}${extension}`);
-  }
-});
-
-// فلتر للتحقق من أنواع ملفات الصور المسموح بها
+// فلتر للتحقق من أنواع ملفات الصور المسموح بها (يبقى كما هو)
 const fileFilter = (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
         cb(null, true); // قبول ملفات الصور
@@ -45,7 +24,7 @@ const fileFilter = (req, file, cb) => {
 
 // إنشاء وسيط Multer بالإعدادات
 const uploadAvatar = multer({
-    storage: storage,
+    storage: storage, // <<<--- استخدام memoryStorage
     limits: {
         fileSize: 2 * 1024 * 1024 // تحديد حجم أقصى للملف (مثال: 2MB للصور الرمزية)
     },
@@ -58,11 +37,7 @@ const uploadAvatar = multer({
 router.get('/', testimonialController.getPublicTestimonials);
 
 // --- مسارات محمية للمدير لإدارة آراء الطلاب ---
-// سيتم تركيب هذه المسارات تحت /api/admin/testimonials في server.js
-
-const adminRouter = express.Router(); // Router فرعي لمسارات المدير
-
-// تطبيق الحماية على جميع مسارات adminRouter
+const adminRouter = express.Router();
 adminRouter.use(authenticateToken);
 adminRouter.use(authorizeRole(['admin']));
 
@@ -70,7 +45,7 @@ adminRouter.use(authorizeRole(['admin']));
 adminRouter.get('/', testimonialController.getAllTestimonials);
 
 // POST /api/admin/testimonials - إضافة رأي جديد (محمي للمدير)
-// uploadAvatar.single('avatarFile') لمعالجة ملف واحد باسم الحقل 'avatarFile'
+// uploadAvatar.single('avatarFile') سيوفر الملف في req.file.buffer
 adminRouter.post(
     '/',
     uploadAvatar.single('avatarFile'), // اسم الحقل للصورة الرمزية (اختياري)
@@ -90,9 +65,7 @@ adminRouter.delete(
     testimonialController.deleteTestimonial
 );
 
-// --- تصدير المسارات ---
-// تصدير المسار العام والمسار المحمي للمدير بشكل منفصل
 module.exports = {
-    publicRouter: router, // للمسارات العامة /api/testimonials
-    adminRouter: adminRouter   // للمسارات المحمية /api/admin/testimonials
+    publicRouter: router,
+    adminRouter: adminRouter
 };
